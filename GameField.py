@@ -8,10 +8,6 @@ class GameField:
 
     screen_size_multiplier: float
 
-    game_field_size: float
-
-    game_field_distance_to_border: float
-
     screen: pygame.display
     font: pygame.font
 
@@ -30,10 +26,6 @@ class GameField:
 
         self.screen_width = int(user32.GetSystemMetrics(1) * 0.9)
         self.screen_height = int(user32.GetSystemMetrics(1) * 0.9)
-
-        self.game_field_distance_to_border = (self.screen_width * 1.04827 - self.screen_width) / 2
-
-        self.game_field_size = self.screen_width - 2 * self.game_field_distance_to_border
 
         self.screen_size_multiplier = self.screen_height / 11
 
@@ -63,5 +55,5 @@ class GameField:
         if y_coordinate != 0:
             y_coordinate = self.screen_size_multiplier * y_coordinate
 
-        self.font.render(text, False, color, (x_coordinate, y_coordinate))
+        self.screen.blit(self.font.render(text, False, color), (x_coordinate + 20, y_coordinate))
         pygame.display.update()

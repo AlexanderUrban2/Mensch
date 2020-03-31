@@ -3,8 +3,7 @@
 
 
 class Pawn:
-
-    image = "x"
+    image: str
     current_position: int
     pawn_number: int
     player_number: int
@@ -12,8 +11,10 @@ class Pawn:
 
     def __init__(self, pawn_number: int, player_number: int, color: (int, int, int)):
         self.pawn_number = pawn_number
+        self.player_number = player_number
         self.current_position = player_number * 100 + pawn_number * 10
         self.color = color
+        self.image = str(self.pawn_number)
 
     def move_pawn_out_of_house(self):
         self.current_position = (self.player_number - 1) * 10
@@ -23,3 +24,8 @@ class Pawn:
             self.current_position += 1
             if self.current_position > 39:
                 self.current_position = 0
+
+    def move_pawn_one_step(self):
+        self.current_position += 1
+        if self.current_position > 39:
+            self.current_position = 0

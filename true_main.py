@@ -16,17 +16,18 @@ def create_players():
 
 
 player_list = create_players()
-my_font = pygame.font.SysFont("Comic Sans MS", 30)
+my_font = pygame.font.SysFont("Arial", 50)
 
-background_image = pygame.image.load('GameField.jpg')
+background_image = pygame.image.load('GameField2.jpg')
 gamefield = GameField.GameField(background_image, my_font)
 
 engine = Engine.Engine(player_list, gamefield)
 
-turn = 0
+current_payer = 0
 run = True
 
 while run:
+    engine.draw_pawns()
     keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -34,11 +35,14 @@ while run:
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 for i in range(10):
-                    number = engine.dice.roll_dice()
-                    time.sleep(0.005)
-
-                turn += 1
-                if turn >= 4:
-                    turn = 0
+                    number = engine.roll_dice()
+                    time.sleep(0.01)
+                if number == 6:
+                    engine.move_pawn_out_of_house(current_payer)
+                else:
+                    engine.move_pawn(current_payer, number)
+                current_payer += 1
+                if current_payer >= 4:
+                    current_payer = 0
 
                 print(number)
