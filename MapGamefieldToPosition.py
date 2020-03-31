@@ -61,6 +61,6 @@ map_position = {
 
 
 def get_coordinates(position: int) -> (int, int):
-    x, y = map_position[position].split()
-    print(x, y)
+    x = int(map_position[position].split()[0])
+    y = int(map_position[position].split()[1])
     return x, y
