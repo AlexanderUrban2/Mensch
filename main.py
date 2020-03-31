@@ -68,7 +68,7 @@ def start_game(keys):
                 if event.key == pygame.K_SPACE:
                     number = roll_dice(dice)
                     if number+1 == 6:
-                        figure.set_figure_out_of_house(0)
+                        figure.set_figure_out_of_house(3)
                         screen.blit(dice[number], ((screen_width-dice[number].get_size()[0])//2, (screen_height-dice[number].get_size()[1])//2))
                         text_width, text_heigth = myfont.size("You got out of the house! Roll the Dice again!")
                         screen.blit(myfont.render('You got out of the house! Roll the Dice again!', False, (0, 0, 0)), ((screen_width - text_width)//2, int(screen_height*0.9)))
@@ -104,8 +104,8 @@ class Figure:
 
         start_width = [0, 0, 1, 1, 9, 9, 10, 10, 0, 0, 1, 1, 9, 9, 10, 10]
         start_height = [0, 1, 0, 1, 0, 1, 0, 1, 9, 10, 9, 10, 9, 10, 9, 10]
-        start_width_house = [0, 4, 6, 10]
-        start_height_house = [4, 10, 0, 6]
+        start_width_house = [0, 6, 4, 10]
+        start_height_house = [4, 0, 10, 6]
 
         for i in range(0, 16):
             self.figure_width.append(start_width[i]*width_multiplier + gamefield_distance_to_border+text_width)
