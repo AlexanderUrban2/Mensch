@@ -61,6 +61,7 @@ class Engine:
         else:
             self.player_turn_ai(current_player)
 
+    # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
         turn = True
         while turn:
