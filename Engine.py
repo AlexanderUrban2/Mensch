@@ -31,9 +31,11 @@ class Engine:
                 self.game_field.show_text(pawn.image, pawn.color, x, y)
 
     def roll_dice(self):
-        number = self.dice.roll_dice()
-        self.draw_pawns()
-        pygame.display.update()
+        for i in range(10):
+            number = self.dice.roll_dice()
+            self.draw_pawns()
+            pygame.display.update()
+            time.sleep(0.01)
         return number
 
     def move_pawn_out_of_house(self, current_player: int):
@@ -52,3 +54,40 @@ class Engine:
                     self.refresh_ui()
                     time.sleep(0.1)
                 return
+
+    def player_turn(self, current_player: int):
+        if self.player_list[current_player].user_controlled:
+            self.player_turn_human(current_player)
+        else:
+            self.player_turn_ai(current_player)
+
+    def player_turn_human(self, current_player: int):
+        turn = True
+        while turn:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    exit()
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        rolled_number = self.roll_dice()
+                        if self.player_list[current_player].has_pawn_in_house() and rolled_number == 6:
+                            self.move_pawn_out_of_house(current_player)
+
+
+    def player_turn_ai(self, current_player: int):
+        pass
+
+    def select_pawn(self) -> int:
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_1:
+                        return 1
+                    elif event.key == pygame.K_2:
+                        return 2
+                    elif event.key == pygame.K_3:
+                        return 3
+                    elif event.key == pygame.K_4:
+                        return 4
+                if event.type == pygame.QUIT:
+                    exit()

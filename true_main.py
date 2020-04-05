@@ -27,16 +27,14 @@ current_payer = 0
 run = True
 
 while run:
-    engine.draw_pawns()
-    keys = pygame.key.get_pressed()
+    #engine.draw_pawns()
+    # keys = pygame.key.get_pressed()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                for i in range(10):
-                    number = engine.roll_dice()
-                    time.sleep(0.01)
+                number = engine.roll_dice()
                 if number == 6:
                     engine.move_pawn_out_of_house(current_payer)
                 else:
