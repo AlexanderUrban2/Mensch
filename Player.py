@@ -21,3 +21,9 @@ class Player:
             if pawn.current_position > 40:
                 return True
         return False
+
+    def has_pawn_on_field(self) -> bool:
+        for pawn in self.pawn_list:
+            if pawn.current_position < 40:
+                return True
+        return False

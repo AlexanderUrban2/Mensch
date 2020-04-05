@@ -46,9 +46,9 @@ class Engine:
                 return
 
     # bewegt momentan immer den ersten pawn den es findet, geht aber ziemlich einfach indem man ne pawn_number benutzt
-    def move_pawn(self, current_player: int, steps: int):
+    def move_pawn(self, current_player: int, pawn_number: int, steps: int):
         for pawn in self.player_list[current_player].pawn_list:
-            if pawn.current_position < 40:
+            if pawn.pawn_number == pawn_number:
                 for i in range(steps):
                     pawn.move_pawn_one_step()
                     self.refresh_ui()
@@ -65,14 +65,33 @@ class Engine:
         turn = True
         while turn:
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE:
-                        rolled_number = self.roll_dice()
-                        if self.player_list[current_player].has_pawn_in_house() and rolled_number == 6:
-                            self.move_pawn_out_of_house(current_player)
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                    rolled_number = self.roll_dice()
 
+                    if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
+                        self.move_pawn_out_of_house(current_player)
+                        rolled_number = self.roll_dice()
+                        for pawn in self.player_list[current_player].pawn_list:
+                            if pawn.current_position == (pawn.player_number - 1) * 10:
+                                self.move_pawn(current_player, pawn.pawn_number, rolled_number)
+                                break
+                        if rolled_number != 6:
+                            turn = False
+                        break
+
+                    elif self.player_list[current_player].has_pawn_on_field():
+                        pawn_number = self.select_pawn()
+                        while self.player_list[current_player].pawn_list[pawn_number - 1].current_position > 40:
+                            pawn_number = self.select_pawn()
+                        self.move_pawn(current_player, pawn_number, rolled_number)
+                        if rolled_number != 6:
+                            turn = False
+                        break
+                    else:
+                        turn = False
+                        break
+                elif event.type == pygame.QUIT:
+                    exit()
 
     def player_turn_ai(self, current_player: int):
         pass

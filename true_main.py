@@ -27,6 +27,12 @@ current_payer = 0
 run = True
 
 while run:
+    engine.player_turn(current_payer)
+    current_payer += 1
+    if current_payer >= 4:
+        current_payer = 0
+'''
+while run:
     #engine.draw_pawns()
     # keys = pygame.key.get_pressed()
     for event in pygame.event.get():
@@ -44,3 +50,4 @@ while run:
                     current_payer = 0
 
                 print(number)
+'''
