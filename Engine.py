@@ -72,7 +72,7 @@ class Engine:
                     if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
                         self.move_pawn_out_of_house(current_player)
                         rolled_number = self.roll_dice()
-                        self.move_pawn(current_player, self.player_list[current_player].get_pawn_on_start_field(), rolled_number)
+                        self.move_pawn(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
                         if rolled_number != 6:
                             turn = False
                         break
