@@ -33,11 +33,10 @@ class Engine:
     def roll_dice(self):
         for i in range(10):
             number = self.dice.roll_dice()
-            self.draw_pawns()
-            pygame.display.update()
             time.sleep(0.01)
         return number
-
+    
+    # rollt den würfel und updated nur das aussehen der frames im "würfelbereich"
     def move_pawn_out_of_house(self, current_player: int):
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.current_position > 40:
@@ -68,7 +67,6 @@ class Engine:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
-
                     if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
                         self.move_pawn_out_of_house(current_player)
                         rolled_number = self.roll_dice()

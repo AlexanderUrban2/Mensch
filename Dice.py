@@ -21,5 +21,5 @@ class Dice:
 
     def roll_dice(self) -> int:
         number = random.randint(1, 6)
-        self.gamefield.show_image(self.image_list[number - 1], self.coordinates[0], self.coordinates[1])
+        self.gamefield.show_image(self.image_list[number - 1], self.coordinates[0], self.coordinates[1], "dice")
         return number
