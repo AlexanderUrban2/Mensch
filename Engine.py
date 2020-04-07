@@ -44,7 +44,6 @@ class Engine:
                 self.refresh_ui()
                 return
 
-    # bewegt momentan immer den ersten pawn den es findet, geht aber ziemlich einfach indem man ne pawn_number benutzt
     def move_pawn(self, current_player: int, pawn_number: int, steps: int):
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
@@ -62,6 +61,7 @@ class Engine:
 
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
+        tries = 0
         turn = True
         while turn:
             for event in pygame.event.get():
@@ -70,10 +70,7 @@ class Engine:
                     if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
                         self.move_pawn_out_of_house(current_player)
                         rolled_number = self.roll_dice()
-                        for pawn in self.player_list[current_player].pawn_list:
-                            if pawn.current_position == (pawn.player_number - 1) * 10:
-                                self.move_pawn(current_player, pawn.pawn_number, rolled_number)
-                                break
+                        self.move_pawn(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
                         if rolled_number != 6:
                             turn = False
                         break
@@ -87,7 +84,9 @@ class Engine:
                             turn = False
                         break
                     else:
-                        turn = False
+                        tries += 1
+                        if tries >=3:
+                            turn = False
                         break
                 elif event.type == pygame.QUIT:
                     exit()

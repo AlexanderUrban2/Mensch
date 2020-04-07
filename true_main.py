@@ -18,7 +18,7 @@ def create_players():
 player_list = create_players()
 my_font = pygame.font.SysFont("Arial", 50)
 
-background_image = pygame.image.load('GameField2.jpg')
+background_image = pygame.image.load('GameField.jpg')
 gamefield = GameField.GameField(background_image, my_font)
 
 engine = Engine.Engine(player_list, gamefield)
