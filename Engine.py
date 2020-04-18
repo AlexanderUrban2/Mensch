@@ -64,6 +64,7 @@ class Engine:
         tries = 0
         turn = True
         while turn:
+            self.game_field.show_text_info(current_player, "Press Space To Roll The Dice!")
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()

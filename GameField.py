@@ -65,4 +65,44 @@ class GameField:
         self.screen.blit(self.font.render(text, False, color), (x_coordinate + 20, y_coordinate))
         pygame.display.update()
 
-    
+    def show_text_info(self, player_number: int, text: str):
+
+        text_part_one , text_part_two = self.split_text(text)
+
+        if(player_number == 0):
+            self.show_text(text_part_one, (0,0,0), 0, 2)
+            self.show_text(text_part_two, (0,0,0), 0, 3)
+        elif(player_number == 1):
+            self.show_text(text_part_one, (0,0,0), 7, 2)
+            self.show_text(text_part_two, (0,0,0), 7, 3)
+        elif(player_number == 2):
+            self.show_text(text_part_one, (0,0,0), 7, 7)
+            self.show_text(text_part_two, (0,0,0), 7, 8)
+        elif(player_number == 3):
+            self.show_text(text_part_one, (0,0,0), 0, 7)
+            self.show_text(text_part_two, (0,0,0), 0, 8)
+        else:
+            pass
+        
+
+    def split_text(self, text: str):
+        
+        text_part_one = [] 
+        text_part_two = []
+
+        text_width, text_height = self.font.size(text)
+        limit =  3 * self.screen_size_multiplier
+        #check if word is full in this row else move word one line down
+        if text_width > limit:
+            for c in text:
+                text_width, text_height = self.font.size(''.join(text_part_one))
+                if text_width <= limit:
+                    text_part_one.append(c)
+                else:
+                    text_part_two.append(c) 
+            return ''.join(text_part_one), ''.join(text_part_two)                  
+        else:
+            return text, ""
+
+
+            
