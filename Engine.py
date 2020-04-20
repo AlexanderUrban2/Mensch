@@ -22,6 +22,7 @@ class Engine:
         self.game_field.show_screen()
 
         self.draw_pawns()
+        self.dice.draw_dice_on_game_field()
 
     def draw_pawns(self):
         for player in self.player_list:
@@ -33,7 +34,7 @@ class Engine:
     def roll_dice(self):
         for i in range(10):
             number = self.dice.roll_dice()
-            time.sleep(0.01)
+            time.sleep(0.02)
         return number
     
     # rollt den würfel und updated nur das aussehen der frames im "würfelbereich"
