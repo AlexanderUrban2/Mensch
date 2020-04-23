@@ -1,5 +1,6 @@
 import ctypes
 import pygame
+import StartScreen
 
 
 class GameField:
@@ -31,8 +32,9 @@ class GameField:
 
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
+        #ich weiß absolut nicht warum das Funktioniert.... Ziel ist den screen hier dem screen von startgame gelichzusetzen
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-        pygame.display.set_caption("Mensch ärgere dich nicht")
+        #pygame.display.set_caption("Mensch ärgere dich nicht")
         # self.surface_dice_blank = self.surface_dice.copy()
 
     def show_screen(self):
