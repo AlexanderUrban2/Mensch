@@ -26,12 +26,14 @@ start_screen_font = pygame.font.Font("Iveseenthatfacebefore.ttf",30)
 background_image_gamefield = pygame.image.load('GameField.jpg')
 background_image_start_screen = pygame.image.load('StartScreen.jpg')
 back_arrow_image = pygame.image.load('BackArrow.png')
+start_button = pygame.image.load('StartButton.png')
+maedn_logo = pygame.image.load('MaednLogo.png')
 gamefield = GameField.GameField(background_image_gamefield, text_font)
 
 screen = Screen.Screen(background_image_start_screen)
 
 rules = Rules.Rules(screen, background_image_start_screen, back_arrow_image, start_screen_font, "Rule.txt")
-start_screen = StartScreen.StartScreen(screen, rules, background_image_start_screen, start_screen_font)
+start_screen = StartScreen.StartScreen(screen, rules, background_image_start_screen, start_button, maedn_logo, start_screen_font)
 
 start_screen.start_game()
 

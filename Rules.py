@@ -36,15 +36,13 @@ class Rules:
         self.screen_width = self.screen_class.screen_width
         self.screen_height = self.screen_class.screen_height
 
-        #self.init_screen()
+      
         self.get_file_content()
         self.build_game_screen()
 
-    def init_screen(self):
-        user32 = ctypes.windll.user32
+        self.counter = 0
+        self.surface_height = 0
 
-        self.screen_width = int(user32.GetSystemMetrics(1) * 0.9)
-        self.screen_height = int(user32.GetSystemMetrics(1) * 0.9)
 
 
     def get_file_content(self):
@@ -80,6 +78,9 @@ class Rules:
             x = pos[0]  # Reset the x.
             y += word_height  # Start on new row.
             pygame.display.update()
+        if self.counter == 0:
+            self.surface_height = y
+            self.counter = 1    
 
     def update_screen(self):
         self.run = True
@@ -115,7 +116,7 @@ class Rules:
                     elif event.button == 5:
                         self.update_surface(y_coordinate)
                         # -2400 ist ein hardgecodeter wert.... Noch rausfinden wann Ende ist, bei neuer Textdatei.S
-                        if(y_coordinate != -2400):
+                        if(y_coordinate >= -self.surface_height + self.text_surface.get_size()[1]):
                             y_coordinate -= 100
                     elif event.button == 1 and self.back_arrow_rect.collidepoint(pygame.mouse.get_pos()):
                         self.run = False
