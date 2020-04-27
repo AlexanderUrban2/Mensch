@@ -1,5 +1,7 @@
 import ctypes
 import pygame
+import Screen
+
 
 
 class Rules:
@@ -19,14 +21,22 @@ class Rules:
     run: bool
     file_content: str
 
-    def __init__(self, background_image: pygame.image, back_arrow_image: pygame.image, font: pygame.font, filename: str):
+    screen_class = Screen
+
+    def __init__(self, screen_class: Screen, background_image: pygame.image, back_arrow_image: pygame.image, font: pygame.font, filename: str):
         self.background_image = background_image
         self.back_arrow_image = back_arrow_image
         self.font = font
         self.filename = filename
         self.run = True
 
-        self.init_screen()
+        self.screen_class = screen_class
+
+        self.screen = self.screen_class.screen
+        self.screen_width = self.screen_class.screen_width
+        self.screen_height = self.screen_class.screen_height
+
+        #self.init_screen()
         self.get_file_content()
         self.build_game_screen()
 
@@ -51,7 +61,7 @@ class Rules:
         self.text_surface = pygame.Surface((self.screen_width*0.9, self.screen_height*0.9))  
 
 
-       
+    # stackoverflow https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
     #Methode um den text auf das surface zu packen. Dabei werden die wörter so geblittet das keine wörter über 2 Zeilen gehen
     def blit_text(self,surface, text, pos, font, color=pygame.Color('black')):
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
@@ -113,7 +123,7 @@ class Rules:
                             
                         
                 
-            clock.tick(30)
+            clock.tick(10)
                 
 
 

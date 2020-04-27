@@ -1,6 +1,8 @@
 import ctypes
 import pygame
+import Screen
 import Rules
+
 
 class StartScreen:
     screen_width: float
@@ -13,17 +15,24 @@ class StartScreen:
     font: pygame.font
     run: bool
 
+    screen_class: Screen
     rules: Rules
 
-    def __init__(self, background_image: pygame.image, font: pygame.font, rules: Rules):
+    def __init__(self, screen_class: Screen, rules: Rules, background_image: pygame.image, font: pygame.font):
         self.background_image = background_image
         self.font = font
         self.run = True
 
-        self.init_screen()
-        self.build_game_screen()
         self.rules = rules
-        self.screen = self.rules.screen
+
+        self.screen_class = screen_class
+        self.screen = self.screen_class.screen
+        self.screen_width = self.screen_class.screen_width
+        self.screen_height = self.screen_class.screen_height
+
+        #self.init_screen()
+        self.build_game_screen()
+        
 
 
     def init_screen(self):
@@ -67,8 +76,7 @@ class StartScreen:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.rule_message_rect.collidepoint(pygame.mouse.get_pos()):
                     self.rules.show_screen()
                     self.build_game_screen()
-                    # add ne py File for rules
-                    #scrolling  -> get rules from text file -> load into variable -> make surface from 0,0 -> if mousewheel is rolled -> move surface up/down
+  
 
         
 

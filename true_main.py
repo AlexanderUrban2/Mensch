@@ -6,6 +6,7 @@ import time
 import Engine
 import StartScreen
 import Rules
+import Screen
 
 
 pygame.init()
@@ -27,14 +28,14 @@ background_image_start_screen = pygame.image.load('StartScreen.jpg')
 back_arrow_image = pygame.image.load('BackArrow.png')
 gamefield = GameField.GameField(background_image_gamefield, text_font)
 
-rule = Rules.Rules(background_image_start_screen, back_arrow_image, start_screen_font, "Rule.txt")
-start_screen = StartScreen.StartScreen(background_image_start_screen, start_screen_font, rule)
-#rule_screen mitgeben
+screen = Screen.Screen(background_image_start_screen)
+
+rules = Rules.Rules(screen, background_image_start_screen, back_arrow_image, start_screen_font, "Rule.txt")
+start_screen = StartScreen.StartScreen(screen, rules, background_image_start_screen, start_screen_font)
 
 start_screen.start_game()
 
 engine = Engine.Engine(player_list, gamefield)
-#rule_screen mitgeben
 
 current_payer = 0
 run = True
