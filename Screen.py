@@ -27,5 +27,3 @@ class Screen:
         pygame.display.set_caption("Mensch Ärgere dich nicht")
         self.screen.blit(self.background_image, (0, 0))
         pygame.display.update()
-
-    
