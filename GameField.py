@@ -100,8 +100,6 @@ class GameField:
             return text, ""
 
 
-            
-
 '''
         if picture_type == "dice":
             self.surface_dice.blit(self.background_image, (-x_coordinate, -y_coordinate))

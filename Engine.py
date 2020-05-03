@@ -56,8 +56,11 @@ class Engine:
                     self.check_hit(current_player, pawn_number)  
                     self.refresh_ui()  
                 else:
-                    print("move not possible")
-                    # message move is not possible 
+                    self.refresh_ui()
+                    self.game_field.show_text_info(current_player, "U can´t move this pawn. Move an other one!")
+                    pawn_number = self.select_pawn()
+                    self.move_pawn(current_player, pawn_number, steps) 
+                    # einbauen von checken ob überhaupt ein move geht also außer von start aus
 
     def player_turn(self, current_player: int):
         if self.player_list[current_player].user_controlled:
@@ -80,7 +83,8 @@ class Engine:
                 if pawn.current_position == final_position:
                     return False
         return is_move_possible
-        #einbauen von checken ob man ins häusle kann        
+        # einbauen von checken ob man ins häusle kann
+        # einbauen von checken ob überhaupt ein move geht also außer von start aus         
 
 
     def check_hit(self,current_player: int, pawn_number: int):
@@ -91,7 +95,6 @@ class Engine:
         for palyer_counter in range(4): 
             for pawn in self.player_list[palyer_counter].pawn_list: 
                 if palyer_counter != current_player:
-                    print("was here")
                     if pawn.current_position == current_position:
                         pawn.move_pawn_to_house(palyer_counter, pawn.pawn_number)
                         break
@@ -114,6 +117,7 @@ class Engine:
                         self.move_pawn(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
                         if rolled_number != 6:
                             turn = False
+                        self.refresh_ui()
                         break
 
                     elif self.player_list[current_player].has_pawn_on_field():
@@ -123,11 +127,13 @@ class Engine:
                         self.move_pawn(current_player, pawn_number, rolled_number)
                         if rolled_number != 6:
                             turn = False
+                        self.refresh_ui()
                         break
                     else:
                         tries += 1
                         if tries >=3:
                             turn = False
+                        self.refresh_ui()
                         break
                 elif event.type == pygame.QUIT:
                     exit()
