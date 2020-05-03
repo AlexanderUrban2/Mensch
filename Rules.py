@@ -13,6 +13,7 @@ class Rules:
     background_image: pygame.image
     back_arrow_image: pygame.image
     back_arrow_rect: pygame.rect
+    back_message_rect: pygame.rect
 
     screen: pygame.display
     text_surface: pygame.Surface
@@ -47,7 +48,7 @@ class Rules:
 
     def get_file_content(self):
         file = open(self.filename,'r') 
-        self.file_content = file.read()
+        self.file_content = file.read().upper()
         file.close()
         
 
@@ -84,9 +85,20 @@ class Rules:
 
     def update_screen(self):
         self.run = True
+        back_message = "Back"
+        back_message_font = self.font.render(back_message, True, (0,0,0))
+
         self.screen.blit(self.background_image, (0,0))
         self.screen.blit(self.back_arrow_image, (0 + self.screen_width* 0.01 ,0 + self.screen_height * 0.005))
+        self.screen.blit(back_message_font,  (0 + self.screen_width* 0.1 ,0 + self.screen_height * 0.02))
         self.back_arrow_rect = self.back_arrow_image.get_rect(topleft=(0 + self.screen_width* 0.01 ,0 + self.screen_height * 0.005))
+        self.back_message_rect = back_message_font.get_rect(topleft= (0 + self.screen_width* 0.1 ,0 + self.screen_height * 0.02))
+
+        # adjust rectangle, so that its over the text and the space between text and arrow
+        x_before_moving = self.back_message_rect.x 
+        self.back_message_rect.x = self.back_arrow_rect.x + self.back_arrow_rect.w
+        x_after_moving = self.back_message_rect.x
+        self.back_message_rect.w += x_before_moving - x_after_moving 
         self.update_surface(0)
 
 
@@ -115,10 +127,9 @@ class Rules:
                             y_coordinate += 100
                     elif event.button == 5:
                         self.update_surface(y_coordinate)
-                        # -2400 ist ein hardgecodeter wert.... Noch rausfinden wann Ende ist, bei neuer Textdatei.S
                         if(y_coordinate >= -self.surface_height + self.text_surface.get_size()[1]):
                             y_coordinate -= 100
-                    elif event.button == 1 and self.back_arrow_rect.collidepoint(pygame.mouse.get_pos()):
+                    elif event.button == 1 and (self.back_arrow_rect.collidepoint(pygame.mouse.get_pos()) or self.back_message_rect.collidepoint(pygame.mouse.get_pos())):
                         self.run = False
                         
                             

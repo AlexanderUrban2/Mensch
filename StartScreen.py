@@ -51,7 +51,7 @@ class StartScreen:
         hello_message = "Hi and welcome to \"Mensch ärgere dich nicht\""
         start_game_message = "Play"
         # Man kann nicht mit nem fcking s aufhören sonst is es nimmer in der mitte 
-        rule_message = "Rules Here"
+        rule_message = "RuleS"
         hello_message_font = self.font.render(hello_message, True, (0,0,0))
         start_game_message_font = self.font.render(start_game_message, True, (0,0,0))
         rule_message_font = self.font.render(rule_message, True, (0,0,0))
