@@ -1,24 +1,26 @@
 Overview:
 
 
-At the beginning of the game, each player's four tokens are out of play and staged in the player's yard (one of the large corner areas of the board in the player's colour).
+At the start of the game, each player's four tokens are out of play and staged in the player's yard (one of the large corner areas of the board painted in the player's colour).
 
-When able to, the players will enter their tokens one per turn on their respective starting squares, and proceed to race them clockwise around the board along the game track (the path of squares not part of any player's home column).
+When able to, the players will enter their tokens on their respective starting squares, and proceed to race them clockwise around the board along the game track (the path of squares not part of any player's home column).
  
 When reaching the square below his home column, a player continues by moving tokens up the column to the finishing square.
  
-The rolls of a single die control the swiftness of the tokens.Entry to the finishing square requires a precise roll from the player. The first to bring all their tokens to the finish wins the game.
+The rolls of a single dice control the swiftness of the tokens. Entry to the finishing square requires a precise roll from the player. The first to bring all their tokens to the finish wins the game.
 
 
 Gameplay:
 
-Each player rolls the die, beginning with the first player.
+Each player rolls the die, beginning with the player in the top left corner.
 
-To enter a token into play from its yard to its starting square, a player must roll a 6. The player has to draw a token from home every time he gets a 6 unless home is empty. After the token is out of the yard, the player has to roll the die again and move the token according to the die value rolled away from the starting sqaure. 
-If the player has no tokens yet in play and rolls other than a 6, he has two other chances to roll a 6. If the player rolls these two times also other than a 6, its the next players turn.
+To enter a token into play a player must roll a six. If a player rolled a six they must enter a token into play unless all of their tokens are in play or their starting square is occupied by one of their own tokens. In this case that token has to be moved.
 
-Players must always move a token according to the die value rolled. Once a player has one or more tokens in play, he selects a token and moves it forwards along the track the number of squares indicated by the die. If an opponent's token is blocking your pathway, you can move past that token.
+After a token is out of the yard, the player has to roll the die again and move the token according to the rolled value.
+If a player has no tokens in play and does not roll a six, they have two more chances to roll a six.
 
-If the advance of a token ends on a square occupied by an opponent's token, the opponent token is returned to its owner's yard. The returned token can be reentered into play only when the owner rolls a 6. You cannot move a token, if it would land on the same space as another token of the same colour.
+Players must always move a token according to the die value rolled. Once a player has one or more tokens in play, they select a token and move it forwards along the track by as much fields as the cie indicates. If an opponent's token is blocking your pathway, you can move past that token.
 
-A player's home column squares are always safe, however, since no opponent may enter them. In the home column, you cannot jump over your token. Roll the exact number needed to get each token onto the home fields. If you cannot move a token because you don´t have the exact number needed to enter the home fields, its the next players turn.
+If the advance of a token ends on a square occupied by an opponent's token, the opponent's token is returned to its owner's yard. The returned token can be reentered into play only when the owner rolls a six. You cannot move a token, if it would land on the same space as another token of the same colour.
+
+A player's home column squares cannot be entered by another player. In the home column, you cannot jump over your token. Your turn ends if you cannot move a token because you do not have the exact number needed to enter the home fields.
