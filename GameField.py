@@ -34,8 +34,6 @@ class GameField:
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         #ich weiß absolut nicht warum das Funktioniert.... Ziel ist den screen hier dem screen von startgame gelichzusetzen
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-        #pygame.display.set_caption("Mensch ärgere dich nicht")
-        # self.surface_dice_blank = self.surface_dice.copy()
 
     def show_screen(self):
         self.screen.blit(self.background_image, (0, 0))
@@ -81,7 +79,7 @@ class GameField:
         if y_coordinate != 0:
             y_coordinate = self.screen_size_multiplier * y_coordinate
 
-        pos = (x_coordinate, y_coordinate) 
+        pos = (x_coordinate, y_coordinate)
 
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
         space = self.font.size(' ')[0]  # The width of a space.
@@ -100,15 +98,5 @@ class GameField:
                 x_coordinate += word_width + space
             x_coordinate = pos[0]  # Reset the x.
             y_coordinate += word_height  # Start on new row.
-            pygame.display.update()   
-
-'''
-        if picture_type == "dice":
-            self.surface_dice.blit(self.background_image, (-x_coordinate, -y_coordinate))
-            self.surface_dice.blit(image, (0,0))
-            #surface zurücksetzen
             pygame.display.update()
-        elif picture_type == "pawn":
-            pass
-            #pawn surface befehl
-'''
+

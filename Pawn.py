@@ -1,20 +1,38 @@
+import pygame
+import MapGamefieldToPosition
 # pawn_number und player_number werden benutzt um Zugehörigkeiten zu identifizieren, asuzuwählen mit welchem Pawn
 # gelaufen wird und um dynamisch die Startposition zu ermitteln
 
 
-class Pawn:
-    image: str
+class Pawn(pygame.sprite.Sprite):
+    image: pygame.image
+    rect: pygame.rect
     current_position: int
     pawn_number: int
     player_number: int
     color: (int, int, int)
 
     def __init__(self, pawn_number: int, player_number: int, color: (int, int, int)):
+        pygame.sprite.Sprite.__init__(self)
         self.pawn_number = pawn_number
         self.player_number = player_number
         self.current_position = player_number * 100 + pawn_number * 10
         self.color = color
-        self.image = str(self.pawn_number)
+        self.create_image()
+
+        self.rect = self.image.get_rect()
+
+    def create_image(self):
+        height = pygame.display.get_surface().get_size()[0] // 11
+        width = pygame.display.get_surface().get_size()[0] // 11
+        self.image = pygame.Surface([height, width], pygame.SRCALPHA)
+        self.image.fill((0, 0, 0, 0))
+
+        radius = height // 3
+        pygame.draw.circle(self.image, self.color, (height // 2, width // 2), radius, radius)
+        font = pygame.font.Font(None, radius)
+        text = font.render(str(self.pawn_number), True, (0, 0, 0))
+        self.image.blit(text, (height //2 - text.get_width() // 2, width // 2 - text.get_height() // 2))
 
     def move_pawn_out_of_house(self):
         self.current_position = (self.player_number - 1) * 10
@@ -35,3 +53,10 @@ class Pawn:
         self.current_position += 1
         if self.current_position > 39:
             self.current_position = 0
+
+    def update(self):
+        x = MapGamefieldToPosition.get_coordinates(self.current_position)[0]
+        y = MapGamefieldToPosition.get_coordinates(self.current_position)[1]
+        self.rect.x = x * (pygame.display.get_surface().get_size()[0] // 11)
+        self.rect.y = y * (pygame.display.get_surface().get_size()[1] // 11)
+        return

@@ -1,5 +1,6 @@
 import Pawn
 import colors
+import pygame
 
 
 class Player:
@@ -22,7 +23,7 @@ class Player:
                 return True
         return False
 
-    def has_pawn_on_field(self) -> bool:
+    def has_pawn_on_game_field(self) -> bool:
         for pawn in self.pawn_list:
             if pawn.current_position < 40:
                 return True

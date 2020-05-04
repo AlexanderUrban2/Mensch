@@ -1,7 +1,7 @@
 Overview:
 
 
-At the start of the game, each player's four tokens are out of play and staged in the player's yard (one of the large corner areas of the board painted in the player's colour).
+At the start of the game, each player's four tokens are out of play and staged in the player's yard (one of the boards' large corner areas).
 
 When able to, the players will enter their tokens on their respective starting squares, and proceed to race them clockwise around the board along the game track (the path of squares not part of any player's home column).
  

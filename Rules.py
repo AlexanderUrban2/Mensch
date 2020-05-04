@@ -101,14 +101,11 @@ class Rules:
         self.back_message_rect.w += x_before_moving - x_after_moving 
         self.update_surface(0)
 
-
     def update_surface(self, y_coordinate):
         self.text_surface.blit(self.background_image, (-self.screen_width*0.05, -self.screen_height*0.1))
         self.blit_text(self.text_surface,self.file_content, (0,y_coordinate), self.font)
         self.screen.blit(self.text_surface, (0+self.screen_width*0.05, 0+ self.screen_height*0.1))
         pygame.display.update()
-
-
 
     def show_screen(self):
 
