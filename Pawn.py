@@ -37,6 +37,12 @@ class Pawn(pygame.sprite.Sprite):
     def move_pawn_out_of_house(self):
         self.current_position = (self.player_number - 1) * 10
 
+    def move_pawn_to_house(self, player_number: int, pawn_number: int):
+        self.current_position = (player_number + 1) * 100 + pawn_number * 10  
+        #player number +1 aber oben -1
+
+
+    #selbe funktion von Engine.py ???
     def move_pawn(self, steps: int):
         for i in range(steps):
             self.current_position += 1
