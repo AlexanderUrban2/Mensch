@@ -18,7 +18,7 @@ class Dice:
 
     def init_dice(self):
         for i in range(0, 6):
-            self.image_list.append(pygame.image.load('Dice' + str(i + 1) + '.png'))
+            self.image_list.append(pygame.image.load('images/Dice' + str(i + 1) + '.png'))
             self.image_list[i] = pygame.transform.smoothscale(self.image_list[i], (self.gamefield.screen_width // 11, self.gamefield.screen_height // 11))
 
     def roll_dice(self) -> int:
