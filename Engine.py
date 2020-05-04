@@ -1,7 +1,6 @@
 import GameField
 import Player
 import Dice
-import MapGamefieldToPosition
 import pygame
 import time
 
@@ -64,8 +63,6 @@ class Engine:
                     pawn.move_pawn_one_step()
                     self.refresh_ui()
                     time.sleep(0.1)
-        #self.player_list[current_player].pawn_list.update()
-        #self.player_list[current_player].pawn_list.draw(self.game_field.screen)
                 return
 
     def player_turn(self, current_player: int):

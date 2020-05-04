@@ -15,8 +15,6 @@ class Player:
 
         self.color = colors.colors[player_number]
 
-        #for i in range(4):
-            #self.pawn_list.add(Pawn.Pawn(i + 1, self.player_number, self.color))
         self.pawn_list = [Pawn.Pawn(i + 1, self.player_number, self.color) for i in range(4)]
 
     def has_pawn_in_house(self) -> bool:

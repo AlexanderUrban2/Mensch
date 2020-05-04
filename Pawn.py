@@ -18,7 +18,6 @@ class Pawn(pygame.sprite.Sprite):
         self.player_number = player_number
         self.current_position = player_number * 100 + pawn_number * 10
         self.color = color
-        # image_name = "Pawn_" + str(player_number) + ".png"
         self.create_image()
 
         self.rect = self.image.get_rect()
