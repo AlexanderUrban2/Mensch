@@ -92,13 +92,41 @@ class Engine:
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
                 current_position = pawn.current_position
-        for palyer_counter in range(4): 
-            for pawn in self.player_list[palyer_counter].pawn_list: 
-                if palyer_counter != current_player:
+        for player_counter in range(4): 
+            for pawn in self.player_list[player_counter].pawn_list: 
+                if player_counter != current_player:
                     if pawn.current_position == current_position:
-                        pawn.move_pawn_to_house(palyer_counter, pawn.pawn_number)
+                        pawn.move_pawn_to_house(player_counter, pawn.pawn_number)
                         break
-         
+
+#--------------------------------- move pawn starting square        
+
+    def move_pawn_from_starting_square(self, current_player: int, pawn_number: int, steps: int):
+        for pawn in self.player_list[current_player].pawn_list:
+            if pawn.pawn_number == pawn_number:
+                for i in range(steps):
+                    pawn.move_pawn_one_step()
+                    self.refresh_ui()
+                    time.sleep(0.1)
+                self.check_hit_from_starting_square(current_player, pawn_number)  
+                self.refresh_ui()  
+            
+
+    def check_hit_from_starting_square(self,current_player: int, pawn_number: int):
+        current_position = 0
+        for pawn in self.player_list[current_player].pawn_list:
+            if pawn.pawn_number == pawn_number:
+                current_position = pawn.current_position
+        for player_counter in range(4): 
+            for pawn in self.player_list[player_counter].pawn_list: 
+                if player_counter == current_player and pawn.pawn_number == pawn_number:
+                    pass
+                else:
+                    if pawn.current_position == current_position:
+                        pawn.move_pawn_to_house(player_counter, pawn.pawn_number)
+                        break
+
+
 
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
@@ -112,12 +140,16 @@ class Engine:
                     if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
                         self.move_pawn_out_of_house(current_player)
                         self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
-                        # after check hit if move is not possible, we ve to check the next rolled 6 if this is possible
+                        self.refresh_ui()
+                        self.game_field.show_text_info(current_player, "Press Space To Roll The Dice!")
+                        self.wait_for_K_pressed()
                         rolled_number = self.roll_dice()
-                        self.move_pawn(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
+                        self.move_pawn_from_starting_square(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
+                        self.game_field.show_text_info(current_player, "Moved pawn from Starting yard!")
                         if rolled_number != 6:
                             turn = False
-                        self.refresh_ui()
+                        else:
+                            self.refresh_ui()
                         break
 
                     elif self.player_list[current_player].has_pawn_on_field():
@@ -153,5 +185,14 @@ class Engine:
                         return 3
                     elif event.key == pygame.K_4:
                         return 4
+                if event.type == pygame.QUIT:
+                    exit()
+
+    def wait_for_K_pressed(self):
+        while True:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        return True
                 if event.type == pygame.QUIT:
                     exit()

@@ -62,43 +62,45 @@ class GameField:
 
     def show_text_info(self, player_number: int, text: str):
 
-        text_part_one , text_part_two = self.split_text(text)
-
         if(player_number == 0):
-            self.show_text(text_part_one, (0,0,0), 0, 2)
-            self.show_text(text_part_two, (0,0,0), 0, 3)
+            self.blit_text(text, 0, 2)
         elif(player_number == 1):
-            self.show_text(text_part_one, (0,0,0), 7, 2)
-            self.show_text(text_part_two, (0,0,0), 7, 3)
+            self.blit_text(text, 7, 2)
         elif(player_number == 2):
-            self.show_text(text_part_one, (0,0,0), 7, 7)
-            self.show_text(text_part_two, (0,0,0), 7, 8)
+            self.blit_text(text, 7, 7)
         elif(player_number == 3):
-            self.show_text(text_part_one, (0,0,0), 0, 7)
-            self.show_text(text_part_two, (0,0,0), 0, 8)
+            self.blit_text(text, 0, 7)
         else:
             pass
         
 
-    def split_text(self, text: str):
-        
-        text_part_one = [] 
-        text_part_two = []
+    def blit_text(self, text, x_coordinate, y_coordinate, color=pygame.Color('black')):
 
-        text_width, text_height = self.font.size(text)
-        limit =  3 * self.screen_size_multiplier
-        #implement no linebreak in word 
-        if text_width > limit:
-            for c in text:
-                text_width, text_height = self.font.size(''.join(text_part_one))
-                if text_width <= limit:
-                    text_part_one.append(c)
-                else:
-                    text_part_two.append(c) 
-            return ''.join(text_part_one), ''.join(text_part_two)                  
+        if x_coordinate != 0:
+            x_coordinate = self.screen_size_multiplier * x_coordinate
+        if y_coordinate != 0:
+            y_coordinate = self.screen_size_multiplier * y_coordinate
+
+        pos = (x_coordinate, y_coordinate) 
+
+        words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
+        space = self.font.size(' ')[0]  # The width of a space.
+        if(int(self.screen_size_multiplier * 4) < x_coordinate):
+            max_width = int(self.screen_width)
         else:
-            return text, ""
-
+            max_width = int(self.screen_size_multiplier * 4)
+        for line in words:
+            for word in line:
+                word_surface = self.font.render(word, 0, color)
+                word_width, word_height = word_surface.get_size()
+                if x_coordinate + word_width >= max_width:
+                    x_coordinate = pos[0]  # Reset the x.
+                    y_coordinate += word_height  # Start on new row.
+                self.screen.blit(word_surface, (x_coordinate, y_coordinate))
+                x_coordinate += word_width + space
+            x_coordinate = pos[0]  # Reset the x.
+            y_coordinate += word_height  # Start on new row.
+            pygame.display.update()   
 
 '''
         if picture_type == "dice":
