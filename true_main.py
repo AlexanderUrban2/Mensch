@@ -18,7 +18,6 @@ def create_players():
     return player_list
 
 
-player_list = create_players()
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
 start_screen_font = pygame.font.Font("Iveseenthatfacebefore.ttf",30)
@@ -30,6 +29,7 @@ start_button = pygame.image.load('StartButton.png')
 maedn_logo = pygame.image.load('MaednLogo.png')
 gamefield = GameField.GameField(background_image_gamefield, text_font)
 
+player_list = create_players()
 screen = Screen.Screen(background_image_start_screen)
 
 rules = Rules.Rules(screen, background_image_start_screen, back_arrow_image, start_screen_font, "Rule.txt")
