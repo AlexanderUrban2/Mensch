@@ -146,7 +146,7 @@ class Engine:
         turn = True
 
         while turn:
-            self.game_field.show_text_info(current_player, "Press space to roll the dice!")
+            self.game_field.show_text_info(current_player, "Press space to roll the die!")
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
@@ -155,7 +155,7 @@ class Engine:
                         self.move_pawn_out_of_house(current_player)
                         self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
                         self.refresh_ui()
-                        self.game_field.show_text_info(current_player, "Press space to roll the dice!")
+                        self.game_field.show_text_info(current_player, "Press space to roll the die!")
                         self.wait_for_K_pressed()
                         rolled_number = self.roll_dice()
                         self.move_pawn_from_starting_square(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)

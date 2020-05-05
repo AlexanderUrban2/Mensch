@@ -5,9 +5,9 @@ At the start of the game, each player's four tokens are out of play and staged i
 
 When able to, the players will enter their tokens on their respective starting squares, and proceed to race them clockwise around the board along the game track (the path of squares not part of any player's home column).
  
-When reaching the square below his home column, a player continues by moving tokens up the column to the finishing square.
+When reaching the square below their home column, a player continues by moving tokens up the column to the finishing square.
  
-The rolls of a single dice control the swiftness of the tokens. Entry to the finishing square requires a precise roll from the player. The first to bring all their tokens to the finish wins the game.
+The rolls of a single die control the swiftness of the tokens. Entry to the finishing square requires a precise roll from the player. The first to bring all their tokens to the finish wins the game.
 
 
 Gameplay:
@@ -19,8 +19,10 @@ To enter a token into play a player must roll a six. If a player rolled a six th
 After a token is out of the yard, the player has to roll the die again and move the token according to the rolled value.
 If a player has no tokens in play and does not roll a six, they have two more chances to roll a six.
 
-Players must always move a token according to the die value rolled. Once a player has one or more tokens in play, they select a token and move it forwards along the track by as much fields as the cie indicates. If an opponent's token is blocking your pathway, you can move past that token.
+Players must always move a token according to the die value rolled. Once a player has one or more tokens in play, they select a token and move it forwards along the track by as much fields as the die indicates. If an opponent's token is blocking your pathway, you can move past that token.
 
 If the advance of a token ends on a square occupied by an opponent's token, the opponent's token is returned to its owner's yard. The returned token can be reentered into play only when the owner rolls a six. You cannot move a token, if it would land on the same space as another token of the same colour.
 
-A player's home column squares cannot be entered by another player. In the home column, you cannot jump over your token. Your turn ends if you cannot move a token because you do not have the exact number needed to enter the home fields.
+However a token has to move after it was moved out of a players yard. If the following roll of the die results in the token landing on a field occupied by another token of the same player, the token occupying the field has to be moved back to the player's yard.
+
+A player's finishing squares cannot be entered by another player. In the finishing squares, you cannot jump over your token. Your turn ends if you cannot move a token because you do not have the exact number needed to enter.

@@ -1,6 +1,6 @@
-Control:
+Controls:
 
-Space: Rolle the dice
+Space: Rolle the die
 Number 1-4: Move token
 
 
