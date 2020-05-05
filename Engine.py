@@ -19,7 +19,6 @@ class Engine:
     rules_button_rect: pygame.rect
     help_button_rect: pygame.rect
 
-
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
@@ -75,7 +74,7 @@ class Engine:
                     self.refresh_ui()  
                 else:
                     self.refresh_ui()
-                    self.game_field.show_text_info(current_player, "U can´t move this pawn. Move an other one!")
+                    self.game_field.show_text_info(current_player, "You can´t move this token!")
                     pawn_number = self.select_pawn()
                     self.move_pawn(current_player, pawn_number, steps) 
                     # einbauen von checken ob überhaupt ein move geht also außer von start aus
@@ -85,7 +84,6 @@ class Engine:
             self.player_turn_human(current_player)
         else:
             self.player_turn_ai(current_player)
-
 
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         is_move_possible = True
@@ -104,7 +102,6 @@ class Engine:
         # einbauen von checken ob man ins häusle kann
         # einbauen von checken ob überhaupt ein move geht also außer von start aus         
 
-
     def check_hit(self,current_player: int, pawn_number: int):
         current_position = 0
         for pawn in self.player_list[current_player].pawn_list:
@@ -117,7 +114,7 @@ class Engine:
                         pawn.move_pawn_to_house(player_counter, pawn.pawn_number)
                         break
 
-#--------------------------------- move pawn starting square        
+# --------------------------------- move pawn starting square
 
     def move_pawn_from_starting_square(self, current_player: int, pawn_number: int, steps: int):
         for pawn in self.player_list[current_player].pawn_list:
@@ -127,8 +124,7 @@ class Engine:
                     self.refresh_ui()
                     time.sleep(0.1)
                 self.check_hit_from_starting_square(current_player, pawn_number)  
-                self.refresh_ui()  
-            
+                self.refresh_ui()
 
     def check_hit_from_starting_square(self,current_player: int, pawn_number: int):
         current_position = 0
@@ -144,15 +140,13 @@ class Engine:
                         pawn.move_pawn_to_house(player_counter, pawn.pawn_number)
                         break
 
-
-
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
         tries = 0
         turn = True
 
         while turn:
-            self.game_field.show_text_info(current_player, "Press Space To Roll The Dice!")
+            self.game_field.show_text_info(current_player, "Press space to roll the dice!")
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
@@ -161,11 +155,11 @@ class Engine:
                         self.move_pawn_out_of_house(current_player)
                         self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
                         self.refresh_ui()
-                        self.game_field.show_text_info(current_player, "Press Space To Roll The Dice!")
+                        self.game_field.show_text_info(current_player, "Press space to roll the dice!")
                         self.wait_for_K_pressed()
                         rolled_number = self.roll_dice()
                         self.move_pawn_from_starting_square(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
-                        self.game_field.show_text_info(current_player, "Moved pawn from Starting yard!")
+                        self.game_field.show_text_info(current_player, "Moved token from starting square!")
                         if rolled_number != 6:
                             turn = False
                         else:
@@ -177,9 +171,13 @@ class Engine:
                         while select:
                             pawn_number = self.select_pawn()
                             for pawn in self.player_list[current_player].pawn_list:
-                                if pawn.current_position < 40:
-                                    select = False
-                                    break
+                                if pawn.pawn_number == pawn_number:
+                                    if pawn.current_position < 40:
+                                        select = False
+                                        break
+                                    else:
+                                        self.refresh_ui()
+                                        self.game_field.show_text_info(current_player, "You can't move this token!")
                         self.move_pawn(current_player, pawn_number, rolled_number)
                         if rolled_number != 6:
                             turn = False

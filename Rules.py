@@ -4,7 +4,6 @@ import Screen
 import ImagePack
 
 
-
 class Rules:
     screen_width: float
     screen_height: float
