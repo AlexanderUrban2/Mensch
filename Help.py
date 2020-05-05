@@ -5,7 +5,7 @@ import ImagePack
 
 
 
-class Rules:
+class Help:
     screen_width: float
     screen_height: float
 
@@ -13,8 +13,7 @@ class Rules:
 
     background_image: pygame.image
     back_arrow_image: pygame.image
-    rules_image_1: pygame.image
-
+    help_image_1: pygame.image
     back_arrow_rect: pygame.rect
     back_message_rect: pygame.rect
 
@@ -34,7 +33,7 @@ class Rules:
 
         self.background_image = self.image_pack.background_image_start_screen
         self.back_arrow_image = self.image_pack.back_arrow_image
-        self.rules_image_1 = self.image_pack.rules_image_1
+        self.help_image_1 = self.image_pack.help_image_1
         self.font = font
         self.filename = filename
         self.run = True
@@ -64,9 +63,10 @@ class Rules:
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.back_arrow_image = pygame.transform.smoothscale(self.back_arrow_image, (int(self.screen_width * 0.08), int(self.screen_height* 0.08)))
-        self.rules_image_1 = pygame.transform.smoothscale(self.rules_image_1, (int(self.screen_width * 0.5), int(self.screen_height* 0.5)))
+        self.help_image_1 = pygame.transform.smoothscale(self.help_image_1, (int(self.screen_width * 0.45), int(self.screen_height* 0.45)))
+       
 
-        self.text_surface = pygame.Surface((self.screen_width*0.9, self.screen_height*0.9))  
+        self.text_surface = pygame.Surface((self.screen_width*0.5, self.screen_height))  
 
 
     # stackoverflow https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
@@ -99,9 +99,11 @@ class Rules:
 
         self.screen.blit(self.background_image, (0,0))
         self.screen.blit(self.back_arrow_image, (0 + self.screen_width* 0.01 ,0 + self.screen_height * 0.005))
+        self.screen.blit(self.help_image_1, (0 + self.screen_width* 0.01 ,0 + self.screen_height * 0.1))
         self.screen.blit(back_message_font,  (0 + self.screen_width* 0.1 ,0 + self.screen_height * 0.02))
         self.back_arrow_rect = self.back_arrow_image.get_rect(topleft=(0 + self.screen_width* 0.01 ,0 + self.screen_height * 0.005))
         self.back_message_rect = back_message_font.get_rect(topleft= (0 + self.screen_width* 0.1 ,0 + self.screen_height * 0.02))
+    
 
         # adjust rectangle, so that its over the text and the space between text and arrow
         x_before_moving = self.back_message_rect.x 
@@ -110,12 +112,14 @@ class Rules:
         self.back_message_rect.w += x_before_moving - x_after_moving 
         self.update_surface(0)
 
+
     def update_surface(self, y_coordinate):
-        self.text_surface.blit(self.background_image, (-self.screen_width*0.05, -self.screen_height*0.1))
-        self.text_surface.blit(self.rules_image_1,(self.screen_width*0.45 - self.rules_image_1.get_rect().size[0]/2,y_coordinate))
-        self.blit_text(self.text_surface,self.file_content, (0,y_coordinate + int(self.screen_height* 0.5)), self.font)
-        self.screen.blit(self.text_surface, (0+self.screen_width*0.05, 0+ self.screen_height*0.1))
+        self.text_surface.blit(self.background_image, (-self.screen_width*0.5, 0))
+        self.blit_text(self.text_surface,self.file_content, (0,y_coordinate), self.font)
+        self.screen.blit(self.text_surface, (0+self.screen_width*0.5, 0))
         pygame.display.update()
+
+
 
     def show_screen(self):
 
@@ -132,12 +136,10 @@ class Rules:
                         self.update_surface(y_coordinate)
                         if(y_coordinate != 0):
                             y_coordinate += 100
-                        break
                     elif event.button == 5:
                         self.update_surface(y_coordinate)
                         if(y_coordinate >= -self.surface_height + self.text_surface.get_size()[1]):
                             y_coordinate -= 100
-                        break
                     elif event.button == 1 and (self.back_arrow_rect.collidepoint(pygame.mouse.get_pos()) or self.back_message_rect.collidepoint(pygame.mouse.get_pos())):
                         self.run = False
                         

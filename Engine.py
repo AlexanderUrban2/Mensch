@@ -1,8 +1,11 @@
 import GameField
 import Player
 import Dice
+import MapGamefieldToPosition
 import pygame
 import time
+import Rules
+import Help
 
 
 class Engine:
@@ -10,12 +13,23 @@ class Engine:
     game_field: GameField
     dice: Dice
     all_sprites: pygame.sprite.RenderPlain()
+    rules: Rules
+    help: Help
 
-    def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField):
+    rules_button_rect: pygame.rect
+    help_button_rect: pygame.rect
+
+
+    def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
         self.dice = Dice.Dice(self.game_field)
         self.all_sprites = pygame.sprite.RenderPlain()
+        self.rules = rules
+        self.help = help
+
+        self.rules_button_rect = gamefield.ingame_rules_button_rect
+        self.help_button_rect = gamefield.ingame_help_button_rect
 
         self.get_all_sprites()
         self.refresh_ui()
@@ -32,13 +46,6 @@ class Engine:
         pygame.display.update()
 
     def draw_pawns(self):
-        #for player in self.player_list:
-            #for pawn in player.pawn_list:
-            #    x = MapGamefieldToPosition.get_coordinates(pawn.current_position)[0]
-            #    y = MapGamefieldToPosition.get_coordinates(pawn.current_position)[1]
-            #    self.game_field.show_text(pawn.image, pawn.color, x, y)
-         #   player.pawn_list.update()
-         #   player.pawn_list.draw(self.game_field.screen)
         self.all_sprites.update()
         self.all_sprites.draw(self.game_field.screen)
 
@@ -185,6 +192,13 @@ class Engine:
                             turn = False
                         self.refresh_ui()
                         break
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.rules.show_screen()
+                    self.refresh_ui()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.help.show_screen()
+                    self.refresh_ui()
+
                 elif event.type == pygame.QUIT:
                     exit()
 

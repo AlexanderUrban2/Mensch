@@ -1,0 +1,7 @@
+Control:
+
+Space: Rolle the dice
+Number 1-4: Move token
+
+
+Hier koennte Ihre Werbung stehen!

@@ -1,6 +1,7 @@
 import ctypes
 import pygame
-import StartScreen
+import ImagePack
+import Screen
 
 
 class GameField:
@@ -9,13 +10,27 @@ class GameField:
 
     screen_size_multiplier: float
 
+    screen_class: Screen
     screen: pygame.display
     font: pygame.font
 
     background_image: pygame.image
+    ingame_rules_button: pygame.image
+    ingame_help_button: pygame.image
 
-    def __init__(self, background_image: pygame.image, font: pygame.font):
-        self.background_image = background_image
+    ingame_rules_button_rect: pygame.rect
+    ingame_help_button_rect: pygame.rect
+
+    image_pack: ImagePack
+
+    def __init__(self, font: pygame.font):
+        self.image_pack = ImagePack.ImagePack()
+        self.screen_class = Screen.Screen()
+
+        self.background_image = self.image_pack.background_image
+        self.ingame_rules_button = self.image_pack.ingame_rules_button
+        self.ingame_help_button = self.image_pack.ingame_help_button
+
         self.font = font
 
         self.init_game_field_variables()
@@ -25,18 +40,26 @@ class GameField:
     def init_game_field_variables(self):
         user32 = ctypes.windll.user32
 
-        self.screen_width = int(user32.GetSystemMetrics(1) * 0.9)
-        self.screen_height = int(user32.GetSystemMetrics(1) * 0.9)
+        self.screen_width = self.screen_class.screen_width
+        self.screen_height = self.screen_class.screen_height
 
         self.screen_size_multiplier = self.screen_height / 11
 
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
-        #ich weiß absolut nicht warum das Funktioniert.... Ziel ist den screen hier dem screen von startgame gelichzusetzen
-        self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
+        self.ingame_rules_button = pygame.transform.smoothscale(self.ingame_rules_button, (int(self.screen_size_multiplier * 1.5), int(self.screen_size_multiplier)))
+        self.ingame_help_button = pygame.transform.smoothscale(self.ingame_help_button, (int(self.screen_size_multiplier * 1.5), int(self.screen_size_multiplier)))
+
+        self.ingame_rules_button_rect = self.ingame_rules_button.get_rect(topleft=(int(self.screen_size_multiplier*2.5), int(self.screen_size_multiplier*0.1)))
+        self.ingame_help_button_rect = self.ingame_help_button.get_rect(topleft=(int(self.screen_size_multiplier*7), int(self.screen_size_multiplier*0.1)))
+
+        self.screen = self.screen_class.screen
+
 
     def show_screen(self):
         self.screen.blit(self.background_image, (0, 0))
+        self.screen.blit(self.ingame_rules_button, (int(self.screen_size_multiplier*2.5), int(self.screen_size_multiplier*0.1)))
+        self.screen.blit(self.ingame_help_button, (int(self.screen_size_multiplier*7), int(self.screen_size_multiplier*0.1)))
         pygame.display.update()
 
     # Koordinaten entsprechen den Feldern einer 11*11 Matrix
@@ -99,4 +122,3 @@ class GameField:
             x_coordinate = pos[0]  # Reset the x.
             y_coordinate += word_height  # Start on new row.
             pygame.display.update()
-
