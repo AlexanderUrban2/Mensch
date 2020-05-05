@@ -4,17 +4,30 @@ import Dice
 import MapGamefieldToPosition
 import pygame
 import time
+import Rules
+import Help
 
 
 class Engine:
     player_list: []
     game_field: GameField
     dice: Dice
+    rules: Rules
+    help: Help
 
-    def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField):
+    rules_button_rect: pygame.rect
+    help_button_rect: pygame.rect
+
+
+    def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
         self.dice = Dice.Dice(self.game_field)
+        self.rules = rules
+        self.help = help
+
+        self.rules_button_rect = gamefield.ingame_rules_button_rect
+        self.help_button_rect = gamefield.ingame_help_button_rect
 
         self.refresh_ui()
 
@@ -167,6 +180,12 @@ class Engine:
                             turn = False
                         self.refresh_ui()
                         break
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.rules.show_screen()
+                    self.refresh_ui()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.help.show_screen()
+                    self.refresh_ui()
                 elif event.type == pygame.QUIT:
                     exit()
 

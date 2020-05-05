@@ -2,6 +2,7 @@ import ctypes
 import pygame
 import Screen
 import Rules
+import ImagePack
 
 
 class StartScreen:
@@ -23,11 +24,14 @@ class StartScreen:
 
     screen_class: Screen
     rules: Rules
+    image_pack: ImagePack
 
-    def __init__(self, screen_class: Screen, rules: Rules, background_image: pygame.image,start_button: pygame.image, maedn_logo: pygame.image, font: pygame.font):
-        self.background_image = background_image
-        self.start_button = start_button
-        self.maedn_logo = maedn_logo
+    def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font):
+        self.image_pack = ImagePack.ImagePack()
+
+        self.background_image = self.image_pack.background_image_start_screen
+        self.start_button = self.image_pack.start_button
+        self.maedn_logo = self.image_pack.maedn_logo
         self.font = font
         self.run = True
 

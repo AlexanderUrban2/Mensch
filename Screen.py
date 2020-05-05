@@ -1,14 +1,18 @@
 import ctypes
 import pygame
+import ImagePack
 
 class Screen:
     screen_width: float
     screen_height: float
-    screen: pygame.display
 
-    def __init__(self, background_image: pygame.image):
-        
-        self.background_image = background_image
+    screen: pygame.display
+    image_pack: ImagePack
+
+    def __init__(self):
+        self.image_pack = ImagePack.ImagePack()
+
+        self.background_image = self.image_pack.background_image_start_screen
 
         self.init_screen()
         self.create_screen()
@@ -25,5 +29,4 @@ class Screen:
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Mensch Ärgere dich nicht")
-        self.screen.blit(self.background_image, (0, 0))
-        pygame.display.update()
+        

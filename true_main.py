@@ -6,7 +6,9 @@ import time
 import Engine
 import StartScreen
 import Rules
+import Help
 import Screen
+import ImagePack
 
 
 pygame.init()
@@ -23,21 +25,19 @@ my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
 start_screen_font = pygame.font.Font("Iveseenthatfacebefore.ttf",30)
 
-background_image_gamefield = pygame.image.load('GameField.jpg')
-background_image_start_screen = pygame.image.load('StartScreen.jpg')
-back_arrow_image = pygame.image.load('BackArrow.png')
-start_button = pygame.image.load('StartButton.png')
-maedn_logo = pygame.image.load('MaednLogo.png')
-gamefield = GameField.GameField(background_image_gamefield, text_font)
+image_pack = ImagePack.ImagePack()
 
-screen = Screen.Screen(background_image_start_screen)
+gamefield = GameField.GameField(text_font)
 
-rules = Rules.Rules(screen, background_image_start_screen, back_arrow_image, start_screen_font, "Rule.txt")
-start_screen = StartScreen.StartScreen(screen, rules, background_image_start_screen, start_button, maedn_logo, start_screen_font)
+screen = Screen.Screen()
+
+rules = Rules.Rules(screen,start_screen_font, "Rule.txt")
+help = Help.Help(screen,start_screen_font, "Help.txt")
+start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
 
 start_screen.start_game()
 
-engine = Engine.Engine(player_list, gamefield)
+engine = Engine.Engine(player_list, gamefield, rules, help)
 
 current_payer = 0
 run = True
