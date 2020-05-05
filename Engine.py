@@ -146,7 +146,10 @@ class Engine:
         turn = True
 
         while turn:
-            self.game_field.show_text_info(current_player, "Press space to roll the die!")
+            if self.player_list[current_player].has_pawn_on_game_field():
+                self.game_field.show_text_info(current_player, "Press space to roll the die!")
+            else:
+                self.game_field.show_text_info(current_player, "Press space to roll the die! (Turn " + str(tries +1) +" of 3)")
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
@@ -157,6 +160,8 @@ class Engine:
                         self.refresh_ui()
                         self.game_field.show_text_info(current_player, "Press space to roll the die!")
                         self.wait_for_K_pressed()
+                        self.game_field.show_text_info(current_player, "Press space to roll the die!")
+                        self.wait_for_space_pressed(current_player)
                         rolled_number = self.roll_dice()
                         self.move_pawn_from_starting_square(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
                         self.game_field.show_text_info(current_player, "Moved token from starting square!")
@@ -168,6 +173,8 @@ class Engine:
 
                     elif self.player_list[current_player].has_pawn_on_game_field():
                         select = True
+                        self.refresh_ui()
+                        self.game_field.show_text_info(current_player, "Press number key of token u want to move!")
                         while select:
                             pawn_number = self.select_pawn()
                             for pawn in self.player_list[current_player].pawn_list:
@@ -218,11 +225,19 @@ class Engine:
                 if event.type == pygame.QUIT:
                     exit()
 
-    def wait_for_K_pressed(self):
+    def wait_for_space_pressed(self, current_player: int):
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         return True
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.rules.show_screen()
+                    self.refresh_ui()
+                    self.game_field.show_text_info(current_player, "Press space to roll the die!")
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.help.show_screen()
+                    self.refresh_ui()
+                    self.game_field.show_text_info(current_player, "Press space to roll the die!")
                 if event.type == pygame.QUIT:
                     exit()
