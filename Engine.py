@@ -159,8 +159,6 @@ class Engine:
                         self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
                         self.refresh_ui()
                         self.game_field.show_text_info(current_player, "Press space to roll the die!")
-                        self.wait_for_K_pressed()
-                        self.game_field.show_text_info(current_player, "Press space to roll the die!")
                         self.wait_for_space_pressed(current_player)
                         rolled_number = self.roll_dice()
                         self.move_pawn_from_starting_square(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
@@ -174,7 +172,7 @@ class Engine:
                     elif self.player_list[current_player].has_pawn_on_game_field():
                         select = True
                         self.refresh_ui()
-                        self.game_field.show_text_info(current_player, "Press number key of token u want to move!")
+                        self.game_field.show_text_info(current_player, "Press the number key of the token you want to move!")
                         while select:
                             pawn_number = self.select_pawn()
                             for pawn in self.player_list[current_player].pawn_list:
