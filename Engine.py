@@ -6,6 +6,7 @@ import pygame
 import time
 import Rules
 import Help
+import random
 
 
 class Engine:
@@ -65,25 +66,26 @@ class Engine:
     def move_pawn(self, current_player: int, pawn_number: int, steps: int):
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
-                if self.is_move_possible(current_player, pawn_number, steps) == True:
+                # if self.is_move_possible(current_player, pawn_number, steps):
                     for i in range(steps):
                         pawn.move_pawn_one_step()
                         self.refresh_ui()
                         time.sleep(0.1)
                     self.check_hit(current_player, pawn_number)  
-                    self.refresh_ui()  
-                else:
                     self.refresh_ui()
-                    self.game_field.show_text_info(current_player, "You can´t move this token!")
-                    pawn_number = self.select_pawn()
-                    self.move_pawn(current_player, pawn_number, steps) 
+                    return
+                #else:
+                #    self.refresh_ui()
+                #    self.game_field.show_text_info(current_player, "You can´t move this token!")
+                #    pawn_number = self.select_pawn()
+                #    self.move_pawn(current_player, pawn_number, steps)
                     # einbauen von checken ob überhaupt ein move geht also außer von start aus
 
     def player_turn(self, current_player: int):
-        if self.player_list[current_player].user_controlled:
-            self.player_turn_human(current_player)
-        else:
+        if self.player_list[current_player].__class__.__name__ == "AI":
             self.player_turn_ai(current_player)
+        elif self.player_list[current_player].__class__.__name__ == "Player":
+            self.player_turn_human(current_player)
 
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         is_move_possible = True
@@ -91,7 +93,7 @@ class Engine:
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
                 if pawn.current_position + steps > 40:
-                    final_position = pawn.current_position + steps -40
+                    final_position = pawn.current_position + steps - 40
                 else:
                     final_position = pawn.current_position + steps
         for pawn in self.player_list[current_player].pawn_list: 
@@ -111,8 +113,8 @@ class Engine:
             for pawn in self.player_list[player_counter].pawn_list: 
                 if player_counter != current_player:
                     if pawn.current_position == current_position:
-                        pawn.move_pawn_to_house(player_counter, pawn.pawn_number)
-                        break
+                        pawn.move_pawn_to_house()
+                        return
 
 # --------------------------------- move pawn starting square
 
@@ -137,7 +139,7 @@ class Engine:
                     pass
                 else:
                     if pawn.current_position == current_position:
-                        pawn.move_pawn_to_house(player_counter, pawn.pawn_number)
+                        pawn.move_pawn_to_house()
                         break
 
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
@@ -177,7 +179,7 @@ class Engine:
                             pawn_number = self.select_pawn()
                             for pawn in self.player_list[current_player].pawn_list:
                                 if pawn.pawn_number == pawn_number:
-                                    if pawn.current_position < 40:
+                                    if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number, rolled_number):
                                         select = False
                                         break
                                     else:
@@ -206,7 +208,88 @@ class Engine:
                     exit()
 
     def player_turn_ai(self, current_player: int):
-        pass
+        tries = 0
+        turn = True
+        time_previous = 0
+
+        while turn:
+            # time.time() is in seconds!!
+            time_now = time.time()
+
+            if self.player_list[current_player].has_pawn_on_game_field():
+                self.game_field.show_text_info(current_player, "AI turn :)")
+            else:
+                self.game_field.show_text_info(current_player,
+                                               "AI turn :)   (Turn " + str(tries + 1) + " of 3)")
+            rolled_number = self.roll_dice()
+
+            for event in pygame.event.get():
+
+                if time_now - time_previous >= self.player_list[current_player].turn_time_delay:
+
+                    if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
+                        self.move_pawn_out_of_house(current_player)
+                        self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
+                        self.refresh_ui()
+
+                        # I don't like this, but another loop would be worse
+                        # and otherwise the AI could be too fast for a player if they aren't paying attention
+                        time.sleep(0.5)
+
+                        time_previous = time_now
+
+                        rolled_number = self.roll_dice()
+                        self.move_pawn_from_starting_square(current_player, self.player_list[
+                            current_player].get_pawn_number_on_start_field(), rolled_number)
+                        self.game_field.show_text_info(current_player, "Moved token from starting square!")
+
+                        if rolled_number != 6:
+                            turn = False
+                        else:
+                            self.refresh_ui()
+                        break
+
+                    elif self.player_list[current_player].has_pawn_on_game_field():
+
+                        time_previous = time_now
+
+                        selecting = True
+                        self.refresh_ui()
+
+                        while selecting:
+                            if self.player_list[current_player].difficulty == 1:
+                                pawn_number = random.randint(1, 4)
+                                for pawn in self.player_list[current_player].pawn_list:
+                                    if pawn.pawn_number == pawn_number:
+                                        if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number, rolled_number):
+                                            selecting = False
+                                            break
+                            else:
+                                # implement other difficulties
+                                pass
+
+                        self.move_pawn(current_player, pawn_number, rolled_number)
+                        if rolled_number != 6:
+                            turn = False
+                        self.refresh_ui()
+                        break
+
+                    else:
+                        time_previous = time_now
+                        tries += 1
+                        if tries >= 3:
+                            turn = False
+                        self.refresh_ui()
+                        break
+
+                if event.type == pygame.QUIT:
+                    exit()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.rules.show_screen()
+                    self.refresh_ui()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    self.help.show_screen()
+                    self.refresh_ui()
 
     def select_pawn(self) -> int:
         while True:

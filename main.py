@@ -9,6 +9,7 @@ import Rules
 import Help
 import Screen
 import ImagePack
+import AI
 
 
 pygame.init()
@@ -16,7 +17,9 @@ pygame.font.init()
 
 
 def create_players():
-    player_list = [Player.Player(i + 1, True) for i in range(4)]
+    player_list = [Player.Player(i + 1) for i in range(3)]
+    ai = AI.AI(4, 2, 1)
+    player_list.append(ai)
     return player_list
 
 

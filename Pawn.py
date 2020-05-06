@@ -23,11 +23,15 @@ class Pawn(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
     def create_image(self):
+        #  get the size of a field of the 11*11 matrix
         height = pygame.display.get_surface().get_size()[0] // 11
-        width = pygame.display.get_surface().get_size()[0] // 11
+        width = pygame.display.get_surface().get_size()[1] // 11
+
+        # make the surface transparent
         self.image = pygame.Surface([height, width], pygame.SRCALPHA)
         self.image.fill((0, 0, 0, 0))
 
+        # draw a circle with a number on the surface
         radius = height // 3
         pygame.draw.circle(self.image, self.color, (height // 2, width // 2), radius, radius)
         font = pygame.font.Font(None, radius)
@@ -37,10 +41,9 @@ class Pawn(pygame.sprite.Sprite):
     def move_pawn_out_of_house(self):
         self.current_position = (self.player_number - 1) * 10
 
-    def move_pawn_to_house(self, player_number: int, pawn_number: int):
-        self.current_position = (player_number + 1) * 100 + pawn_number * 10  
+    def move_pawn_to_house(self):
+        self.current_position = self.player_number * 100 + self.pawn_number * 10
         #player number +1 aber oben -1
-
 
     #selbe funktion von Engine.py ???
     def move_pawn(self, steps: int):
