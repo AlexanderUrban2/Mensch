@@ -37,7 +37,7 @@ rules = Rules.Rules(screen,start_screen_font, "Rule.txt")
 help = Help.Help(screen,start_screen_font, "Help.txt")
 start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
 
-start_screen.start_game()
+player_number = start_screen.start_game()
 player_list = create_players()
 engine = Engine.Engine(player_list, gamefield, rules, help)
 
