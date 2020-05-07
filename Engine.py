@@ -151,7 +151,7 @@ class Engine:
             if self.player_list[current_player].has_pawn_on_game_field():
                 self.game_field.show_text_info(current_player, "Press space to roll the die!")
             else:
-                self.game_field.show_text_info(current_player, "Press space to roll the die! (Turn " + str(tries +1) +" of 3)")
+                self.game_field.show_text_info(current_player, "Press space to roll the die! (Turn " + str(tries + 1) + " of 3)")
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
@@ -210,7 +210,7 @@ class Engine:
     def player_turn_ai(self, current_player: int):
         tries = 0
         turn = True
-        time_previous = 0
+        time_previous = time.time()
 
         while turn:
             # time.time() is in seconds!!
@@ -219,69 +219,70 @@ class Engine:
             if self.player_list[current_player].has_pawn_on_game_field():
                 self.game_field.show_text_info(current_player, "AI turn :)")
             else:
-                self.game_field.show_text_info(current_player,
-                                               "AI turn :)   (Turn " + str(tries + 1) + " of 3)")
-            rolled_number = self.roll_dice()
+                self.game_field.show_text_info(current_player, "AI turn :)   (Turn " + str(tries + 1) + " of 3)")
+
+            if time_now - time_previous >= self.player_list[current_player].turn_time_delay:
+                rolled_number = self.roll_dice()
+                print("rolled dice", rolled_number)
+
+                if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
+                    self.move_pawn_out_of_house(current_player)
+                    self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
+                    self.refresh_ui()
+
+                    # I don't like this, but another loop would be worse
+                    # and otherwise the AI could be too fast for a player if they aren't paying attention
+                    time.sleep(0.5)
+
+                    time_previous = time.time()
+
+                    rolled_number = self.roll_dice()
+                    self.move_pawn_from_starting_square(current_player, self.player_list[
+                        current_player].get_pawn_number_on_start_field(), rolled_number)
+                    self.game_field.show_text_info(current_player, "Moved token from starting square!")
+
+                    if rolled_number != 6:
+                        turn = False
+                    else:
+                        self.refresh_ui()
+
+                elif self.player_list[current_player].has_pawn_on_game_field():
+
+                    time_previous = time_now
+
+                    selecting = True
+                    self.refresh_ui()
+
+                    while selecting:
+                        if self.player_list[current_player].difficulty == 1:
+                            pawn_number = random.randint(1, 4)
+                            for pawn in self.player_list[current_player].pawn_list:
+                                if pawn.pawn_number == pawn_number:
+                                    if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number,
+                                                                                            rolled_number):
+                                        selecting = False
+                                        break
+                        else:
+                            # implement other difficulties
+                            pass
+
+                    self.move_pawn(current_player, pawn_number, rolled_number)
+                    if rolled_number != 6:
+                        turn = False
+                    self.refresh_ui()
+                    break
+
+                else:
+                    time_previous = time.time()
+                    tries += 1
+                    if tries >= 3:
+                        turn = False
+                    self.refresh_ui()
+
+            else:
+                time_now = time.time()
 
             for event in pygame.event.get():
-
-                if time_now - time_previous >= self.player_list[current_player].turn_time_delay:
-
-                    if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
-                        self.move_pawn_out_of_house(current_player)
-                        self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
-                        self.refresh_ui()
-
-                        # I don't like this, but another loop would be worse
-                        # and otherwise the AI could be too fast for a player if they aren't paying attention
-                        time.sleep(0.5)
-
-                        time_previous = time_now
-
-                        rolled_number = self.roll_dice()
-                        self.move_pawn_from_starting_square(current_player, self.player_list[
-                            current_player].get_pawn_number_on_start_field(), rolled_number)
-                        self.game_field.show_text_info(current_player, "Moved token from starting square!")
-
-                        if rolled_number != 6:
-                            turn = False
-                        else:
-                            self.refresh_ui()
-                        break
-
-                    elif self.player_list[current_player].has_pawn_on_game_field():
-
-                        time_previous = time_now
-
-                        selecting = True
-                        self.refresh_ui()
-
-                        while selecting:
-                            if self.player_list[current_player].difficulty == 1:
-                                pawn_number = random.randint(1, 4)
-                                for pawn in self.player_list[current_player].pawn_list:
-                                    if pawn.pawn_number == pawn_number:
-                                        if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number, rolled_number):
-                                            selecting = False
-                                            break
-                            else:
-                                # implement other difficulties
-                                pass
-
-                        self.move_pawn(current_player, pawn_number, rolled_number)
-                        if rolled_number != 6:
-                            turn = False
-                        self.refresh_ui()
-                        break
-
-                    else:
-                        time_previous = time_now
-                        tries += 1
-                        if tries >= 3:
-                            turn = False
-                        self.refresh_ui()
-                        break
-
                 if event.type == pygame.QUIT:
                     exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
