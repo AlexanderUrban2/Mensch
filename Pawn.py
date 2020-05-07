@@ -52,10 +52,22 @@ class Pawn(pygame.sprite.Sprite):
             if self.current_position > 39:
                 self.current_position = 0
 
-    def move_pawn_one_step(self):
-        self.current_position += 1
-        if self.current_position > 39:
-            self.current_position = 0
+    def move_pawn_one_step(self,current_position):
+        move_house = self.move_house(current_position)
+        if move_house == False:
+            self.current_position += 1
+            if self.current_position > 39:
+                self.current_position = 0
+    
+    def move_house(self, current_player) -> bool:
+        if self.current_position == (39 - (4*current_player) *10):
+            self.current_position = (current_player+1) * 1000 + 10
+            return True
+        elif self.current_position > 1000:
+            self.current_position += 10
+            return True
+        else:
+            return False
 
     def update(self):
         x = MapGamefieldToPosition.get_coordinates(self.current_position)[0]

@@ -20,6 +20,8 @@ class Engine:
     rules_button_rect: pygame.rect
     help_button_rect: pygame.rect
 
+    move_possible: bool
+
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
@@ -31,8 +33,15 @@ class Engine:
         self.rules_button_rect = gamefield.ingame_rules_button_rect
         self.help_button_rect = gamefield.ingame_help_button_rect
 
+        self.move_possible = True
+
         self.get_all_sprites()
         self.refresh_ui()
+
+
+        for pawn in self.player_list[0].pawn_list: 
+            if pawn.pawn_number == 1:
+                pawn.current_position = 39
 
     def get_all_sprites(self):
         for player in self.player_list:
@@ -58,7 +67,7 @@ class Engine:
     # rollt den würfel und updated nur das aussehen der frames im "würfelbereich"
     def move_pawn_out_of_house(self, current_player: int):
         for pawn in self.player_list[current_player].pawn_list:
-            if pawn.current_position > 40:
+            if pawn.current_position > 40 and pawn.current_position < 1000:
                 pawn.move_pawn_out_of_house()
                 self.refresh_ui()
                 return
@@ -68,7 +77,7 @@ class Engine:
             if pawn.pawn_number == pawn_number:
                 # if self.is_move_possible(current_player, pawn_number, steps):
                     for i in range(steps):
-                        pawn.move_pawn_one_step()
+                        pawn.move_pawn_one_step(current_player)
                         self.refresh_ui()
                         time.sleep(0.1)
                     self.check_hit(current_player, pawn_number)  
@@ -92,17 +101,87 @@ class Engine:
         final_position = 0
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
-                if pawn.current_position + steps > 39:
+                if self.is_move_possible_into_house(current_player, pawn_number, steps, pawn) == False:
+                    is_move_possible =  False
+                elif pawn.current_position + steps > 39:
                     final_position = pawn.current_position + steps - 40
                 else:
                     final_position = pawn.current_position + steps
         for pawn in self.player_list[current_player].pawn_list: 
             if pawn.pawn_number != pawn_number:
                 if pawn.current_position == final_position:
-                    return False
+                    is_move_possible = False
+        #debuggen
+        if is_move_possible == False:
+            self.move_possible = self.check_if_some_move_is_possible(current_player, pawn_number, steps, pawn)
+            return False
+        else:
+            return is_move_possible
+
+    def is_move_possible_into_house (self, current_player: int, pawn_number: int, steps: int, pawn):
+        final_position = 0
+        field_before_house = 39 - (4*current_player) *10
+        tmp = 0
+        first_pawn_in_house = 0
+
+        if pawn.current_position > 1000:
+            final_position = pawn.current_position + steps*10
+        else:
+            for counter in range(steps):
+                if counter + pawn.current_position == field_before_house:
+                    tmp = counter
+                    break
+                else:
+                    return True
+            steps -= counter
+            final_position = (current_player+1) * 1000 + steps * 10
+        if final_position > (current_player+1) * 1000 + 40:
+            return False
+        else:
+            for pawn in self.player_list[current_player].pawn_list: 
+                if pawn.pawn_number != pawn_number:
+                    if pawn.current_position > first_pawn_in_house and pawn.current_position > 1000:
+                        first_pawn_in_house = pawn.current_position
+            if first_pawn_in_house >= final_position:
+                return False
+            else:
+                return True
+
+
+    #debuggen        
+    def check_if_some_move_is_possible(self, current_player: int, pawn_number: int, steps: int, pawn) -> bool:
+        is_move_possible = True
+        pawn_number = 0
+        final_position = 0
+        for pawn in self.player_list[current_player].pawn_list:
+            pawn_number = pawn.pawn_number
+            if self.is_move_possible_into_house(current_player, pawn_number, steps, pawn) == False:
+                is_move_possible =  False
+            elif pawn.current_position > 100 and pawn.current_position < 1000:
+                pass
+            elif pawn.current_position + steps > 39:
+                final_position = pawn.current_position + steps - 40
+                for pawn in self.player_list[current_player].pawn_list: 
+                    if pawn.pawn_number != pawn_number:
+                        if pawn.current_position == final_position:
+                            is_move_possible = False
+                        else:
+                            is_move_possible = True
+            else:
+                final_position = pawn.current_position + steps
+                for pawn in self.player_list[current_player].pawn_list: 
+                    if pawn.pawn_number != pawn_number:
+                        if pawn.current_position == final_position:
+                            is_move_possible = False
+                        else:
+                            is_move_possible = True
         return is_move_possible
-        # einbauen von checken ob man ins häusle kann
-        # einbauen von checken ob überhaupt ein move geht also außer von start aus         
+            
+                    
+        
+
+
+        
 
     def check_hit(self,current_player: int, pawn_number: int):
         current_position = 0
@@ -122,7 +201,7 @@ class Engine:
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
                 for i in range(steps):
-                    pawn.move_pawn_one_step()
+                    pawn.move_pawn_one_step(current_player)
                     self.refresh_ui()
                     time.sleep(0.1)
                 self.check_hit_from_starting_square(current_player, pawn_number)  
@@ -182,9 +261,22 @@ class Engine:
                                     if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number, rolled_number):
                                         select = False
                                         break
+                                    elif pawn.current_position > 1000 and self.is_move_possible(current_player, pawn_number, rolled_number):
+                                        select = False
+                                        break
                                     else:
                                         self.refresh_ui()
-                                        self.game_field.show_text_info(current_player, "You can't move this token!")
+                                        if self.move_possible == True:
+                                            self.game_field.show_text_info(current_player, "You can't move this token!")
+                                        else:
+                                            self.game_field.show_text_info(current_player, "Unfortunate!")
+                                            select = False
+                                            turn = False
+                                            break
+                        if self.move_possible == False:
+                            self.move_possible = True
+                            break
+                            
                         self.move_pawn(current_player, pawn_number, rolled_number)
                         if rolled_number != 6:
                             turn = False

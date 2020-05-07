@@ -57,3 +57,7 @@ while run:
     if current_payer >= 4:
         current_payer = 0
 
+#Bugs:
+# Man muss erst einen Pawn auswählen obwohl man gar keinen moven kann
+# erst checken ob iwas geht und dann ggf nächster spieler
+# code ist leicht unübersichtlich
