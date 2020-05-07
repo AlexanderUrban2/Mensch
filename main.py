@@ -1,8 +1,6 @@
 import Player
 import GameField
 import pygame
-import Dice
-import time
 import Engine
 import StartScreen
 import Rules
@@ -28,7 +26,7 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
 
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
-start_screen_font = pygame.font.Font("Iveseenthatfacebefore.ttf",30)
+start_screen_font = pygame.font.Font("Iveseenthatfacebefore.ttf", 30)
 
 image_pack = ImagePack.ImagePack()
 
