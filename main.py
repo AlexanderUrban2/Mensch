@@ -16,8 +16,11 @@ pygame.init()
 pygame.font.init()
 
 
-def create_players():
-    player_list = [AI.AI(i + 1, 1, 1) for i in range(4)]
+def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: int):
+    player_list = [Player.Player(i + 1) for i in range(player_count)]
+    ai_list = [AI.AI(i + 1, ai_turn_time_delay, ai_difficulty) for i in range(player_count, 4)]
+    for ai in ai_list:
+        player_list.append(ai)
     #ai = AI.AI(4, 1, 1)
     #player_list.append(ai)
     return player_list
@@ -37,8 +40,12 @@ rules = Rules.Rules(screen,start_screen_font, "Rule.txt")
 help = Help.Help(screen,start_screen_font, "Help.txt")
 start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
 
-player_number = start_screen.start_game()
-player_list = create_players()
+player_count = start_screen.start_game()
+
+ai_turn_time_delay = 1  # in seconds
+ai_difficulty = 1
+player_list = create_players(player_count, ai_turn_time_delay, ai_difficulty)
+
 engine = Engine.Engine(player_list, gamefield, rules, help)
 
 current_payer = 0
