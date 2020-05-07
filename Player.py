@@ -5,13 +5,11 @@ import pygame
 
 class Player:
     player_number: int
-    user_controlled: bool
     pawn_list = list
     color: (int, int, int)
 
-    def __init__(self, player_number: int, user_controlled: bool):
+    def __init__(self, player_number: int):
         self.player_number = player_number
-        self.user_controlled = user_controlled
 
         self.color = colors.colors[player_number]
 
