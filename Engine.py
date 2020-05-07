@@ -92,7 +92,7 @@ class Engine:
         final_position = 0
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
-                if pawn.current_position + steps > 40:
+                if pawn.current_position + steps > 39:
                     final_position = pawn.current_position + steps - 40
                 else:
                     final_position = pawn.current_position + steps
@@ -223,7 +223,6 @@ class Engine:
 
             if time_now - time_previous >= self.player_list[current_player].turn_time_delay:
                 rolled_number = self.roll_dice()
-                print("rolled dice", rolled_number)
 
                 if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
                     self.move_pawn_out_of_house(current_player)
@@ -265,12 +264,12 @@ class Engine:
                         else:
                             # implement other difficulties
                             pass
-
+                    # as above... makes the game easier to follow
+                    time.sleep(0.5)
                     self.move_pawn(current_player, pawn_number, rolled_number)
                     if rolled_number != 6:
                         turn = False
                     self.refresh_ui()
-                    break
 
                 else:
                     time_previous = time.time()

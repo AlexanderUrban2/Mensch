@@ -17,9 +17,9 @@ pygame.font.init()
 
 
 def create_players():
-    player_list = [Player.Player(i + 1) for i in range(3)]
-    ai = AI.AI(4, 1, 1)
-    player_list.append(ai)
+    player_list = [AI.AI(i + 1, 1, 1) for i in range(4)]
+    #ai = AI.AI(4, 1, 1)
+    #player_list.append(ai)
     return player_list
 
 
