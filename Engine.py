@@ -39,15 +39,20 @@ class Engine:
         self.refresh_ui()
 
         tmp = 0
-        for counter in range(4):
-            if counter == 0:
-                tmp = 39
-            else: 
-                tmp = 9
-                tmp +=  10 * (counter-1)
-            for pawn in self.player_list[counter].pawn_list: 
-                if pawn.pawn_number == 1:
-                    pawn.current_position = tmp
+        for pawn in self.player_list[0].pawn_list: 
+                pawn.current_position = tmp
+                tmp += 1
+
+        #tmp = 0
+        #for counter in range(4):
+        #    if counter == 0:
+        #        tmp = 39
+        #    else: 
+        #        tmp = 9
+        #        tmp +=  10 * (counter-1)
+        #    for pawn in self.player_list[counter].pawn_list: 
+        #        if pawn.pawn_number == 1:
+        #            pawn.current_position = tmp
 
     def get_all_sprites(self):
         for player in self.player_list:
@@ -81,20 +86,14 @@ class Engine:
     def move_pawn(self, current_player: int, pawn_number: int, steps: int):
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
-                # if self.is_move_possible(current_player, pawn_number, steps):
-                    for i in range(steps):
-                        pawn.move_pawn_one_step(current_player)
-                        self.refresh_ui()
-                        time.sleep(0.1)
-                    self.check_hit(current_player, pawn_number)  
+                for i in range(steps):
+                    pawn.move_pawn_one_step(current_player)
                     self.refresh_ui()
-                    return
-                #else:
-                #    self.refresh_ui()
-                #    self.game_field.show_text_info(current_player, "You can´t move this token!")
-                #    pawn_number = self.select_pawn()
-                #    self.move_pawn(current_player, pawn_number, steps)
-                    # einbauen von checken ob überhaupt ein move geht also außer von start aus
+                    time.sleep(0.1)
+                self.check_hit(current_player, pawn_number)  
+                self.refresh_ui()
+                return
+
 
     def player_turn(self, current_player: int):
         if self.player_list[current_player].__class__.__name__ == "AI":
@@ -111,6 +110,8 @@ class Engine:
             if pawn.pawn_number == pawn_number:
                 if self.is_move_possible_into_house(current_player, pawn_number, steps, pawn) == False:
                     is_move_possible =  False
+                elif self.is_move_possible_into_house(current_player, pawn_number, steps, pawn):
+                    return True
                 elif pawn.current_position + steps > 39:
                     final_position = pawn.current_position + steps - 40
                 else:
@@ -125,11 +126,12 @@ class Engine:
     def is_move_possible_into_house (self, current_player: int, pawn_number: int, steps: int, pawn):
         final_position = 0
         field_before_house = 0
+        jump_back = False
         if current_player == 0:
             field_before_house = 39
         else:
             field_before_house = 39 - (4-current_player) *10
-        tmp = 0
+        #PROBLEM
         first_pawn_in_house = 0
 
         if pawn.current_position > 1000:
@@ -137,18 +139,21 @@ class Engine:
         else:
             for counter in range(steps):
                 if counter + pawn.current_position == field_before_house:
-                    tmp = counter
+                    jump_back = False
                     break
                 else:
-                    return True
+                    jump_back = True
+            if jump_back:
+                return True
             steps -= counter
             final_position = (current_player+1) * 1000 + steps * 10
         if final_position > (current_player+1) * 1000 + 40:
             return False
         else:
+            #PROBLEM
             for pawn in self.player_list[current_player].pawn_list: 
                 if pawn.pawn_number != pawn_number:
-                    if pawn.current_position > first_pawn_in_house and pawn.current_position > 1000:
+                    if pawn.current_position < first_pawn_in_house and pawn.current_position > 1000:
                         first_pawn_in_house = pawn.current_position
             if first_pawn_in_house >= final_position:
                 return False
@@ -238,7 +243,7 @@ class Engine:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
 
-                    if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
+                    if rolled_number == 6 and not self.player_list[current_player].has_pawn_on_game_field():
                         self.move_pawn_out_of_house(current_player)
                         self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
                         self.refresh_ui()
@@ -319,7 +324,7 @@ class Engine:
             if time_now - time_previous >= self.player_list[current_player].turn_time_delay:
                 rolled_number = self.roll_dice()
 
-                if rolled_number == 6 and self.player_list[current_player].has_pawn_in_house():
+                if rolled_number == 6 and not self.player_list[current_player].has_pawn_on_game_field():
                     self.move_pawn_out_of_house(current_player)
                     self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
                     self.refresh_ui()
