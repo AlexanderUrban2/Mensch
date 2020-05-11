@@ -36,7 +36,7 @@ class Pawn(pygame.sprite.Sprite):
         pygame.draw.circle(self.image, self.color, (height // 2, width // 2), radius, radius)
         font = pygame.font.Font(None, radius)
         text = font.render(str(self.pawn_number), True, (0, 0, 0))
-        self.image.blit(text, (height //2 - text.get_width() // 2, width // 2 - text.get_height() // 2))
+        self.image.blit(text, (height // 2 - text.get_width() // 2, width // 2 - text.get_height() // 2))
 
     def move_pawn_out_of_house(self):
         self.current_position = (self.player_number - 1) * 10
@@ -44,6 +44,9 @@ class Pawn(pygame.sprite.Sprite):
     def move_pawn_to_house(self):
         self.current_position = self.player_number * 100 + self.pawn_number * 10
         #player number +1 aber oben -1
+
+    def is_in_finishing_squares(self):
+        return self.current_position > 1000
 
     #selbe funktion von Engine.py ???
     def move_pawn(self, steps: int):
@@ -53,9 +56,27 @@ class Pawn(pygame.sprite.Sprite):
                 self.current_position = 0
 
     def move_pawn_one_step(self):
-        self.current_position += 1
-        if self.current_position > 39:
-            self.current_position = 0
+        if self.can_move_into_finishing_squares():
+            self.current_position = self.player_number * 1000 + 10
+        elif self.is_in_finishing_squares():
+            self.current_position += 10
+        else:
+            self.current_position += 1
+            if self.current_position > 39:
+                self.current_position = 0
+    
+    def can_move_into_finishing_squares(self) -> bool:
+        if self.player_number == 1:
+            field_before_finishing_squares = 39
+        else:
+            field_before_finishing_squares = self.player_number * 10 - 11
+
+        if self.current_position == field_before_finishing_squares:
+            return True
+        return False
+
+    def is_in_players_yard(self) -> bool:
+        return 40 < self.current_position < 1000
 
     def update(self):
         x = MapGamefieldToPosition.get_coordinates(self.current_position)[0]

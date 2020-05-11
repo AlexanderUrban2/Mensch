@@ -44,33 +44,28 @@ class Rules:
         self.screen_width = self.screen_class.screen_width
         self.screen_height = self.screen_class.screen_height
 
-      
         self.get_file_content()
         self.build_game_screen()
 
         self.counter = 0
         self.surface_height = 0
 
-
-
     def get_file_content(self):
-        file = open(self.filename,'r') 
+        file = open(self.filename, 'r')
         self.file_content = file.read().upper()
         file.close()
-        
 
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
-        self.back_arrow_image = pygame.transform.smoothscale(self.back_arrow_image, (int(self.screen_width * 0.08), int(self.screen_height* 0.08)))
+        self.back_arrow_image = pygame.transform.smoothscale(self.back_arrow_image, (int(self.screen_width * 0.08), int(self.screen_height * 0.08)))
         self.rules_image_1 = pygame.transform.smoothscale(self.rules_image_1, (int(self.screen_width * 0.5), int(self.screen_height* 0.5)))
 
         self.text_surface = pygame.Surface((self.screen_width*0.9, self.screen_height*0.9))  
 
-
     # stackoverflow https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
     #Methode um den text auf das surface zu packen. Dabei werden die wörter so geblittet das keine wörter über 2 Zeilen gehen
-    def blit_text(self,surface, text, pos, font, color=pygame.Color('black')):
+    def blit_text(self, surface, text, pos, font, color=pygame.Color('black')):
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
         space = font.size(' ')[0]  # The width of a space.
         max_width, max_height = surface.get_size()
@@ -94,13 +89,13 @@ class Rules:
     def update_screen(self):
         self.run = True
         back_message = "Back"
-        back_message_font = self.font.render(back_message, True, (0,0,0))
+        back_message_font = self.font.render(back_message, True, (0, 0, 0))
 
-        self.screen.blit(self.background_image, (0,0))
-        self.screen.blit(self.back_arrow_image, (0 + self.screen_width* 0.01 ,0 + self.screen_height * 0.005))
-        self.screen.blit(back_message_font,  (0 + self.screen_width* 0.1 ,0 + self.screen_height * 0.02))
-        self.back_arrow_rect = self.back_arrow_image.get_rect(topleft=(0 + self.screen_width* 0.01 ,0 + self.screen_height * 0.005))
-        self.back_message_rect = back_message_font.get_rect(topleft= (0 + self.screen_width* 0.1 ,0 + self.screen_height * 0.02))
+        self.screen.blit(self.background_image, (0, 0))
+        self.screen.blit(self.back_arrow_image, (0 + self.screen_width * 0.01, 0 + self.screen_height * 0.005))
+        self.screen.blit(back_message_font,  (0 + self.screen_width * 0.1, 0 + self.screen_height * 0.02))
+        self.back_arrow_rect = self.back_arrow_image.get_rect(topleft=(self.screen_width * 0.01, self.screen_height * 0.005))
+        self.back_message_rect = back_message_font.get_rect(topleft=(self.screen_width * 0.1, self.screen_height * 0.02))
 
         # adjust rectangle, so that its over the text and the space between text and arrow
         x_before_moving = self.back_message_rect.x 
@@ -111,9 +106,9 @@ class Rules:
 
     def update_surface(self, y_coordinate):
         self.text_surface.blit(self.background_image, (-self.screen_width*0.05, -self.screen_height*0.1))
-        self.text_surface.blit(self.rules_image_1,(self.screen_width*0.45 - self.rules_image_1.get_rect().size[0]/2,y_coordinate))
-        self.blit_text(self.text_surface,self.file_content, (0,y_coordinate + int(self.screen_height* 0.5)), self.font)
-        self.screen.blit(self.text_surface, (0+self.screen_width*0.05, 0+ self.screen_height*0.1))
+        self.text_surface.blit(self.rules_image_1, (self.screen_width*0.45 - self.rules_image_1.get_rect().size[0]/2, y_coordinate))
+        self.blit_text(self.text_surface, self.file_content, (0, y_coordinate + int(self.screen_height * 0.5)), self.font)
+        self.screen.blit(self.text_surface, (self.screen_width * 0.05, self.screen_height * 0.1))
         pygame.display.update()
 
     def show_screen(self):
@@ -129,21 +124,15 @@ class Rules:
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 4:
                         self.update_surface(y_coordinate)
-                        if(y_coordinate != 0):
+                        if y_coordinate != 0:
                             y_coordinate += 100
                         break
                     elif event.button == 5:
                         self.update_surface(y_coordinate)
-                        if(y_coordinate >= -self.surface_height + self.text_surface.get_size()[1]):
+                        if y_coordinate >= -self.surface_height + self.text_surface.get_size()[1]:
                             y_coordinate -= 100
                         break
                     elif event.button == 1 and (self.back_arrow_rect.collidepoint(pygame.mouse.get_pos()) or self.back_message_rect.collidepoint(pygame.mouse.get_pos())):
                         self.run = False
-                        
-                            
-                        
-                
+
             clock.tick(10)
-                
-
-

@@ -15,17 +15,24 @@ class Player:
 
         self.pawn_list = [Pawn.Pawn(i + 1, self.player_number, self.color) for i in range(4)]
 
-    def has_pawn_in_house(self) -> bool:
+    def has_pawn_in_yard(self) -> bool:
         for pawn in self.pawn_list:
-            if pawn.current_position > 40:
+            if pawn.is_in_players_yard():
                 return True
         return False
 
     def has_pawn_on_game_field(self) -> bool:
         for pawn in self.pawn_list:
-            if pawn.current_position < 40:
+            if not pawn.is_in_players_yard():
                 return True
         return False
+
+    def get_pawns_in_finishing_squares(self) -> [Pawn.Pawn]:
+        pawns = []
+        for pawn in self.pawn_list:
+            if pawn.is_in_finishing_squares():
+                pawns.append(pawn)
+        return pawns
 
     def get_pawn_number_on_start_field(self) -> int:
         for pawn in self.pawn_list:
