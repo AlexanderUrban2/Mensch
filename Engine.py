@@ -21,8 +21,6 @@ class Engine:
     rules_button_rect: pygame.rect
     help_button_rect: pygame.rect
 
-    move_possible: bool
-
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
@@ -33,8 +31,6 @@ class Engine:
 
         self.rules_button_rect = gamefield.ingame_rules_button_rect
         self.help_button_rect = gamefield.ingame_help_button_rect
-
-        self.move_possible = True
 
         self.get_all_sprites()
         self.refresh_ui()
@@ -79,8 +75,9 @@ class Engine:
     # rollt den würfel und updated nur das aussehen der frames im "würfelbereich"
     def move_pawn_out_of_house(self, current_player: int):
         for pawn in self.player_list[current_player].pawn_list:
-            if pawn.current_position > 40 and pawn.current_position < 1000:
+            if pawn.is_in_players_yard():
                 pawn.move_pawn_out_of_house()
+                self.check_hit(current_player, pawn.pawn_number)
                 self.refresh_ui()
                 return
 
@@ -107,7 +104,7 @@ class Engine:
         pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
 
         # check if the pawn is still in the player's yard
-        if 40 < pawn.current_position < 1000:
+        if pawn.is_in_players_yard():
             return False
 
         if current_player == 0:
@@ -117,10 +114,15 @@ class Engine:
 
         current_position = pawn.current_position
 
+        # if the pawn is in the finishing squares check if it can move there
+        if pawn.is_in_finishing_squares():
+            return self.is_move_possible_in_finishing_squares(current_player, pawn.pawn_number, steps)
+
         # check if the pawn will enter the finishing squares
         for i in range(steps + 1):
             final_position = current_position + i
             if final_position == field_before_house:
+                # check if the move is possible in the finishing squares with the remaining steps
                 return self.is_move_possible_in_finishing_squares(current_player, pawn_number, steps - i)
 
         # check if the pawn moves over the final field of the playing field and set it back to 0
@@ -149,7 +151,7 @@ class Engine:
             current_position = pawn.current_position
 
         final_position = current_position + steps * 10
-        if final_position > pawn.player_number * 1000 + 40:  # there are four finishing squares x050 is out of bounds
+        if final_position > pawn.player_number * 1000 + 40:  # there are four finishing squares; x050 is out of bounds
             return False
         else:
             pawns_in_finishing_squares = self.player_list[current_player].get_pawns_in_finishing_squares()
@@ -163,7 +165,7 @@ class Engine:
                         return False
             return True
 
-    def check_if_any_move_is_possible(self, current_player: int, steps: int) -> bool:
+    def is_any_move_possible(self, current_player: int, steps: int) -> bool:
         for pawn in self.player_list[current_player].pawn_list:
             # check if the pawn can be moved
             if self.is_move_possible(current_player, pawn.pawn_number, steps):
@@ -176,9 +178,9 @@ class Engine:
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
                 current_position = pawn.current_position
-        for player_counter in range(4): 
-            for pawn in self.player_list[player_counter].pawn_list: 
-                if player_counter != current_player:
+        for player in self.player_list:
+            for pawn in player.pawn_list:
+                if player.player_number - 1 != current_player:
                     if pawn.current_position == current_position:
                         pawn.move_pawn_to_house()
                         return
@@ -225,8 +227,6 @@ class Engine:
 
                     if rolled_number == 6 and not self.player_list[current_player].has_pawn_on_game_field():
                         self.move_pawn_out_of_house(current_player)
-                        self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
-                        self.refresh_ui()
                         self.game_field.show_text_info(current_player, "Press space to roll the die!")
                         self.wait_for_space_pressed(current_player)
                         rolled_number = self.roll_dice()
@@ -239,14 +239,11 @@ class Engine:
                         break
 
                     elif self.player_list[current_player].has_pawn_on_game_field():
-                        self.move_possible = self.check_if_any_move_is_possible(current_player, rolled_number)
-                        if self.move_possible == False:
+                        if not self.is_any_move_possible(current_player, rolled_number):
                             self.refresh_ui()
                             self.game_field.show_text_info(current_player, "Unfortunate!")
-                            select = False
-                            turn = False
-                            self.move_possible = True
-                            break
+                            # no move is possible -> the turn ends
+                            return
 
                         select = True
                         self.refresh_ui()
@@ -256,10 +253,7 @@ class Engine:
                             pawn_number = self.select_pawn()
                             for pawn in self.player_list[current_player].pawn_list:
                                 if pawn.pawn_number == pawn_number:
-                                    if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number, rolled_number):
-                                        select = False
-                                        break
-                                    elif pawn.current_position > 1000 and self.is_move_possible_in_finishing_squares(current_player, pawn_number, rolled_number, pawn):
+                                    if self.is_move_possible(current_player, pawn_number, rolled_number):
                                         select = False
                                         break
                                     else:
@@ -267,7 +261,8 @@ class Engine:
                                         self.game_field.show_text_info(current_player, "You can't move this token!")                            
                         self.move_pawn(current_player, pawn_number, rolled_number)
                         if rolled_number != 6:
-                            turn = False
+                            # no six means your turn ends after a pawn is moved
+                            return
                         self.refresh_ui()
                         break
 
@@ -301,13 +296,12 @@ class Engine:
             else:
                 self.game_field.show_text_info(current_player, "AI turn :)   (Turn " + str(tries + 1) + " of 3)")
 
+            # if the turn_time_delay is over start the turn
             if time_now - time_previous >= self.player_list[current_player].turn_time_delay:
                 rolled_number = self.roll_dice()
 
                 if rolled_number == 6 and not self.player_list[current_player].has_pawn_on_game_field():
                     self.move_pawn_out_of_house(current_player)
-                    self.check_hit(current_player, self.player_list[current_player].get_pawn_number_on_start_field())
-                    self.refresh_ui()
 
                     # I don't like this, but another loop would be worse
                     # and otherwise the AI could be too fast for a player if they aren't paying attention
@@ -321,18 +315,17 @@ class Engine:
                     self.game_field.show_text_info(current_player, "Moved token from starting square!")
 
                     if rolled_number != 6:
-                        turn = False
+                        # the turn ends if a pawn was moved and no 6 was rolled
+                        return
                     else:
                         self.refresh_ui()
 
                 elif self.player_list[current_player].has_pawn_on_game_field():
-                    self.move_possible = self.check_if_any_move_is_possible(current_player, rolled_number)
-                    if self.move_possible == False:
-                            self.refresh_ui()
-                            self.game_field.show_text_info(current_player, "Unfortunate!")
-                            turn = False
-                            self.move_possible = True
-                            break
+                    if not self.is_any_move_possible(current_player, rolled_number):
+                        self.refresh_ui()
+                        self.game_field.show_text_info(current_player, "Unfortunate!")
+                        # your turn ends if no pawn can be moved
+                        return
 
                     time_previous = time_now
 
@@ -344,11 +337,7 @@ class Engine:
                             pawn_number = random.randint(1, 4)
                             for pawn in self.player_list[current_player].pawn_list:
                                 if pawn.pawn_number == pawn_number:
-                                    if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number,
-                                                                                            rolled_number):
-                                        selecting = False
-                                        break
-                                    elif pawn.current_position > 1000 and self.is_move_possible_in_finishing_squares(current_player, pawn_number, rolled_number, pawn):
+                                    if self.is_move_possible(current_player, pawn_number, rolled_number):
                                         selecting = False
                                         break
                         else:
@@ -358,7 +347,8 @@ class Engine:
                     time.sleep(0.5)
                     self.move_pawn(current_player, pawn_number, rolled_number)
                     if rolled_number != 6:
-                        turn = False
+                        # no 6 means your turn ends
+                        return
                     self.refresh_ui()
 
                 else:

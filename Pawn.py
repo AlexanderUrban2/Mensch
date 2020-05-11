@@ -57,7 +57,7 @@ class Pawn(pygame.sprite.Sprite):
 
     def move_pawn_one_step(self):
         if self.can_move_into_finishing_squares():
-            self.current_position = self.player_number * 1000 + self.pawn_number * 10
+            self.current_position = self.player_number * 1000 + 10
         elif self.is_in_finishing_squares():
             self.current_position += 10
         else:
@@ -74,6 +74,9 @@ class Pawn(pygame.sprite.Sprite):
         if self.current_position == field_before_finishing_squares:
             return True
         return False
+
+    def is_in_players_yard(self) -> bool:
+        return 40 < self.current_position < 1000
 
     def update(self):
         x = MapGamefieldToPosition.get_coordinates(self.current_position)[0]
