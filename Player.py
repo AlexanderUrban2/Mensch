@@ -23,11 +23,16 @@ class Player:
 
     def has_pawn_on_game_field(self) -> bool:
         for pawn in self.pawn_list:
-            if pawn.current_position < 40:
-                return True
-            elif pawn.current_position > 1000:
+            if pawn.current_position < 40 or pawn.current_position > 1000:
                 return True
         return False
+
+    def get_pawns_in_finishing_squares(self) -> list:
+        pawns = []
+        for pawn in self.pawn_list:
+            if pawn.current_position > 1000:
+                pawns.append(pawn)
+        return pawns
 
     def get_pawn_number_on_start_field(self) -> int:
         for pawn in self.pawn_list:

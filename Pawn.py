@@ -36,7 +36,7 @@ class Pawn(pygame.sprite.Sprite):
         pygame.draw.circle(self.image, self.color, (height // 2, width // 2), radius, radius)
         font = pygame.font.Font(None, radius)
         text = font.render(str(self.pawn_number), True, (0, 0, 0))
-        self.image.blit(text, (height //2 - text.get_width() // 2, width // 2 - text.get_height() // 2))
+        self.image.blit(text, (height // 2 - text.get_width() // 2, width // 2 - text.get_height() // 2))
 
     def move_pawn_out_of_house(self):
         self.current_position = (self.player_number - 1) * 10
@@ -45,6 +45,9 @@ class Pawn(pygame.sprite.Sprite):
         self.current_position = self.player_number * 100 + self.pawn_number * 10
         #player number +1 aber oben -1
 
+    def is_in_finishing_squares(self):
+        return self.current_position > 1000
+
     #selbe funktion von Engine.py ???
     def move_pawn(self, steps: int):
         for i in range(steps):
@@ -52,32 +55,25 @@ class Pawn(pygame.sprite.Sprite):
             if self.current_position > 39:
                 self.current_position = 0
 
-    def move_pawn_one_step(self,current_position):
-        check_move_into_house = self.check_move_into_house(current_position)
-        if check_move_into_house == False:
+    def move_pawn_one_step(self):
+        if self.can_move_into_finishing_squares():
+            self.current_position = self.player_number * 1000 + self.pawn_number * 10
+        elif self.is_in_finishing_squares():
+            self.current_position += 10
+        else:
             self.current_position += 1
             if self.current_position > 39:
                 self.current_position = 0
     
-    def check_move_into_house(self, current_player) -> bool:
-        if(current_player == 0):
-            if self.current_position == 39:
-                self.current_position = (current_player+1) * 1000 + 10
-                return True
-            elif self.current_position > 1000:
-                self.current_position += 10
-                return True
-            else:
-                return False
+    def can_move_into_finishing_squares(self) -> bool:
+        if self.player_number == 1:
+            field_before_finishing_squares = 39
         else:
-            if self.current_position == (39 - (4-current_player) *10):
-                self.current_position = (current_player+1) * 1000 + 10
-                return True
-            elif self.current_position > 1000:
-                self.current_position += 10
-                return True
-            else:
-                return False
+            field_before_finishing_squares = self.player_number * 10 - 11
+
+        if self.current_position == field_before_finishing_squares:
+            return True
+        return False
 
     def update(self):
         x = MapGamefieldToPosition.get_coordinates(self.current_position)[0]

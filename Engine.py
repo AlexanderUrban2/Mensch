@@ -87,13 +87,12 @@ class Engine:
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
                 for i in range(steps):
-                    pawn.move_pawn_one_step(current_player)
+                    pawn.move_pawn_one_step()
                     self.refresh_ui()
                     time.sleep(0.1)
                 self.check_hit(current_player, pawn_number)  
                 self.refresh_ui()
                 return
-
 
     def player_turn(self, current_player: int):
         if self.player_list[current_player].__class__.__name__ == "AI":
@@ -130,7 +129,7 @@ class Engine:
         if current_player == 0:
             field_before_house = 39
         else:
-            field_before_house = 39 - (4-current_player) *10
+            field_before_house = 39 - (4-current_player) * 10
         #PROBLEM
         first_pawn_in_house = 0
 
@@ -186,10 +185,8 @@ class Engine:
                             is_move_possible = False
                         else:
                             return True
-            
 
         return is_move_possible
-            
 
     def check_hit(self,current_player: int, pawn_number: int):
         current_position = 0
@@ -209,13 +206,13 @@ class Engine:
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
                 for i in range(steps):
-                    pawn.move_pawn_one_step(current_player)
+                    pawn.move_pawn_one_step()
                     self.refresh_ui()
                     time.sleep(0.1)
                 self.check_hit_from_starting_square(current_player, pawn_number)  
                 self.refresh_ui()
 
-    def check_hit_from_starting_square(self,current_player: int, pawn_number: int):
+    def check_hit_from_starting_square(self, current_player: int, pawn_number: int):
         current_position = 0
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
