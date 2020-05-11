@@ -35,10 +35,10 @@ class Engine:
         self.get_all_sprites()
         self.refresh_ui()
 
-        tmp = 0
-        for pawn in self.player_list[0].pawn_list: 
-                pawn.current_position = tmp
-                tmp += 1
+        #tmp = 0
+        #for pawn in self.player_list[0].pawn_list:
+        #        pawn.current_position = tmp
+        #        tmp += 1
 
         #tmp = 0
         #for counter in range(4):
@@ -225,7 +225,7 @@ class Engine:
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
 
-                    if rolled_number == 6 and not self.player_list[current_player].has_pawn_on_game_field():
+                    if rolled_number == 6 and self.player_list[current_player].has_pawn_in_yard():
                         self.move_pawn_out_of_house(current_player)
                         self.game_field.show_text_info(current_player, "Press space to roll the die!")
                         self.wait_for_space_pressed(current_player)
@@ -300,7 +300,7 @@ class Engine:
             if time_now - time_previous >= self.player_list[current_player].turn_time_delay:
                 rolled_number = self.roll_dice()
 
-                if rolled_number == 6 and not self.player_list[current_player].has_pawn_on_game_field():
+                if rolled_number == 6 and self.player_list[current_player].has_pawn_in_yard():
                     self.move_pawn_out_of_house(current_player)
 
                     # I don't like this, but another loop would be worse
