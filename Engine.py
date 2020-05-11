@@ -7,6 +7,7 @@ import time
 import Rules
 import Help
 import random
+import Pawn
 
 
 class Engine:
@@ -103,87 +104,74 @@ class Engine:
 #-------------------------------- check move possible
 
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
-        is_move_possible = True
-        final_position = 0
-        for pawn in self.player_list[current_player].pawn_list:
-            if pawn.pawn_number == pawn_number:
-                if self.is_move_possible_in_house(current_player, pawn_number, steps, pawn) == False:
-                    is_move_possible =  False
-                elif self.is_move_possible_in_house(current_player, pawn_number, steps, pawn):
-                    return True
-                elif pawn.current_position + steps > 39:
-                    final_position = pawn.current_position + steps - 40
-                else:
-                    final_position = pawn.current_position + steps
-        for pawn in self.player_list[current_player].pawn_list: 
-            if pawn.pawn_number != pawn_number:
-                if pawn.current_position == final_position:
-                    is_move_possible = False
+        pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
 
-        return is_move_possible
+        # check if the pawn is still in the player's yard
+        if 40 < pawn.current_position < 1000:
+            return False
 
-    def is_move_possible_in_house(self, current_player: int, pawn_number: int, steps: int, pawn):
         if current_player == 0:
             field_before_house = 39
         else:
             field_before_house = 39 - (4-current_player) * 10
 
-        steps_left = 0
+        current_position = pawn.current_position
 
-        if pawn.is_in_finishing_squares():
-            final_position = pawn.current_position + steps * 10
+        # check if the pawn will enter the finishing squares
+        for i in range(steps + 1):
+            final_position = current_position + i
+            if final_position == field_before_house:
+                return self.is_move_possible_in_finishing_squares(current_player, pawn_number, steps - i)
+
+        # check if the pawn moves over the final field of the playing field and set it back to 0
+        if final_position > 39:
+            final_position = current_position + steps - 40
+
+        # check if the pawn would land on a field occupied by a pawn of the same player
+        for pawn in self.player_list[current_player].pawn_list: 
+            if pawn.pawn_number != pawn_number:
+                if pawn.current_position == final_position:
+                    return False
+
+        return True
+
+    # this function should only be called if a token is on the field in front of the finishing squares
+    # or in the finishing squares
+    # the steps parameter should only be the steps taken IN the finishing squares
+    def is_move_possible_in_finishing_squares(self, current_player: int, pawn_number: int, steps: int) -> bool:
+        pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
+
+        # if the pawn is not yet in the finishing squares set it on an imaginary finishing square 0
+        # this is basically the field in front of the finishing squares
+        if pawn.current_position < 1000:
+            current_position = pawn.player_number * 1000
         else:
-            for counter in range(steps + 1):
-                if counter + pawn.current_position == field_before_house:
-                    steps_left = steps - counter
-                    break
-            if steps_left == 0:
-                return True
-            final_position = (current_player+1) * 1000 + steps_left * 10
+            current_position = pawn.current_position
+
+        final_position = current_position + steps * 10
         if final_position > pawn.player_number * 1000 + 40:  # there are four finishing squares x050 is out of bounds
             return False
         else:
             pawns_in_finishing_squares = self.player_list[current_player].get_pawns_in_finishing_squares()
-            if pawns_in_finishing_squares:  # if there are no pawns in the list, the move is possible
+            if not pawns_in_finishing_squares:  # if there are no pawns in the list, the move is possible
                 return True
 
             for pawn_to_check in pawns_in_finishing_squares:
                 if pawn_to_check.pawn_number != pawn.pawn_number:
                     # you can't jump over pawns in the finishing squares
-                    if pawn.current_position < pawn_to_check.current_position < final_position:
+                    if current_position < pawn_to_check.current_position < final_position:
                         return False
             return True
 
     def check_if_any_move_is_possible(self, current_player: int, steps: int) -> bool:
-        is_move_possible = True
-        pawn_number = 0
-        final_position = 0
         for pawn in self.player_list[current_player].pawn_list:
-            pawn_number = pawn.pawn_number
-            if self.is_move_possible_in_house(current_player, pawn_number, steps, pawn) == False:
-                is_move_possible =  False
-            elif pawn.current_position > 100 and pawn.current_position < 1000:
-                is_move_possible = False
-            elif pawn.current_position + steps > 39:
-                final_position = pawn.current_position + steps - 40
-                for pawn in self.player_list[current_player].pawn_list: 
-                    if pawn.pawn_number != pawn_number:
-                        if pawn.current_position == final_position:
-                            is_move_possible = False
-                        else:
-                            return True
-            else:
-                final_position = pawn.current_position + steps
-                for pawn in self.player_list[current_player].pawn_list: 
-                    if pawn.pawn_number != pawn_number:
-                        if pawn.current_position == final_position:
-                            is_move_possible = False
-                        else:
-                            return True
+            # check if the pawn can be moved
+            if self.is_move_possible(current_player, pawn.pawn_number, steps):
+                return True
+        # no pawn could be moved -> return False
+        return False
 
-        return is_move_possible
-
-    def check_hit(self,current_player: int, pawn_number: int):
+    def check_hit(self, current_player: int, pawn_number: int):
         current_position = 0
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
@@ -271,7 +259,7 @@ class Engine:
                                     if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number, rolled_number):
                                         select = False
                                         break
-                                    elif pawn.current_position > 1000 and self.is_move_possible_in_house(current_player, pawn_number, rolled_number, pawn):
+                                    elif pawn.current_position > 1000 and self.is_move_possible_in_finishing_squares(current_player, pawn_number, rolled_number, pawn):
                                         select = False
                                         break
                                     else:
@@ -360,7 +348,7 @@ class Engine:
                                                                                             rolled_number):
                                         selecting = False
                                         break
-                                    elif pawn.current_position > 1000 and self.is_move_possible_in_house(current_player, pawn_number, rolled_number, pawn):
+                                    elif pawn.current_position > 1000 and self.is_move_possible_in_finishing_squares(current_player, pawn_number, rolled_number, pawn):
                                         selecting = False
                                         break
                         else:
