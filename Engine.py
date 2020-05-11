@@ -107,9 +107,9 @@ class Engine:
         final_position = 0
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.pawn_number == pawn_number:
-                if self.is_move_possible_into_house(current_player, pawn_number, steps, pawn) == False:
+                if self.is_move_possible_in_house(current_player, pawn_number, steps, pawn) == False:
                     is_move_possible =  False
-                elif self.is_move_possible_into_house(current_player, pawn_number, steps, pawn):
+                elif self.is_move_possible_in_house(current_player, pawn_number, steps, pawn):
                     return True
                 elif pawn.current_position + steps > 39:
                     final_position = pawn.current_position + steps - 40
@@ -122,42 +122,37 @@ class Engine:
 
         return is_move_possible
 
-    def is_move_possible_into_house (self, current_player: int, pawn_number: int, steps: int, pawn):
-        final_position = 0
-        field_before_house = 0
-        jump_back = False
+    def is_move_possible_in_house(self, current_player: int, pawn_number: int, steps: int, pawn):
         if current_player == 0:
             field_before_house = 39
         else:
             field_before_house = 39 - (4-current_player) * 10
-        #PROBLEM
-        first_pawn_in_house = 0
 
-        if pawn.current_position > 1000:
-            final_position = pawn.current_position + steps*10
+        steps_left = 0
+
+        if pawn.is_in_finishing_squares():
+            final_position = pawn.current_position + steps * 10
         else:
-            for counter in range(steps):
+            for counter in range(steps + 1):
                 if counter + pawn.current_position == field_before_house:
-                    jump_back = False
+                    steps_left = steps - counter
                     break
-                else:
-                    jump_back = True
-            if jump_back:
+            if steps_left == 0:
                 return True
-            steps -= counter
-            final_position = (current_player+1) * 1000 + steps * 10
-        if final_position > (current_player+1) * 1000 + 40:
+            final_position = (current_player+1) * 1000 + steps_left * 10
+        if final_position > pawn.player_number * 1000 + 40:  # there are four finishing squares x050 is out of bounds
             return False
         else:
-            #PROBLEM
-            for pawn in self.player_list[current_player].pawn_list: 
-                if pawn.pawn_number != pawn_number:
-                    if pawn.current_position < first_pawn_in_house and pawn.current_position > 1000:
-                        first_pawn_in_house = pawn.current_position
-            if first_pawn_in_house >= final_position:
-                return False
-            else:
+            pawns_in_finishing_squares = self.player_list[current_player].get_pawns_in_finishing_squares()
+            if pawns_in_finishing_squares:  # if there are no pawns in the list, the move is possible
                 return True
+
+            for pawn_to_check in pawns_in_finishing_squares:
+                if pawn_to_check.pawn_number != pawn.pawn_number:
+                    # you can't jump over pawns in the finishing squares
+                    if pawn.current_position < pawn_to_check.current_position < final_position:
+                        return False
+            return True
 
     def check_if_any_move_is_possible(self, current_player: int, steps: int) -> bool:
         is_move_possible = True
@@ -165,7 +160,7 @@ class Engine:
         final_position = 0
         for pawn in self.player_list[current_player].pawn_list:
             pawn_number = pawn.pawn_number
-            if self.is_move_possible_into_house(current_player, pawn_number, steps, pawn) == False:
+            if self.is_move_possible_in_house(current_player, pawn_number, steps, pawn) == False:
                 is_move_possible =  False
             elif pawn.current_position > 100 and pawn.current_position < 1000:
                 is_move_possible = False
@@ -276,7 +271,7 @@ class Engine:
                                     if pawn.current_position < 40 and self.is_move_possible(current_player, pawn_number, rolled_number):
                                         select = False
                                         break
-                                    elif pawn.current_position > 1000 and self.is_move_possible_into_house(current_player, pawn_number, rolled_number, pawn):
+                                    elif pawn.current_position > 1000 and self.is_move_possible_in_house(current_player, pawn_number, rolled_number, pawn):
                                         select = False
                                         break
                                     else:
@@ -365,7 +360,7 @@ class Engine:
                                                                                             rolled_number):
                                         selecting = False
                                         break
-                                    elif pawn.current_position > 1000 and self.is_move_possible_into_house(current_player, pawn_number, rolled_number, pawn):
+                                    elif pawn.current_position > 1000 and self.is_move_possible_in_house(current_player, pawn_number, rolled_number, pawn):
                                         selecting = False
                                         break
                         else:

@@ -27,7 +27,7 @@ class Player:
                 return True
         return False
 
-    def get_pawns_in_finishing_squares(self) -> list:
+    def get_pawns_in_finishing_squares(self) -> [Pawn.Pawn]:
         pawns = []
         for pawn in self.pawn_list:
             if pawn.current_position > 1000:
