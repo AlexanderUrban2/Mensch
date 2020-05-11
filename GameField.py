@@ -83,17 +83,16 @@ class GameField:
 
     def show_text_info(self, player_number: int, text: str):
 
-        if(player_number == 0):
+        if player_number == 0:
             self.blit_text(text, 0, 2)
-        elif(player_number == 1):
+        elif player_number == 1:
             self.blit_text(text, 7, 2)
-        elif(player_number == 2):
+        elif player_number == 2:
             self.blit_text(text, 7, 7)
-        elif(player_number == 3):
+        elif player_number == 3:
             self.blit_text(text, 0, 7)
         else:
             pass
-        
 
     def blit_text(self, text, x_coordinate, y_coordinate, color=pygame.Color('black')):
 
@@ -106,7 +105,7 @@ class GameField:
 
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
         space = self.font.size(' ')[0]  # The width of a space.
-        if(int(self.screen_size_multiplier * 4) < x_coordinate):
+        if int(self.screen_size_multiplier * 4) < x_coordinate:
             max_width = int(self.screen_width)
         else:
             max_width = int(self.screen_size_multiplier * 4)

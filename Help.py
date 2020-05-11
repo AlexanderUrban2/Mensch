@@ -4,7 +4,6 @@ import Screen
 import ImagePack
 
 
-
 class Help:
     screen_width: float
     screen_height: float
@@ -92,11 +91,11 @@ class Help:
         back_message_font = self.font.render(back_message, True, (0, 0, 0))
 
         self.screen.blit(self.background_image, (0, 0))
-        self.screen.blit(self.back_arrow_image, (0 + self.screen_width * 0.01, 0 + self.screen_height * 0.005))
-        self.screen.blit(self.help_image_1, (0 + self.screen_width * 0.01, 0 + self.screen_height * 0.1))
-        self.screen.blit(back_message_font,  (0 + self.screen_width * 0.1, 0 + self.screen_height * 0.02))
-        self.back_arrow_rect = self.back_arrow_image.get_rect(topleft=(0 + self.screen_width * 0.01, 0 + self.screen_height * 0.005))
-        self.back_message_rect = back_message_font.get_rect(topleft= (0 + self.screen_width * 0.1, 0 + self.screen_height * 0.02))
+        self.screen.blit(self.back_arrow_image, (self.screen_width * 0.01, self.screen_height * 0.005))
+        self.screen.blit(self.help_image_1, (self.screen_width * 0.01, self.screen_height * 0.1))
+        self.screen.blit(back_message_font,  (self.screen_width * 0.1, self.screen_height * 0.02))
+        self.back_arrow_rect = self.back_arrow_image.get_rect(topleft=(self.screen_width * 0.01, self.screen_height * 0.005))
+        self.back_message_rect = back_message_font.get_rect(topleft=(self.screen_width * 0.1, self.screen_height * 0.02))
 
         # adjust rectangle, so that its over the text and the space between text and arrow
         x_before_moving = self.back_message_rect.x 
@@ -108,7 +107,7 @@ class Help:
     def update_surface(self, y_coordinate):
         self.text_surface.blit(self.background_image, (-self.screen_width*0.5, 0))
         self.blit_text(self.text_surface, self.file_content, (0, y_coordinate), self.font)
-        self.screen.blit(self.text_surface, (0+self.screen_width*0.5, 0))
+        self.screen.blit(self.text_surface, (self.screen_width*0.5, 0))
         pygame.display.update()
 
     def show_screen(self):
