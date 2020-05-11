@@ -1,13 +1,11 @@
 import GameField
 import Player
 import Dice
-import MapGamefieldToPosition
 import pygame
 import time
 import Rules
 import Help
 import random
-import Pawn
 
 
 class Engine:
@@ -98,8 +96,6 @@ class Engine:
         elif self.player_list[current_player].__class__.__name__ == "Player":
             self.player_turn_human(current_player)
 
-#-------------------------------- check move possible
-
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
 
@@ -160,8 +156,8 @@ class Engine:
 
             for pawn_to_check in pawns_in_finishing_squares:
                 if pawn_to_check.pawn_number != pawn.pawn_number:
-                    # you can't jump over pawns in the finishing squares
-                    if current_position < pawn_to_check.current_position < final_position:
+                    # you can't jump over pawns in the finishing squares or land on the same position
+                    if current_position < pawn_to_check.current_position <= final_position:
                         return False
             return True
 
@@ -184,8 +180,6 @@ class Engine:
                     if pawn.current_position == current_position:
                         pawn.move_pawn_to_house()
                         return
-
-# --------------------------------- move pawn starting square
 
     def move_pawn_from_starting_square(self, current_player: int, pawn_number: int, steps: int):
         for pawn in self.player_list[current_player].pawn_list:
