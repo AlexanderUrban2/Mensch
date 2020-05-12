@@ -7,7 +7,7 @@ import Rules
 import Help
 import Screen
 import AI
-import ImagePackJSON
+import ImagePack
 
 
 pygame.init()
@@ -22,7 +22,7 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
     return player_list
 
 
-images = ImagePackJSON.ImagePackJSON("default")
+images = ImagePack.ImagePack("default")
 
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
