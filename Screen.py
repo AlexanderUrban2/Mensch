@@ -1,22 +1,26 @@
 import ctypes
 import pygame
-import ImagePack
+import json
 
 
 class Screen:
     screen_width: float
     screen_height: float
+    background_image: pygame.image
 
     screen: pygame.display
-    image_pack: ImagePack
 
     def __init__(self):
-        self.image_pack = ImagePack.ImagePack()
 
-        self.background_image = self.image_pack.background_image_start_screen
+        self.init_images()
 
         self.init_screen()
         self.create_screen()
+
+    def init_images(self):
+        with open('image_pack.txt') as json_file:
+            data = json.load(json_file)
+        self.background_image = pygame.image.load(data["background_image_start_screen"])
 
     def init_screen(self):
         user32 = ctypes.windll.user32

@@ -20,18 +20,16 @@ class Pawn(pygame.sprite.Sprite):
         self.player_number = player_number
         self.current_position = player_number * 100 + pawn_number * 10
         self.color = color
-        #if self.player_number == 1:
-        self.get_images()
+
+        self.init_images()
         self.create_picture()
-        #else:
-        #    self.create_image()
 
         self.rect = self.image.get_rect()
 
-    def get_images(self):
+    def init_images(self):
         with open('image_pack.txt') as json_file:
             data = json.load(json_file)
-        default_path = data["pawn_image_path"]
+        default_path = data["pawn_image"]
         split = default_path.split(".")
         path = split[0] + str(self.player_number) + "." + split[1]
         self.pawn_image = pygame.image.load(path)

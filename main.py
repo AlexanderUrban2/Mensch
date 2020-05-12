@@ -6,7 +6,6 @@ import StartScreen
 import Rules
 import Help
 import Screen
-import ImagePack
 import AI
 import ImagePackJSON
 
@@ -20,8 +19,6 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
     ai_list = [AI.AI(i + 1, ai_turn_time_delay, ai_difficulty) for i in range(player_count, 4)]
     for ai in ai_list:
         player_list.append(ai)
-    #ai = AI.AI(4, 1, 1)
-    #player_list.append(ai)
     return player_list
 
 
@@ -30,8 +27,6 @@ images = ImagePackJSON.ImagePackJSON("default")
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
 start_screen_font = pygame.font.Font("Iveseenthatfacebefore.ttf", 30)
-
-image_pack = ImagePack.ImagePack()
 
 gamefield = GameField.GameField(text_font)
 
@@ -53,7 +48,6 @@ current_payer = 0
 run = True
 
 
-
 while run:
     
     engine.player_turn(current_payer)
@@ -62,6 +56,4 @@ while run:
         current_payer = 0
 
 #Bugs:
-# Man muss erst einen Pawn auswählen obwohl man gar keinen moven kann
-# erst checken ob iwas geht und dann ggf nächster spieler
 # code ist leicht unübersichtlich

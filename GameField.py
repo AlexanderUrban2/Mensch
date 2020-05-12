@@ -1,7 +1,6 @@
-import ctypes
 import pygame
-import ImagePack
 import Screen
+import json
 
 
 class GameField:
@@ -21,15 +20,10 @@ class GameField:
     ingame_rules_button_rect: pygame.rect
     ingame_help_button_rect: pygame.rect
 
-    image_pack: ImagePack
-
     def __init__(self, font: pygame.font):
-        self.image_pack = ImagePack.ImagePack()
         self.screen_class = Screen.Screen()
 
-        self.background_image = self.image_pack.background_image
-        self.ingame_rules_button = self.image_pack.ingame_rules_button
-        self.ingame_help_button = self.image_pack.ingame_help_button
+        self.init_images()
 
         self.font = font
 
@@ -37,9 +31,14 @@ class GameField:
 
         self.build_game_screen()
 
-    def init_game_field_variables(self):
-        user32 = ctypes.windll.user32
+    def init_images(self):
+        with open('image_pack.txt') as json_file:
+            data = json.load(json_file)
+        self.background_image = pygame.image.load(data["background_image_game"])
+        self.ingame_help_button = pygame.image.load(data["ingame_help_button"])
+        self.ingame_rules_button = pygame.image.load(data["ingame_rules_button"])
 
+    def init_game_field_variables(self):
         self.screen_width = self.screen_class.screen_width
         self.screen_height = self.screen_class.screen_height
 
