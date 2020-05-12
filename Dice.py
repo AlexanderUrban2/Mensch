@@ -28,7 +28,7 @@ class Dice:
         number = random.randint(1, 6)
         self.update_dice_image(self.image_list[number - 1])
         self.draw_dice_on_game_field()
-        return number
+        return 1
 
     def draw_dice_on_game_field(self):
         self.gamefield.show_image(self.surface_dice, 5, 5)

@@ -13,6 +13,8 @@ class ImagePack:
     rules_image_1: pygame.image
     player_arrow_up: pygame.image
     player_arrow_down: pygame.image
+    victory_image: pygame.image
+    victory_continue_image: pygame.image
 
     def __init__(self):
         self.background_image = pygame.image.load('images/GameField.jpg')
@@ -27,3 +29,5 @@ class ImagePack:
         self.rules_image_1 = pygame.image.load('images/RulesImage1.png')
         self.player_arrow_up = pygame.image.load('images/PlayerArrowUp.png')
         self.player_arrow_down = pygame.image.load('images/PlayerArrowDown.png')
+        self.victory_image = pygame.image.load('images/Victory.png')
+        self.victory_continue_image = pygame.image.load('images/ContinueButtonVictory.png')

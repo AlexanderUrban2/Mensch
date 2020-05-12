@@ -1,4 +1,3 @@
-import ctypes
 import pygame
 import ImagePack
 import Screen
@@ -38,7 +37,6 @@ class GameField:
         self.build_game_screen()
 
     def init_game_field_variables(self):
-        user32 = ctypes.windll.user32
 
         self.screen_width = self.screen_class.screen_width
         self.screen_height = self.screen_class.screen_height

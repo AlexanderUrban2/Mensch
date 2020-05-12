@@ -8,6 +8,7 @@ import Help
 import Screen
 import ImagePack
 import AI
+import Victory
 
 
 pygame.init()
@@ -34,6 +35,8 @@ gamefield = GameField.GameField(text_font)
 
 screen = Screen.Screen()
 
+
+
 rules = Rules.Rules(screen, start_screen_font, "Rule.txt")
 help = Help.Help(screen, start_screen_font, "Help.txt")
 start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
@@ -46,17 +49,29 @@ player_list = create_players(player_count, ai_turn_time_delay, ai_difficulty)
 
 engine = Engine.Engine(player_list, gamefield, rules, help)
 
-current_payer = 0
+victory = Victory.Victory(screen, engine, start_screen_font)
+
+
+
+current_player = 0
 run = True
 
 
 while run:
     
-    engine.player_turn(current_payer)
-    current_payer += 1
-    if current_payer >= 4:
-        current_payer = 0
+    run = engine.player_turn(current_player)
+    current_player += 1
+    if current_player >= 4:
+        current_player = 0
 
+if current_player == 0:
+    current_player = 4
+else:
+    current_player -= 1
+
+victory.victory(current_player)
+
+print("finish")
 #Bugs:
 # Man muss erst einen Pawn auswählen obwohl man gar keinen moven kann
 # erst checken ob iwas geht und dann ggf nächster spieler
