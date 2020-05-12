@@ -59,7 +59,7 @@ class Rules:
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         self.back_arrow_image = pygame.transform.smoothscale(self.back_arrow_image, (int(self.screen_width * 0.08), int(self.screen_height * 0.08)))
-        self.rules_image_1 = pygame.transform.smoothscale(self.rules_image_1, (int(self.screen_width * 0.5), int(self.screen_height* 0.5)))
+        self.rules_image_1 = pygame.transform.smoothscale(self.rules_image_1, (int(self.screen_width * 0.5), int(self.screen_height * 0.5)))
 
         self.text_surface = pygame.Surface((self.screen_width*0.9, self.screen_height*0.9))  
 
@@ -92,8 +92,8 @@ class Rules:
         back_message_font = self.font.render(back_message, True, (0, 0, 0))
 
         self.screen.blit(self.background_image, (0, 0))
-        self.screen.blit(self.back_arrow_image, (0 + self.screen_width * 0.01, 0 + self.screen_height * 0.005))
-        self.screen.blit(back_message_font,  (0 + self.screen_width * 0.1, 0 + self.screen_height * 0.02))
+        self.screen.blit(self.back_arrow_image, (self.screen_width * 0.01, 0 + self.screen_height * 0.005))
+        self.screen.blit(back_message_font,  (self.screen_width * 0.1, 0 + self.screen_height * 0.02))
         self.back_arrow_rect = self.back_arrow_image.get_rect(topleft=(self.screen_width * 0.01, self.screen_height * 0.005))
         self.back_message_rect = back_message_font.get_rect(topleft=(self.screen_width * 0.1, self.screen_height * 0.02))
 

@@ -55,7 +55,6 @@ class GameField:
 
         self.screen = self.screen_class.screen
 
-
     def show_screen(self):
         self.screen.blit(self.background_image, (0, 0))
         self.screen.blit(self.ingame_rules_button, (int(self.screen_size_multiplier*2.5), int(self.screen_size_multiplier*0.1)))

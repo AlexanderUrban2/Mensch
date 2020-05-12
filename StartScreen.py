@@ -79,8 +79,8 @@ class StartScreen:
         self.start_game_message_rect = start_game_message_font.get_rect(topleft=(self.screen_width/2 - self.font.size(start_game_message)[0]/2, self.screen_height/3 + self.start_button.get_rect().size[1]/2))
         self.rule_message_rect = rule_message_font.get_rect(topleft=(self.screen_width/2 - self.font.size(rule_message)[0]/2, self.screen_height/3*2))
         self.start_game_button_rect = self.start_button.get_rect(topleft=(self.screen_width/2 - self.start_button.get_rect().size[0]/2, self.screen_height/3 - self.start_button.get_rect().size[1]/2))
-        self.player_arrow_up_rect = self.player_arrow_up.get_rect(topleft=(self.screen_width* 0.65, self.screen_height/2 - self.player_arrow_up.get_rect().size[1] - 0.005 *self.screen_height))
-        self.player_arrow_down_rect = self.player_arrow_down.get_rect(topleft=(self.screen_width* 0.65, self.screen_height/2 + 0.005 *self.screen_height))
+        self.player_arrow_up_rect = self.player_arrow_up.get_rect(topleft=(self.screen_width * 0.65, self.screen_height/2 - self.player_arrow_up.get_rect().size[1] - 0.005 *self.screen_height))
+        self.player_arrow_down_rect = self.player_arrow_down.get_rect(topleft=(self.screen_width * 0.65, self.screen_height/2 + 0.005 * self.screen_height))
         self.player_counter_rect = player_counter_max_font.get_rect(topleft=(self.screen_width*0.55, self.screen_height/2 - 0.5*self.font.size(player_text)[1]))
 
         self.screen.blit(hello_message_font, (self.screen_width/2 - self.font.size(hello_message)[0]/2,  self.font.size(hello_message)[1]))
@@ -90,7 +90,7 @@ class StartScreen:
         self.screen.blit(player_counter_font, (self.screen_width*0.55, self.screen_height/2 - 0.5*self.font.size(player_text)[1]))
 
         self.screen.blit(self.start_button, (self.screen_width/2 - self.start_button.get_rect().size[0]/2, self.screen_height/3 - self.start_button.get_rect().size[1]/2))
-        self.screen.blit(self.player_arrow_up, (self.screen_width * 0.65, self.screen_height/2 - self.player_arrow_up.get_rect().size[1] - 0.005 *self.screen_height))
+        self.screen.blit(self.player_arrow_up, (self.screen_width * 0.65, self.screen_height/2 - self.player_arrow_up.get_rect().size[1] - 0.005 * self.screen_height))
         self.screen.blit(self.player_arrow_down, (self.screen_width * 0.65, self.screen_height/2 + 0.005 *self.screen_height))
 
         self.hidden_rect = self.maedn_logo.get_rect(topleft=(0, self.screen_height - self.maedn_logo.get_rect().size[0]))

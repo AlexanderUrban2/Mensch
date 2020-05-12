@@ -1,5 +1,6 @@
 import pygame
 
+
 class ImagePack:
     
     background_image: pygame.image
