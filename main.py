@@ -8,6 +8,7 @@ import Help
 import Screen
 import ImagePack
 import AI
+import ImagePackJSON
 
 
 pygame.init()
@@ -23,6 +24,8 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
     #player_list.append(ai)
     return player_list
 
+
+images = ImagePackJSON.ImagePackJSON("default")
 
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
@@ -48,6 +51,7 @@ engine = Engine.Engine(player_list, gamefield, rules, help)
 
 current_payer = 0
 run = True
+
 
 
 while run:
