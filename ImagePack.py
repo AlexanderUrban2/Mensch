@@ -29,7 +29,10 @@ class ImagePack:
             self.directory_name = "default"
 
         self.image_dictionary = {
-            "pawn_image": 'images/' + self.directory_name + '/Pawn_.png',
+            "pawn_image_1": 'images/' + self.directory_name + '/Pawn_1.png',
+            "pawn_image_2": 'images/' + self.directory_name + '/Pawn_2.png',
+            "pawn_image_3": 'images/' + self.directory_name + '/Pawn_3.png',
+            "pawn_image_4": 'images/' + self.directory_name + '/Pawn_4.png',
             "background_image_game": 'images/' + self.directory_name + '/GameField.jpg',
             "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.jpg',
             "start_button": 'images/' + self.directory_name + '/StartButton.png',
