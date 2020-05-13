@@ -1,5 +1,4 @@
-import time
-
+import json
 import pygame
 import GameField
 import random
@@ -15,13 +14,15 @@ class Dice:
     def __init__(self, gamefield: GameField):
         self.gamefield = gamefield
         self.image_list = []
-        self.init_dice()
+        self.init_images()
         self.surface_dice = pygame.Surface((self.gamefield.screen_size_multiplier, self.gamefield.screen_size_multiplier),
                                            pygame.SRCALPHA)
 
-    def init_dice(self):
+    def init_images(self):
+        with open('image_pack.txt') as json_file:
+            data = json.load(json_file)
         for i in range(0, 6):
-            self.image_list.append(pygame.image.load('images/Dice' + str(i + 1) + '.png'))
+            self.image_list.append(pygame.image.load(data["dice_image_" + str(i + 1)]))
             self.image_list[i] = pygame.transform.smoothscale(self.image_list[i], (self.gamefield.screen_width // 11, self.gamefield.screen_height // 11))
 
     def roll_dice(self) -> int:

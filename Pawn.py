@@ -29,7 +29,7 @@ class Pawn(pygame.sprite.Sprite):
     def init_images(self):
         with open('image_pack.txt') as json_file:
             data = json.load(json_file)
-        self.pawn_image = pygame.image.load(data["pawn_image_" + str(self.player_number)])
+        self.pawn_image = pygame.image.load(data["pawn_player_" + str(self.player_number)])
 
     def create_picture(self):
         #  get the size of a field of the 11*11 matrix

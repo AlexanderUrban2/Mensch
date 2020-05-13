@@ -29,10 +29,10 @@ class ImagePack:
             self.directory_name = "default"
 
         self.image_dictionary = {
-            "pawn_image_1": 'images/' + self.directory_name + '/Pawn_1.png',
-            "pawn_image_2": 'images/' + self.directory_name + '/Pawn_2.png',
-            "pawn_image_3": 'images/' + self.directory_name + '/Pawn_3.png',
-            "pawn_image_4": 'images/' + self.directory_name + '/Pawn_4.png',
+            "pawn_player_1": 'images/' + self.directory_name + '/PawnPlayer1.png',
+            "pawn_player_2": 'images/' + self.directory_name + '/PawnPlayer2.png',
+            "pawn_player_3": 'images/' + self.directory_name + '/PawnPlayer3.png',
+            "pawn_player_4": 'images/' + self.directory_name + '/PawnPlayer4.png',
             "background_image_game": 'images/' + self.directory_name + '/GameField.jpg',
             "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.jpg',
             "start_button": 'images/' + self.directory_name + '/StartButton.png',
@@ -44,6 +44,12 @@ class ImagePack:
             "back_arrow_image": 'images/' + self.directory_name + '/BackArrow.png',
             "player_arrow_up": 'images/' + self.directory_name + '/PlayerArrowUp.png',
             "player_arrow_down": 'images/' + self.directory_name + '/PlayerArrowDown.png',
+            "dice_image_1": 'images/' + self.directory_name + '/Dice1.png',
+            "dice_image_2": 'images/' + self.directory_name + '/Dice2.png',
+            "dice_image_3": 'images/' + self.directory_name + '/Dice3.png',
+            "dice_image_4": 'images/' + self.directory_name + '/Dice4.png',
+            "dice_image_5": 'images/' + self.directory_name + '/Dice5.png',
+            "dice_image_6": 'images/' + self.directory_name + '/Dice6.png',
             }
 
     def check_if_images_exist(self):
@@ -63,6 +69,7 @@ class ImagePack:
     def create_json_file(self):
         # clear existing data
         open("image_pack.txt", "w").close()
+        # write new data
         with open('image_pack.txt', 'w') as outfile:
             json.dump(self.image_dictionary, outfile)
 
