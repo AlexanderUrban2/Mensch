@@ -1,7 +1,6 @@
-import ctypes
 import pygame
 import Screen
-import ImagePack
+import json
 
 
 class Rules:
@@ -24,16 +23,11 @@ class Rules:
     run: bool
     file_content: str
 
-    image_pack: ImagePack
-
     screen_class = Screen
 
     def __init__(self, screen_class: Screen,  font: pygame.font, filename: str):
-        self.image_pack = ImagePack.ImagePack()
+        self.init_images()
 
-        self.background_image = self.image_pack.background_image_start_screen
-        self.back_arrow_image = self.image_pack.back_arrow_image
-        self.rules_image_1 = self.image_pack.rules_image_1
         self.font = font
         self.filename = filename
         self.run = True
@@ -49,6 +43,13 @@ class Rules:
 
         self.counter = 0
         self.surface_height = 0
+
+    def init_images(self):
+        with open('image_pack.txt') as json_file:
+            data = json.load(json_file)
+        self.back_arrow_image = pygame.image.load(data["back_arrow_image"])
+        self.background_image = pygame.image.load(data["background_image_start_screen"])
+        self.rules_image_1 = pygame.image.load(data["rules_image_1"])
 
     def get_file_content(self):
         file = open(self.filename, 'r')

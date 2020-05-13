@@ -1,5 +1,6 @@
 import pygame
 import MapGamefieldToPosition
+import json
 # pawn_number und player_number werden benutzt um Zugehörigkeiten zu identifizieren, asuzuwählen mit welchem Pawn
 # gelaufen wird und um dynamisch die Startposition zu ermitteln
 
@@ -11,6 +12,7 @@ class Pawn(pygame.sprite.Sprite):
     pawn_number: int
     player_number: int
     color: (int, int, int)
+    pawn_image: pygame.image
 
     def __init__(self, pawn_number: int, player_number: int, color: (int, int, int)):
         pygame.sprite.Sprite.__init__(self)
@@ -18,9 +20,33 @@ class Pawn(pygame.sprite.Sprite):
         self.player_number = player_number
         self.current_position = player_number * 100 + pawn_number * 10
         self.color = color
-        self.create_image()
+
+        self.init_images()
+        self.create_picture()
 
         self.rect = self.image.get_rect()
+
+    def init_images(self):
+        with open('image_pack.txt') as json_file:
+            data = json.load(json_file)
+        self.pawn_image = pygame.image.load(data["pawn_player_" + str(self.player_number)])
+
+    def create_picture(self):
+        #  get the size of a field of the 11*11 matrix
+        height = pygame.display.get_surface().get_size()[0] // 11
+        width = pygame.display.get_surface().get_size()[1] // 11
+
+        # make the surface transparent
+        self.image = pygame.Surface([height, width], pygame.SRCALPHA)
+        self.image.fill((0, 0, 0, 0))
+
+        # self.pawn_image = pygame.image.load('images/Pawn_1.png')
+        radius = height // 3
+        self.pawn_image = pygame.transform.smoothscale(self.pawn_image, (radius * 2, radius * 2))
+        self.image.blit(self.pawn_image, (height // 2 - self.pawn_image.get_width() // 2, width // 2 - self.pawn_image.get_height() // 2))
+        font = pygame.font.Font(None, radius)
+        text = font.render(str(self.pawn_number), True, (0, 0, 0))
+        self.image.blit(text, (height // 2 - text.get_width() // 2, width // 2 - text.get_height() // 2))
 
     def create_image(self):
         #  get the size of a field of the 11*11 matrix

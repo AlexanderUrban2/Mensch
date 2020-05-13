@@ -1,8 +1,7 @@
-import ctypes
 import pygame
 import Screen
 import Rules
-import ImagePack
+import json
 
 
 class StartScreen:
@@ -31,16 +30,9 @@ class StartScreen:
 
     screen_class: Screen
     rules: Rules
-    image_pack: ImagePack
 
     def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font):
-        self.image_pack = ImagePack.ImagePack()
-
-        self.background_image = self.image_pack.background_image_start_screen
-        self.start_button = self.image_pack.start_button
-        self.maedn_logo = self.image_pack.maedn_logo
-        self.player_arrow_up = self.image_pack.player_arrow_up
-        self.player_arrow_down = self.image_pack.player_arrow_down
+        self.init_images()
 
         self.font = font
         self.run = True
@@ -55,6 +47,15 @@ class StartScreen:
         self.player_counter = 1
 
         self.build_game_screen()
+
+    def init_images(self):
+        with open('image_pack.txt') as json_file:
+            data = json.load(json_file)
+        self.background_image = pygame.image.load(data["background_image_start_screen"])
+        self.maedn_logo = pygame.image.load(data["maedn_logo"])
+        self.player_arrow_down = pygame.image.load(data["player_arrow_down"])
+        self.player_arrow_up = pygame.image.load(data["player_arrow_up"])
+        self.start_button = pygame.image.load(data["start_button"])
         
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
