@@ -85,21 +85,14 @@ class Victory:
                     animation = False
                     break
                 elif (counter%2) == 0:
-                    #Hier ne methode draus machen und die verschiedenen Spieler einbeziehen
-                    self.engine.game_field.show_screen()
-                    self.engine.draw_pawns()
-                    self.engine.dice.draw_dice_on_game_field()
-                    pygame.display.update((self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier))
+                    self.overwrite_rect(player)
+                    
                 show = not show
                 counter +=1
 
             if show:
-                #Hier ne methode draus machen und die verschiedenen Spieler einbeziehen
-                pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier*0.1))
-                pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier,self.screen_size_multiplier*6 - self.screen_size_multiplier*0.1,self.screen_size_multiplier*4, self.screen_size_multiplier*0.1))
-                pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*0.1, self.screen_size_multiplier))
-                pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5 - self.screen_size_multiplier*0.1,self.screen_size_multiplier*5,self.screen_size_multiplier*0.1, self.screen_size_multiplier ))
-                pygame.display.update((self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier))
+                self.draw_rect(player)
+                
 
     def show_victory_screen(self,player):
         
@@ -125,3 +118,56 @@ class Victory:
 
     def get_back_to_start(self):
         pass
+
+
+
+
+    def overwrite_rect(self,player):
+        self.engine.game_field.show_screen()
+        self.engine.draw_pawns()
+        self.engine.dice.draw_dice_on_game_field()
+
+        if player == 0:
+            pygame.display.update((self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier))
+        elif player == 1:
+            pygame.display.update((self.screen_size_multiplier*5,self.screen_size_multiplier,self.screen_size_multiplier, self.screen_size_multiplier*4))
+        elif player == 2:
+            pygame.display.update((self.screen_size_multiplier*6,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier))
+        else:
+            pygame.display.update((self.screen_size_multiplier*5,self.screen_size_multiplier*6,self.screen_size_multiplier, self.screen_size_multiplier*4))
+
+
+    def draw_rect(self,player):
+                # pygame.display.update((X_coord,Y_coord, Breite,Höhe))
+                # 1 = -------
+                # 2 = |  3= |
+                # 4 = -------
+        if player == 0:
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier*0.1))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier,self.screen_size_multiplier*6 - self.screen_size_multiplier*0.1,self.screen_size_multiplier*4, self.screen_size_multiplier*0.1))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*0.1, self.screen_size_multiplier))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5 - self.screen_size_multiplier*0.1,self.screen_size_multiplier*5,self.screen_size_multiplier*0.1, self.screen_size_multiplier ))
+            pygame.display.update((self.screen_size_multiplier,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier))
+
+        elif player == 1:
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5,self.screen_size_multiplier,self.screen_size_multiplier, self.screen_size_multiplier*0.1))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5,self.screen_size_multiplier,self.screen_size_multiplier*0.1, self.screen_size_multiplier*4))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*6 -self.screen_size_multiplier*0.1 ,self.screen_size_multiplier,self.screen_size_multiplier*0.1, self.screen_size_multiplier*4))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5,self.screen_size_multiplier*5 - self.screen_size_multiplier*0.1,self.screen_size_multiplier, self.screen_size_multiplier*0.1))
+            pygame.display.update((self.screen_size_multiplier*5,self.screen_size_multiplier,self.screen_size_multiplier, self.screen_size_multiplier*4))
+
+        elif player == 2:
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*6,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier*0.1))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*6,self.screen_size_multiplier*5,self.screen_size_multiplier*0.1, self.screen_size_multiplier))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*10 - self.screen_size_multiplier*0.1,self.screen_size_multiplier*5,self.screen_size_multiplier*0.1, self.screen_size_multiplier))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*6 ,self.screen_size_multiplier*6 - self.screen_size_multiplier*0.1,self.screen_size_multiplier*4, self.screen_size_multiplier*0.1 ))
+            pygame.display.update((self.screen_size_multiplier*6,self.screen_size_multiplier*5,self.screen_size_multiplier*4, self.screen_size_multiplier))
+
+        else:
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5,self.screen_size_multiplier*6,self.screen_size_multiplier, self.screen_size_multiplier*0.1))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5,self.screen_size_multiplier*6,self.screen_size_multiplier*0.1, self.screen_size_multiplier*4))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*6 -self.screen_size_multiplier*0.1,self.screen_size_multiplier*6 ,self.screen_size_multiplier*0.1, self.screen_size_multiplier*4))
+            pygame.draw.rect(self.screen, (255,0,0), (self.screen_size_multiplier*5,self.screen_size_multiplier*10 - self.screen_size_multiplier*0.1,self.screen_size_multiplier, self.screen_size_multiplier*0.1))
+            pygame.display.update((self.screen_size_multiplier*5,self.screen_size_multiplier*6,self.screen_size_multiplier, self.screen_size_multiplier*4))
+
+

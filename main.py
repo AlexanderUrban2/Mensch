@@ -65,7 +65,7 @@ while run:
         current_player = 0
 
 if current_player == 0:
-    current_player = 4
+    current_player = 3
 else:
     current_player -= 1
 
