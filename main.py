@@ -49,14 +49,13 @@ engine = Engine.Engine(player_list, gamefield, rules, help)
 victory = Victory.Victory(screen, engine, start_screen_font)
 
 
-
 current_player = 0
-run = True
+has_won = False
 
 
-while run:
+while has_won == False:
     
-    run = engine.player_turn(current_player)
+    has_won = engine.player_turn(current_player)
     current_player += 1
     if current_player >= 4:
         current_player = 0

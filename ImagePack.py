@@ -50,6 +50,8 @@ class ImagePack:
             "dice_image_4": 'images/' + self.directory_name + '/Dice4.png',
             "dice_image_5": 'images/' + self.directory_name + '/Dice5.png',
             "dice_image_6": 'images/' + self.directory_name + '/Dice6.png',
+            "victory_image": 'images/' + self.directory_name + '/VictoryImage.png',
+            "continue_button_victory": 'images/' + self.directory_name + '/ContinueButtonVictory.png',
             }
 
     def check_if_images_exist(self):

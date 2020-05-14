@@ -101,8 +101,7 @@ class Engine:
         elif self.player_list[current_player].__class__.__name__ == "Player":
             self.player_turn_human(current_player)
         
-        return not self.check_win(current_player)
-
+        return self.player_list[current_player].has_won()
 
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
@@ -212,18 +211,14 @@ class Engine:
                     if pawn.current_position == current_position:
                         pawn.move_pawn_to_house()
                         break
-    
 
-    def check_win(self,current_player) -> bool:
+    def check_win(self, current_player) -> bool:
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.current_position > 1000:
                 pass
             else:
                 return False
-            return True
-
-
-
+        return True
 
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
