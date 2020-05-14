@@ -19,6 +19,7 @@ class Engine:
     rules_button_rect: pygame.rect
     help_button_rect: pygame.rect
 
+
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
@@ -34,9 +35,13 @@ class Engine:
         self.refresh_ui()
 
         #tmp = 0
-        #for pawn in self.player_list[0].pawn_list:
-        #        pawn.current_position = tmp
-        #        tmp += 1
+        #for pawn in self.player_list[3].pawn_list:
+        #        if tmp == 0:
+        #            pawn.current_position = 29
+        #            tmp = 4020
+        #        else:
+        #            pawn.current_position = tmp
+        #            tmp += 10
 
         #tmp = 0
         #for counter in range(4):
@@ -95,6 +100,9 @@ class Engine:
             self.player_turn_ai(current_player)
         elif self.player_list[current_player].__class__.__name__ == "Player":
             self.player_turn_human(current_player)
+        
+        return not self.check_win(current_player)
+
 
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
@@ -204,6 +212,18 @@ class Engine:
                     if pawn.current_position == current_position:
                         pawn.move_pawn_to_house()
                         break
+    
+
+    def check_win(self,current_player) -> bool:
+        for pawn in self.player_list[current_player].pawn_list:
+            if pawn.current_position > 1000:
+                pass
+            else:
+                return False
+            return True
+
+
+
 
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
