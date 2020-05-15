@@ -167,6 +167,8 @@ class StartScreen:
         change_time = current_time + delay
         animation = True
 
+
+        #neues gamefield rein (slided rein)
         new_gamefield_image = pygame.transform.smoothscale(self.background_image, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
         
         new_gamefield_width = new_gamefield_image.get_rect().size[0]
@@ -176,12 +178,12 @@ class StartScreen:
         if option == 0:
             new_gamefield_x_coord = -new_gamefield_width
         else:
-            new_gamefield_x_coord = self.screen_width 
+            new_gamefield_x_coord = self.screen_width + new_gamefield_width
         new_gamefield_y_coord = self.screen_size_multiplier*3 - new_gamefield_image.get_rect().size[1]/2
         new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord,new_gamefield_y_coord))
         new_gamefield_rect.w = 100 + new_gamefield_width
 
-
+        #altes gamefield raus (slided raus)
         old_gamefield_image = pygame.transform.smoothscale(self.maedn_logo, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
         old_gamefield_width = old_gamefield_image.get_rect().size[0]
@@ -209,6 +211,10 @@ class StartScreen:
                     pygame.display.update(old_gamefield_rect)
                     animation = False
                 elif new_gamefield_x_coord - 100 <= new_gamefield_x_coord_end and option == 1:
+                    new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord-100,new_gamefield_y_coord))
+                    new_gamefield_rect.w = 100 + new_gamefield_width
+                    old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord-100,old_gamefield_y_coord))
+                    old_gamefield_rect.w = 100 + old_gamefield_width
                     self.screen.blit(self.skin_arrow_right, (self.screen_size_multiplier*8, self.screen_size_multiplier*3 - self.skin_arrow_right.get_rect().size[1]))
                     self.screen.blit(self.skin_arrow_left, (self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[0], self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[1]))
                     self.screen.blit(new_gamefield_image, (new_gamefield_x_coord_end, new_gamefield_y_coord))
@@ -220,27 +226,41 @@ class StartScreen:
                     if option == 0:
                         new_gamefield_x_coord +=100
                         old_gamefield_x_coord +=100
+                        self.screen.blit(self.skin_arrow_right, (self.screen_size_multiplier*8, self.screen_size_multiplier*3 - self.skin_arrow_right.get_rect().size[1]))
+                        self.screen.blit(self.skin_arrow_left, (self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[0], self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[1]))
+                        self.screen.blit(new_gamefield_image, (new_gamefield_x_coord, new_gamefield_y_coord))
+                        self.screen.blit(old_gamefield_image, (old_gamefield_x_coord, old_gamefield_y_coord))
+                        
+                        pygame.display.update(new_gamefield_rect)
+                        pygame.display.update(old_gamefield_rect)
+                        
+                        self.screen.blit(self.background_image,(0,0))
+
+                        new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord,new_gamefield_y_coord))
+                        new_gamefield_rect.w = 100 + new_gamefield_width
+                        old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord,old_gamefield_y_coord))
+                        old_gamefield_rect.w = 100 + old_gamefield_width
                     else:
                         new_gamefield_x_coord -=100
                         old_gamefield_x_coord -=100
 
+                        new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord,new_gamefield_y_coord))
+                        new_gamefield_rect.w = 100 + new_gamefield_width
+                        old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord,old_gamefield_y_coord))
+                        old_gamefield_rect.w = 100 + old_gamefield_width
 
-                    self.screen.blit(self.skin_arrow_right, (self.screen_size_multiplier*8, self.screen_size_multiplier*3 - self.skin_arrow_right.get_rect().size[1]))
-                    self.screen.blit(self.skin_arrow_left, (self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[0], self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[1]))
-                    self.screen.blit(new_gamefield_image, (new_gamefield_x_coord, new_gamefield_y_coord))
-                    self.screen.blit(old_gamefield_image, (old_gamefield_x_coord, old_gamefield_y_coord))
-                    
-                    pygame.display.update(new_gamefield_rect)
-                    pygame.display.update(old_gamefield_rect)
-                    
-                    self.screen.blit(self.background_image,(0,0))
+                        self.screen.blit(self.skin_arrow_right, (self.screen_size_multiplier*8, self.screen_size_multiplier*3 - self.skin_arrow_right.get_rect().size[1]))
+                        self.screen.blit(self.skin_arrow_left, (self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[0], self.screen_size_multiplier*3 - self.skin_arrow_left.get_rect().size[1]))
+                        self.screen.blit(new_gamefield_image, (new_gamefield_x_coord, new_gamefield_y_coord))
+                        self.screen.blit(old_gamefield_image, (old_gamefield_x_coord, old_gamefield_y_coord))
+                        
+                        pygame.display.update(new_gamefield_rect)
+                        pygame.display.update(old_gamefield_rect)
+                        
+                        self.screen.blit(self.background_image,(0,0))
 
-                    new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord,new_gamefield_y_coord))
-                    new_gamefield_rect.w = 100 + new_gamefield_width
-                    old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord,old_gamefield_y_coord))
-                    old_gamefield_rect.w = 100 + old_gamefield_width
-                    print(old_gamefield_rect)
-                    print(new_gamefield_rect)
+                    
+
                    
                     
 
