@@ -16,7 +16,7 @@ Licence: The drum loop is permitted for commercial use under license Creative Co
 Link to licence: https://creativecommons.org/licenses/by/4.0/legalcode
 
 Background music: Bossa Nova Drum With Bass And Synth Rhythm, Artist: Alexander
-http://www.orangefreesounds.com/
+http://www.orangefreesounds.com/bossa-nova-drum-with-bass-and-synth-rhythm/
 '''
 
 

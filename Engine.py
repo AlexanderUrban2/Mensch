@@ -147,7 +147,7 @@ class Engine:
 
         # if the pawn is not yet in the finishing squares set it on an imaginary finishing square 0
         # this is basically the field in front of the finishing squares
-        if pawn.current_position < 1000:
+        if pawn.is_in_finishing_squares():
             current_position = pawn.player_number * 1000
         else:
             current_position = pawn.current_position
@@ -224,14 +224,6 @@ class Engine:
 
                         pawn.move_pawn_to_house()
                         break
-
-    def check_win(self, current_player) -> bool:
-        for pawn in self.player_list[current_player].pawn_list:
-            if pawn.current_position > 1000:
-                pass
-            else:
-                return False
-        return True
 
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
