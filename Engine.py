@@ -19,7 +19,6 @@ class Engine:
     rules_button_rect: pygame.rect
     help_button_rect: pygame.rect
 
-
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
@@ -185,6 +184,10 @@ class Engine:
             for pawn in player.pawn_list:
                 if player.player_number - 1 != current_player:
                     if pawn.current_position == current_position:
+                        # play sound when a pawn gets hit
+                        airhorn_sound = pygame.mixer.Sound('music/mlg_airhorn.wav')
+                        pygame.mixer.Sound.play(airhorn_sound)
+
                         pawn.move_pawn_to_house()
                         return
 
@@ -209,6 +212,16 @@ class Engine:
                     pass
                 else:
                     if pawn.current_position == current_position:
+
+                        if player_counter == current_player:
+                            # play oof if you hit your own pawn
+                            roblox_oof_sound = pygame.mixer.Sound('music/roblox_oof.wav')
+                            pygame.mixer.Sound.play(roblox_oof_sound)
+                        else:
+                            # otherwise play the airhorn
+                            airhorn_sound = pygame.mixer.Sound('music/mlg_airhorn.wav')
+                            pygame.mixer.Sound.play(airhorn_sound)
+
                         pawn.move_pawn_to_house()
                         break
 
@@ -252,6 +265,9 @@ class Engine:
                             self.refresh_ui()
                             self.game_field.show_text_info(current_player, "Unfortunate!")
                             # no move is possible -> the turn ends
+                            # play an error sound
+                            error_sound = pygame.mixer.Sound('music/windows_xp_error.wav')
+                            error_sound.play()
                             return
 
                         select = True
@@ -334,6 +350,9 @@ class Engine:
                         self.refresh_ui()
                         self.game_field.show_text_info(current_player, "Unfortunate!")
                         # your turn ends if no pawn can be moved
+                        # play an error sound
+                        error_sound = pygame.mixer.Sound('music/windows_xp_error.wav')
+                        error_sound.play()
                         return
 
                     time_previous = time_now

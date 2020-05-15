@@ -9,10 +9,24 @@ import Screen
 import AI
 import ImagePack
 import Victory
+'''
+Stock audio - Free sound effects, loops and music.
+ 
+Licence: The drum loop is permitted for commercial use under license Creative Commons "Attribution 4.0 International Licence"
+Link to licence: https://creativecommons.org/licenses/by/4.0/legalcode
+
+Background music: Bossa Nova Drum With Bass And Synth Rhythm, Artist: Alexander
+http://www.orangefreesounds.com/
+'''
 
 
 pygame.init()
 pygame.font.init()
+pygame.mixer.init()
+
+pygame.mixer.music.load('music/background_bossa_nova.wav')
+pygame.mixer.music.play(-1)
+pygame.mixer.music.set_volume(0.5)
 
 
 def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: int):
@@ -51,7 +65,6 @@ victory = Victory.Victory(screen, engine, start_screen_font)
 
 current_player = 0
 has_won = False
-
 
 while has_won == False:
     
