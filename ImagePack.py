@@ -24,6 +24,10 @@ class ImagePack:
             self.directory_name = "default"
         elif self.image_pack_name == "test":
             self.directory_name = "test"
+        elif self.image_pack_name == "dark":
+            self.directory_name = "dark"
+        elif self.image_pack_name == "heart":
+            self.directory_name = "heart"
         # if nothing applies set it to default
         else:
             self.directory_name = "default"
@@ -37,6 +41,7 @@ class ImagePack:
             "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.png',
             "start_button": 'images/' + self.directory_name + '/StartButton.png',
             "maedn_logo": 'images/' + self.directory_name + '/MaednLogo.png',
+            "rules_help_background":'images/' + self.directory_name + '/RulesHelpBG.png',
             "ingame_rules_button": 'images/' + self.directory_name + '/RulesButtonIngame.png',
             "ingame_help_button": 'images/' + self.directory_name + '/HelpButtonIngame.png',
             "help_image_1": 'images/' + self.directory_name + '/HelpImage1.png',
