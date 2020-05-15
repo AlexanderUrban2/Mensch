@@ -40,9 +40,9 @@ start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
 
 player_count = start_screen.start_game()
 
-ai_turn_time_delay = 1  # in seconds
-ai_difficulty = 1
-player_list = create_players(player_count, ai_turn_time_delay, ai_difficulty)
+AI_TURN_TIME_DELAY = 1  # in seconds
+AI_DIFFICULTY = 1
+player_list = create_players(player_count, AI_TURN_TIME_DELAY, AI_DIFFICULTY)
 
 engine = Engine.Engine(player_list, gamefield, rules, help)
 
