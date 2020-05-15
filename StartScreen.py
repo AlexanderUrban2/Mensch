@@ -70,12 +70,12 @@ class StartScreen:
         start_game_message = "Play"
         rule_message = "RuleS"
         player_text = "Number of PlayerS:"
-        hello_message_font = self.font.render(hello_message, True, (0, 0, 0))
-        start_game_message_font = self.font.render(start_game_message, True, (0, 0, 0))
-        rule_message_font = self.font.render(rule_message, True, (0, 0, 0))
-        player_text_font = self.font.render(player_text, True, (0, 0, 0))
-        player_counter_font = self.font.render(str(self.player_counter), True, (0, 0, 0))
-        player_counter_max_font = self.font.render("4", True, (0, 0, 0))
+        hello_message_font = self.font.render(hello_message, True, (0, 0, 255))
+        start_game_message_font = self.font.render(start_game_message, True, (0, 0, 255))
+        rule_message_font = self.font.render(rule_message, True, (0, 0, 255))
+        player_text_font = self.font.render(player_text, True, (0, 0, 255))
+        player_counter_font = self.font.render(str(self.player_counter), True, (0, 0, 255))
+        player_counter_max_font = self.font.render("4", True, (0, 0, 255))
 
         self.start_game_message_rect = start_game_message_font.get_rect(topleft=(self.screen_width/2 - self.font.size(start_game_message)[0]/2, self.screen_height/3 + self.start_button.get_rect().size[1]/2))
         self.rule_message_rect = rule_message_font.get_rect(topleft=(self.screen_width/2 - self.font.size(rule_message)[0]/2, self.screen_height/3*2))
