@@ -49,6 +49,8 @@ class ImagePack:
             "back_arrow_image": 'images/' + self.directory_name + '/BackArrow.png',
             "player_arrow_up": 'images/' + self.directory_name + '/PlayerArrowUp.png',
             "player_arrow_down": 'images/' + self.directory_name + '/PlayerArrowDown.png',
+            "skin_arrow_right": 'images/' + self.directory_name + '/SkinArrowRight.png',
+            "skin_arrow_left": 'images/' + self.directory_name + '/SkinArrowLeft.png',
             "dice_image_1": 'images/' + self.directory_name + '/Dice1.png',
             "dice_image_2": 'images/' + self.directory_name + '/Dice2.png',
             "dice_image_3": 'images/' + self.directory_name + '/Dice3.png',

@@ -24,7 +24,7 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
 
 
 # current image packs: default, test
-images = ImagePack.ImagePack("dark")
+images = ImagePack.ImagePack("heart")
 
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)

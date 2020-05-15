@@ -46,7 +46,7 @@ class Help:
     def init_images(self):
         with open('image_pack.txt') as json_file:
             data = json.load(json_file)
-        self.background_image = pygame.image.load(data["background_image_start_screen"])
+        self.background_image = pygame.image.load(data["rules_help_background"])
         self.back_arrow_image = pygame.image.load(data["back_arrow_image"])
         self.help_image_1 = pygame.image.load(data["help_image_1"])
 
