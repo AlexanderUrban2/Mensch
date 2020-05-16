@@ -147,7 +147,7 @@ class Engine:
 
         # if the pawn is not yet in the finishing squares set it on an imaginary finishing square 0
         # this is basically the field in front of the finishing squares
-        if pawn.is_in_finishing_squares():
+        if not pawn.is_in_finishing_squares():
             current_position = pawn.player_number * 1000
         else:
             current_position = pawn.current_position
@@ -185,7 +185,7 @@ class Engine:
                 if player.player_number - 1 != current_player:
                     if pawn.current_position == current_position:
                         # play sound when a pawn gets hit
-                        airhorn_sound = pygame.mixer.Sound('music/mlg_airhorn.wav')
+                        airhorn_sound = pygame.mixer.Sound('music/airhorn_sound.wav')
                         pygame.mixer.Sound.play(airhorn_sound)
 
                         pawn.move_pawn_to_house()
@@ -219,7 +219,7 @@ class Engine:
                             pygame.mixer.Sound.play(roblox_oof_sound)
                         else:
                             # otherwise play the airhorn
-                            airhorn_sound = pygame.mixer.Sound('music/mlg_airhorn.wav')
+                            airhorn_sound = pygame.mixer.Sound('music/airhorn_sound.wav')
                             pygame.mixer.Sound.play(airhorn_sound)
 
                         pawn.move_pawn_to_house()

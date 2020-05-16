@@ -17,6 +17,8 @@ Link to licence: https://creativecommons.org/licenses/by/4.0/legalcode
 
 Background music: Bossa Nova Drum With Bass And Synth Rhythm, Artist: Alexander
 http://www.orangefreesounds.com/bossa-nova-drum-with-bass-and-synth-rhythm/
+
+neat little annoying sounds are from: https://www.soundboard.com
 '''
 
 
@@ -26,7 +28,7 @@ pygame.mixer.init()
 
 pygame.mixer.music.load('music/background_bossa_nova.wav')
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.5)
+pygame.mixer.music.set_volume(.03)
 
 
 def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: int):
