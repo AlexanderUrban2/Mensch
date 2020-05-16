@@ -295,6 +295,14 @@ class Engine:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
                     self.help.show_screen()
                     self.refresh_ui()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    if pygame.mixer.music.get_busy():
+                        pygame.mixer.music.stop()
+                        self.refresh_ui()
+                    else:
+                        pygame.mixer.music.load('music/background_bossa_nova.wav')
+                        pygame.mixer.music.play(-1)
+                        self.refresh_ui()
 
                 elif event.type == pygame.QUIT:
                     exit()
@@ -390,6 +398,14 @@ class Engine:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
                     self.help.show_screen()
                     self.refresh_ui()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    if pygame.mixer.music.get_busy():
+                        pygame.mixer.music.stop()
+                        self.refresh_ui()
+                    else:
+                        pygame.mixer.music.load('music/background_bossa_nova.wav')
+                        pygame.mixer.music.play(-1)
+                        self.refresh_ui()
 
     def select_pawn(self) -> int:
         while True:
