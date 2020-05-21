@@ -80,23 +80,23 @@ class StartScreen:
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Mensch Ärgere dich nicht")
         self.screen.blit(self.background_image, (0, 0))
-        hello_message = "Hi and welcome to \"Mensch ärgere dich nicht\""
-        start_game_message = "Play"
-        rule_message = "RuleS"
-        player_text = "Number of PlayerS:"
-        theme_text = "Theme"
-        hello_message_font = self.font.render(hello_message, True, (0, 0, 255))
-        start_game_message_font = self.font.render(start_game_message, True, (0, 0, 255))
-        rule_message_font = self.font.render(rule_message, True, (0, 0, 255))
-        player_text_font = self.font.render(player_text, True, (0, 0, 255))
-        theme_text_font = self.font.render(theme_text, True, (0,0,255))
-        player_counter_font = self.font.render(str(self.player_counter), True, (0, 0, 255))
-        theme_counter_font = self.font.render(str(self.theme_counter), True, (0, 0, 255))
-        player_counter_max_font = self.font.render("4", True, (0, 0, 255))
-        theme_counter_max_font = self.font.render("4", True, (0, 0, 255))
+        hello_message_str = "Hi and welcome to \"Mensch ärgere dich nicht\""
+        start_game_message_str = "Play"
+        rule_message_str = "RuleS"
+        player_text_str = "Number of PlayerS:"
+        theme_text_str = "Theme"
+        hello_message = self.font.render(hello_message_str, True, (0, 0, 255))
+        start_game_message = self.font.render(start_game_message_str, True, (0, 0, 255))
+        rule_message = self.font.render(rule_message_str, True, (0, 0, 255))
+        player_text = self.font.render(player_text_str, True, (0, 0, 255))
+        theme_text = self.font.render(theme_text_str, True, (0, 0, 255))
+        player_counter = self.font.render(str(self.player_counter), True, (0, 0, 255))
+        theme_counter = self.font.render(str(self.theme_counter), True, (0, 0, 255))
+        player_counter_max = self.font.render("4", True, (0, 0, 255))
+        theme_counter_max = self.font.render("4", True, (0, 0, 255))
 
         # Hi message
-        self.screen.blit(hello_message_font, (self.screen_width/2 - self.font.size(hello_message)[0]/2,  0))
+        self.screen.blit(hello_message, (self.screen_width/2 - self.font.size(hello_message_str)[0]/2,  0))
 
         # arrow left
         self.skin_arrow_left_rect = self.theme_arrow_left.get_rect(topleft=(self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.player_arrow_up.get_rect().size[1]))
@@ -111,22 +111,22 @@ class StartScreen:
         self.screen.blit(gamefield_image, (self.screen_width/2 - gamefield_image.get_rect().size[0]/2, self.screen_size_multiplier*3 - gamefield_image.get_rect().size[1]/2))
 
         # Theme Text
-        self.theme_counter_rect = theme_counter_max_font.get_rect(topleft=(self.screen_width/2 + self.font.size(theme_text + " ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size(theme_text)[1]))
-        self.screen.blit(theme_text_font, (self.screen_width/2 - self.font.size(theme_text + " ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size(theme_text)[1]))
-        self.screen.blit(theme_counter_font, (self.screen_width/2 + self.font.size(theme_text + " ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size(theme_text)[1]))
+        self.theme_counter_rect = theme_counter_max.get_rect(topleft=(self.screen_width/2 + self.font.size(theme_text_str + " ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size(theme_text_str)[1]))
+        self.screen.blit(theme_text, (self.screen_width/2 - self.font.size(theme_text_str + " ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size(theme_text_str)[1]))
+        self.screen.blit(theme_counter, (self.screen_width/2 + self.font.size(theme_text_str + " ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size(theme_text_str)[1]))
 
         # Play button
         self.start_game_button_rect = self.start_button.get_rect(topleft=(self.screen_width/2 - self.start_button.get_rect().size[0]/2, self.screen_height/2 - self.start_button.get_rect().size[1]/2))
         self.screen.blit(self.start_button, (self.screen_width/2 - self.start_button.get_rect().size[0]/2, self.screen_height/2 - self.start_button.get_rect().size[1]/2))
 
         # Start message
-        self.start_game_message_rect = start_game_message_font.get_rect(topleft=(self.screen_width/2 - self.font.size(start_game_message)[0]/2, self.screen_height/2 + self.start_button.get_rect().size[1]/2))
-        self.screen.blit(start_game_message_font, (self.screen_width/2 - self.font.size(start_game_message)[0]/2, self.screen_height/2 + self.start_button.get_rect().size[1]/2))
+        self.start_game_message_rect = start_game_message.get_rect(topleft=(self.screen_width/2 - self.font.size(start_game_message_str)[0]/2, self.screen_height/2 + self.start_button.get_rect().size[1]/2))
+        self.screen.blit(start_game_message, (self.screen_width/2 - self.font.size(start_game_message_str)[0]/2, self.screen_height/2 + self.start_button.get_rect().size[1]/2))
         
         # Number of Players text
-        self.player_counter_rect = player_counter_max_font.get_rect(topleft=(self.screen_width*0.55, self.screen_size_multiplier*8 - 0.5*self.font.size(player_text)[1]))
-        self.screen.blit(player_text_font, (self.screen_width/2 - self.font.size(player_text)[0], self.screen_size_multiplier*8 - 0.5*self.font.size(player_text)[1]))
-        self.screen.blit(player_counter_font, (self.screen_width*0.55, self.screen_size_multiplier*8 - 0.5*self.font.size(player_text)[1]))
+        self.player_counter_rect = player_counter_max.get_rect(topleft=(self.screen_width*0.55, self.screen_size_multiplier*8 - 0.5*self.font.size(player_text_str)[1]))
+        self.screen.blit(player_text, (self.screen_width/2 - self.font.size(player_text_str)[0], self.screen_size_multiplier*8 - 0.5*self.font.size(player_text_str)[1]))
+        self.screen.blit(player_counter, (self.screen_width*0.55, self.screen_size_multiplier*8 - 0.5*self.font.size(player_text_str)[1]))
 
         # arrow up
         self.player_arrow_up_rect = self.player_arrow_up.get_rect(topleft=(self.screen_width * 0.65, self.screen_size_multiplier*8 - self.player_arrow_up.get_rect().size[1] - 0.005 *self.screen_height))
@@ -137,8 +137,8 @@ class StartScreen:
         self.screen.blit(self.player_arrow_down, (self.screen_width * 0.65, self.screen_size_multiplier*8 + 0.005 *self.screen_height))
        
         # rule message
-        self.rule_message_rect = rule_message_font.get_rect(topleft=(self.screen_width/2 - self.font.size(rule_message)[0]/2, self.screen_size_multiplier*9))
-        self.screen.blit(rule_message_font, (self.screen_width/2 - self.font.size(rule_message)[0]/2,  self.screen_size_multiplier*9))
+        self.rule_message_rect = rule_message.get_rect(topleft=(self.screen_width/2 - self.font.size(rule_message_str)[0]/2, self.screen_size_multiplier*9))
+        self.screen.blit(rule_message, (self.screen_width/2 - self.font.size(rule_message_str)[0]/2,  self.screen_size_multiplier*9))
 
         
         # hidden quest
