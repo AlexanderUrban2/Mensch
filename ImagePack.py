@@ -42,7 +42,7 @@ class ImagePack:
             "sound_off_button": 'images/' + self.directory_name + '/SoundButtonOff.png',
 
             "background_image_game": 'images/' + self.directory_name + '/GameField.png',
-            "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.jpg',
+            "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.png',
             "start_button": 'images/' + self.directory_name + '/StartButton.png',
             "maedn_logo": 'images/' + self.directory_name + '/MaednLogo.png',
             "rules_help_background":'images/' + self.directory_name + '/RulesHelpBG.png',
@@ -56,8 +56,9 @@ class ImagePack:
             "player_arrow_up": 'images/' + self.directory_name + '/PlayerArrowUp.png',
             "player_arrow_down": 'images/' + self.directory_name + '/PlayerArrowDown.png',
 
-            "skin_arrow_right": 'images/' + self.directory_name + '/SkinArrowRight.png',
-            "skin_arrow_left": 'images/' + self.directory_name + '/SkinArrowLeft.png',
+            "theme_arrow_right": 'images/' + self.directory_name + '/ThemeArrowRight.png',
+            "theme_arrow_left": 'images/' + self.directory_name + '/ThemeArrowLeft.png',
+
             "dice_image_1": 'images/' + self.directory_name + '/Dice1.png',
             "dice_image_2": 'images/' + self.directory_name + '/Dice2.png',
             "dice_image_3": 'images/' + self.directory_name + '/Dice3.png',
@@ -80,6 +81,7 @@ class ImagePack:
 
     def set_to_default_image(self, key: str):
         split = self.image_dictionary[key].split("/")
+        # get the file name
         image_name = split[-1]
         self.image_dictionary[key] = "images/default/" + image_name
 
