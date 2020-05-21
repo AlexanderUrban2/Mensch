@@ -9,6 +9,7 @@ import Screen
 import AI
 import ImagePack
 import Victory
+import SoundPack
 '''
 meme:
 hit_enemy_pawn: Airh Horn Sound, permitted under Creative Commons (CC-by), Autor: Gingka Akiyama
@@ -54,9 +55,10 @@ pygame.init()
 pygame.font.init()
 pygame.mixer.init()
 
-pygame.mixer.music.load('music/background_music.wav')
-pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(.03)
+#pygame.mixer.music.load('music/background_music.wav')
+#pygame.mixer.music.play(-1)
+#pygame.mixer.music.set_volume(.03)
+sound_pack = SoundPack.SoundPack("dark")
 
 
 def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: int):

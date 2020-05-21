@@ -21,7 +21,7 @@ class SoundPack:
         self.create_json_file()
 
         pygame.mixer.init()
-        self.start_music()
+        self.start_background_music()
 
     def create_sound_dictionary(self):
         if self.sound_pack_name == "default":
@@ -30,8 +30,8 @@ class SoundPack:
             self.directory_name = "test"
         elif self.sound_pack_name == "dark":
             self.directory_name = "dark"
-        elif self.sound_pack_name == "heart":
-            self.directory_name = "heart"
+        elif self.sound_pack_name == "meme":
+            self.directory_name = "meme"
         # if nothing applies set it to default
         else:
             self.directory_name = "default"
@@ -57,7 +57,7 @@ class SoundPack:
         split = self.sound_dictionary[key].split("/")
         # get the file name
         sound_name = split[-1]
-        self.sound_dictionary[key] = "images/default/" + sound_name
+        self.sound_dictionary[key] = "music/default/" + sound_name
 
     def create_json_file(self):
         # clear existing data
@@ -66,7 +66,7 @@ class SoundPack:
         with open('sound_pack.txt', 'w') as outfile:
             json.dump(self.sound_dictionary, outfile)
 
-    def start_music(self):
+    def start_background_music(self):
         with open('sound_pack.txt') as json_file:
             data = json.load(json_file)
         pygame.mixer.music.load(data["background_music"])
