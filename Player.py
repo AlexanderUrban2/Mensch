@@ -19,7 +19,7 @@ class Player:
         for pawn in self.pawn_list:
             if not pawn.is_in_finishing_squares():
                 return False
-        return  True
+        return True
 
     def has_pawn_in_yard(self) -> bool:
         for pawn in self.pawn_list:

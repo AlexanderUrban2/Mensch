@@ -16,9 +16,12 @@ class GameField:
     background_image: pygame.image
     ingame_rules_button: pygame.image
     ingame_help_button: pygame.image
+    ingame_sound_on_button: pygame.image
+    ingame_sound_off_button: pygame.image
 
     ingame_rules_button_rect: pygame.rect
     ingame_help_button_rect: pygame.rect
+    ingame_sound_button_rect: pygame.rect
 
     def __init__(self, font: pygame.font):
         self.screen_class = Screen.Screen()
@@ -37,6 +40,8 @@ class GameField:
         self.background_image = pygame.image.load(data["background_image_game"])
         self.ingame_help_button = pygame.image.load(data["ingame_help_button"])
         self.ingame_rules_button = pygame.image.load(data["ingame_rules_button"])
+        self.ingame_sound_on_button = pygame.image.load(data["sound_on_button"])
+        self.ingame_sound_off_button = pygame.image.load(data["sound_off_button"])
 
     def init_game_field_variables(self):
         self.screen_width = self.screen_class.screen_width
@@ -48,25 +53,34 @@ class GameField:
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.ingame_rules_button = pygame.transform.smoothscale(self.ingame_rules_button, (int(self.screen_size_multiplier * 1.5), int(self.screen_size_multiplier)))
         self.ingame_help_button = pygame.transform.smoothscale(self.ingame_help_button, (int(self.screen_size_multiplier * 1.5), int(self.screen_size_multiplier)))
+        self.ingame_sound_on_button = pygame.transform.smoothscale(self.ingame_sound_on_button, (int(self.screen_size_multiplier * 1), int(self.screen_size_multiplier * 1)))
+        self.ingame_sound_off_button = pygame.transform.smoothscale(self.ingame_sound_off_button, (int(self.screen_size_multiplier * 1), int(self.screen_size_multiplier * 1)))
 
         self.ingame_rules_button_rect = self.ingame_rules_button.get_rect(topleft=(int(self.screen_size_multiplier*2.5), int(self.screen_size_multiplier*0.1)))
         self.ingame_help_button_rect = self.ingame_help_button.get_rect(topleft=(int(self.screen_size_multiplier*7), int(self.screen_size_multiplier*0.1)))
+        self.ingame_sound_button_rect = self.ingame_sound_on_button.get_rect(topleft=(int(self.screen_size_multiplier * 2.5), int(self.screen_size_multiplier * 9.75)))
 
         self.screen = self.screen_class.screen
 
     def show_screen(self):
         self.screen.blit(self.background_image, (0, 0))
-        self.screen.blit(self.ingame_rules_button, (int(self.screen_size_multiplier*2.5), int(self.screen_size_multiplier*0.1)))
-        self.screen.blit(self.ingame_help_button, (int(self.screen_size_multiplier*7), int(self.screen_size_multiplier*0.1)))
+        self.show_image(self.ingame_rules_button, 2.5, 0.1)
+        self.show_image(self.ingame_help_button, 7, 0.1)
+        # blit the button accordingly if music is (not) playing
+        if pygame.mixer.music.get_busy():
+            self.show_image(self.ingame_sound_on_button, 2.5, 9.75)
+        else:
+            self.show_image(self.ingame_sound_off_button, 2.5, 9.75)
+
         pygame.display.update()
 
     # Koordinaten entsprechen den Feldern einer 11*11 Matrix
     # die Funktion funktioniert auch mit einem Surface!
-    def show_image(self, image: pygame.image, x_coordinate: int, y_coordinate: int):
+    def show_image(self, image: pygame.image, x_coordinate: float, y_coordinate: float):
         if x_coordinate != 0:
-            x_coordinate = self.screen_size_multiplier * x_coordinate
+            x_coordinate = int(self.screen_size_multiplier * x_coordinate)
         if y_coordinate != 0:
-            y_coordinate = self.screen_size_multiplier * y_coordinate
+            y_coordinate = int(self.screen_size_multiplier * y_coordinate)
 
         self.screen.blit(image, (x_coordinate, y_coordinate))
 

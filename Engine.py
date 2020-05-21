@@ -19,7 +19,6 @@ class Engine:
     rules_button_rect: pygame.rect
     help_button_rect: pygame.rect
 
-
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.player_list = players
         self.game_field = gamefield
@@ -148,7 +147,7 @@ class Engine:
 
         # if the pawn is not yet in the finishing squares set it on an imaginary finishing square 0
         # this is basically the field in front of the finishing squares
-        if pawn.current_position < 1000:
+        if not pawn.is_in_finishing_squares():
             current_position = pawn.player_number * 1000
         else:
             current_position = pawn.current_position
@@ -185,6 +184,10 @@ class Engine:
             for pawn in player.pawn_list:
                 if player.player_number - 1 != current_player:
                     if pawn.current_position == current_position:
+                        # play sound when a pawn gets hit
+                        airhorn_sound = pygame.mixer.Sound('music/hit_enemy_pawn.wav')
+                        pygame.mixer.Sound.play(airhorn_sound)
+
                         pawn.move_pawn_to_house()
                         return
 
@@ -209,16 +212,18 @@ class Engine:
                     pass
                 else:
                     if pawn.current_position == current_position:
+
+                        if player_counter == current_player:
+                            # play oof if you hit your own pawn
+                            roblox_oof_sound = pygame.mixer.Sound('music/hit_own_pawn.wav')
+                            pygame.mixer.Sound.play(roblox_oof_sound)
+                        else:
+                            # otherwise play the airhorn
+                            airhorn_sound = pygame.mixer.Sound('music/hit_enemy_pawn.wav')
+                            pygame.mixer.Sound.play(airhorn_sound)
+
                         pawn.move_pawn_to_house()
                         break
-
-    def check_win(self, current_player) -> bool:
-        for pawn in self.player_list[current_player].pawn_list:
-            if pawn.current_position > 1000:
-                pass
-            else:
-                return False
-        return True
 
     # mit 1, 2, 3, 4 kann ausgewählt werde, welcher pawn auf dem Spielfeld bewegt werden soll
     def player_turn_human(self, current_player: int):
@@ -252,6 +257,9 @@ class Engine:
                             self.refresh_ui()
                             self.game_field.show_text_info(current_player, "Unfortunate!")
                             # no move is possible -> the turn ends
+                            # play an error sound
+                            error_sound = pygame.mixer.Sound('music/unfortunate_sound.wav')
+                            error_sound.play()
                             return
 
                         select = True
@@ -287,6 +295,14 @@ class Engine:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
                     self.help.show_screen()
                     self.refresh_ui()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    if pygame.mixer.music.get_busy():
+                        pygame.mixer.music.stop()
+                        self.refresh_ui()
+                    else:
+                        pygame.mixer.music.load('music/background_music.wav')
+                        pygame.mixer.music.play(-1)
+                        self.refresh_ui()
 
                 elif event.type == pygame.QUIT:
                     exit()
@@ -334,6 +350,9 @@ class Engine:
                         self.refresh_ui()
                         self.game_field.show_text_info(current_player, "Unfortunate!")
                         # your turn ends if no pawn can be moved
+                        # play an error sound
+                        error_sound = pygame.mixer.Sound('music/unfortunate_sound.wav')
+                        error_sound.play()
                         return
 
                     time_previous = time_now
@@ -379,6 +398,14 @@ class Engine:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
                     self.help.show_screen()
                     self.refresh_ui()
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
+                    if pygame.mixer.music.get_busy():
+                        pygame.mixer.music.stop()
+                        self.refresh_ui()
+                    else:
+                        pygame.mixer.music.load('music/background_music.wav')
+                        pygame.mixer.music.play(-1)
+                        self.refresh_ui()
 
     def select_pawn(self) -> int:
         while True:

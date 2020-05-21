@@ -55,6 +55,8 @@ class Victory:
 
     def victory(self, player):
         self.player_win_animation(player)
+        victory_sound = pygame.mixer.Sound('music/victory_sound.wav')
+        pygame.mixer.Sound.play(victory_sound)
         self.show_victory_screen(player)
         self.get_back_to_start()
 
