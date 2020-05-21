@@ -240,8 +240,8 @@ class StartScreen:
                         old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord, old_gamefield_y_coord))
                         old_gamefield_rect.w = 100 + old_gamefield_width
                     else:
-                        new_gamefield_x_coord -=100
-                        old_gamefield_x_coord -=100
+                        new_gamefield_x_coord -= 100
+                        old_gamefield_x_coord -= 100
 
                         new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
                         new_gamefield_rect.w = 100 + new_gamefield_width

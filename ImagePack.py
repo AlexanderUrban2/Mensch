@@ -4,6 +4,7 @@ import os.path
 '''
 images need to be stored in a folder named like the image pack that they are using
 if a certain image does not exist in that folder, the default image will be used 
+all images are .png
 '''
 
 
@@ -26,8 +27,8 @@ class ImagePack:
             self.directory_name = "test"
         elif self.image_pack_name == "dark":
             self.directory_name = "dark"
-        elif self.image_pack_name == "heart":
-            self.directory_name = "heart"
+        elif self.image_pack_name == "meme":
+            self.directory_name = "meme"
         # if nothing applies set it to default
         else:
             self.directory_name = "default"
