@@ -24,6 +24,10 @@ class ImagePack:
             self.directory_name = "default"
         elif self.image_pack_name == "test":
             self.directory_name = "test"
+        elif self.image_pack_name == "dark":
+            self.directory_name = "dark"
+        elif self.image_pack_name == "heart":
+            self.directory_name = "heart"
         # if nothing applies set it to default
         else:
             self.directory_name = "default"
@@ -34,14 +38,14 @@ class ImagePack:
             "pawn_player_3": 'images/' + self.directory_name + '/PawnPlayer3.png',
             "pawn_player_4": 'images/' + self.directory_name + '/PawnPlayer4.png',
 
-            "background_image_game": 'images/' + self.directory_name + '/GameField.jpg',
-
             "sound_on_button": 'images/' + self.directory_name + '/SoundButtonOn.png',
             "sound_off_button": 'images/' + self.directory_name + '/SoundButtonOff.png',
 
+            "background_image_game": 'images/' + self.directory_name + '/GameField.png',
             "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.jpg',
             "start_button": 'images/' + self.directory_name + '/StartButton.png',
             "maedn_logo": 'images/' + self.directory_name + '/MaednLogo.png',
+            "rules_help_background":'images/' + self.directory_name + '/RulesHelpBG.png',
 
             "ingame_rules_button": 'images/' + self.directory_name + '/RulesButtonIngame.png',
             "ingame_help_button": 'images/' + self.directory_name + '/HelpButtonIngame.png',
@@ -52,6 +56,8 @@ class ImagePack:
             "player_arrow_up": 'images/' + self.directory_name + '/PlayerArrowUp.png',
             "player_arrow_down": 'images/' + self.directory_name + '/PlayerArrowDown.png',
 
+            "skin_arrow_right": 'images/' + self.directory_name + '/SkinArrowRight.png',
+            "skin_arrow_left": 'images/' + self.directory_name + '/SkinArrowLeft.png',
             "dice_image_1": 'images/' + self.directory_name + '/Dice1.png',
             "dice_image_2": 'images/' + self.directory_name + '/Dice2.png',
             "dice_image_3": 'images/' + self.directory_name + '/Dice3.png',

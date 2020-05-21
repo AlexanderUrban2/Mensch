@@ -34,10 +34,10 @@ class Engine:
         self.refresh_ui()
 
         #tmp = 0
-        #for pawn in self.player_list[3].pawn_list:
+        #for pawn in self.player_list[0].pawn_list:
         #        if tmp == 0:
-        #            pawn.current_position = 29
-        #            tmp = 4020
+        #            pawn.current_position = 39
+        #            tmp = 1020
         #        else:
         #            pawn.current_position = tmp
         #            tmp += 10
