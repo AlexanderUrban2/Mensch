@@ -73,7 +73,7 @@ class StartScreen:
         self.start_button = pygame.image.load(self.data["start_button"])
         self.theme_arrow_right = pygame.image.load(self.data["theme_arrow_right"])
         self.theme_arrow_left = pygame.image.load(self.data["theme_arrow_left"])
-        self.old_gamefield = pygame.image.load(self.data["background_image_game"])
+        self.old_gamefield = pygame.image.load(self.data["theme_image"])
         
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
@@ -178,14 +178,14 @@ class StartScreen:
 
 
         if self.theme_counter == 1:
-            self.old_gamefield = pygame.image.load(self.data["background_image_game"])
+            self.old_gamefield = pygame.image.load(self.data["theme_image"])
             self.images = ImagePack.ImagePack("default")
         
         elif self.theme_counter == 2:
-            self.old_gamefield = pygame.image.load(self.data["background_image_game"])
+            self.old_gamefield = pygame.image.load(self.data["theme_image"])
             self.images = ImagePack.ImagePack("dark")
         else:
-            self.old_gamefield = pygame.image.load(self.data["background_image_game"])
+            self.old_gamefield = pygame.image.load(self.data["theme_image"])
             self.images = ImagePack.ImagePack("heart")
         
         with open('image_pack.txt') as json_file:
@@ -193,7 +193,7 @@ class StartScreen:
             
 
         #neues gamefield rein (slided rein)
-        new_gamefield_image = pygame.transform.smoothscale(pygame.image.load(self.data["background_image_game"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
+        new_gamefield_image = pygame.transform.smoothscale(pygame.image.load(self.data["theme_image"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
         
         new_gamefield_width = new_gamefield_image.get_rect().size[0]
         

@@ -41,6 +41,8 @@ class ImagePack:
             "sound_on_button": 'images/' + self.directory_name + '/SoundButtonOn.png',
             "sound_off_button": 'images/' + self.directory_name + '/SoundButtonOff.png',
 
+            "theme_image": 'images/' + self.directory_name + '/Theme.png',
+
             "background_image_game": 'images/' + self.directory_name + '/GameField.png',
             "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.png',
             "start_button": 'images/' + self.directory_name + '/StartButton.png',
