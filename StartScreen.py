@@ -1,6 +1,7 @@
 import pygame
 import Screen
 import Rules
+import ImagePack
 import json
 
 
@@ -35,9 +36,13 @@ class StartScreen:
     player_arrow_down: pygame.image
     theme_arrow_left: pygame.image
     theme_arrow_right: pygame.image
+    old_gamefield: pygame.image
 
     screen_class: Screen
     rules: Rules
+    image_pack: ImagePack
+
+    data: json
 
     def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font):
         self.init_images()
@@ -60,14 +65,15 @@ class StartScreen:
 
     def init_images(self):
         with open('image_pack.txt') as json_file:
-            data = json.load(json_file)
-        self.background_image = pygame.image.load(data["background_image_start_screen"])
-        self.maedn_logo = pygame.image.load(data["maedn_logo"])
-        self.player_arrow_down = pygame.image.load(data["player_arrow_down"])
-        self.player_arrow_up = pygame.image.load(data["player_arrow_up"])
-        self.start_button = pygame.image.load(data["start_button"])
-        self.theme_arrow_right = pygame.image.load(data["theme_arrow_right"])
-        self.theme_arrow_left = pygame.image.load(data["theme_arrow_left"])
+            self.data = json.load(json_file)
+        self.background_image = pygame.image.load(self.data["background_image_start_screen"])
+        self.maedn_logo = pygame.image.load(self.data["maedn_logo"])
+        self.player_arrow_down = pygame.image.load(self.data["player_arrow_down"])
+        self.player_arrow_up = pygame.image.load(self.data["player_arrow_up"])
+        self.start_button = pygame.image.load(self.data["start_button"])
+        self.theme_arrow_right = pygame.image.load(self.data["theme_arrow_right"])
+        self.theme_arrow_left = pygame.image.load(self.data["theme_arrow_left"])
+        self.old_gamefield = pygame.image.load(self.data["background_image_game"])
         
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
@@ -76,6 +82,7 @@ class StartScreen:
         self.player_arrow_down = pygame.transform.smoothscale(self.player_arrow_down, (int(self.screen_width*0.05), int(self.screen_height*0.05)))
         self.theme_arrow_right = pygame.transform.smoothscale(self.theme_arrow_right, (int(self.screen_width * 0.05), int(self.screen_height * 0.05)))
         self.theme_arrow_left = pygame.transform.smoothscale(self.theme_arrow_left, (int(self.screen_width * 0.05), int(self.screen_height * 0.05)))
+        self.old_gamefield = pygame.transform.smoothscale(self.old_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Mensch Ärgere dich nicht")
@@ -107,7 +114,7 @@ class StartScreen:
         self.screen.blit(self.theme_arrow_right, (self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
 
         # gamefield
-        gamefield_image = pygame.transform.smoothscale(self.maedn_logo, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
+        gamefield_image = pygame.transform.smoothscale(self.old_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
         self.screen.blit(gamefield_image, (self.screen_width/2 - gamefield_image.get_rect().size[0]/2, self.screen_size_multiplier*3 - gamefield_image.get_rect().size[1]/2))
 
         # Theme Text
@@ -167,9 +174,26 @@ class StartScreen:
         change_time = current_time + delay
         animation = True
 
+   
+
+
+        if self.theme_counter == 1:
+            self.old_gamefield = pygame.image.load(self.data["background_image_game"])
+            self.images = ImagePack.ImagePack("default")
+        
+        elif self.theme_counter == 2:
+            self.old_gamefield = pygame.image.load(self.data["background_image_game"])
+            self.images = ImagePack.ImagePack("dark")
+        else:
+            self.old_gamefield = pygame.image.load(self.data["background_image_game"])
+            self.images = ImagePack.ImagePack("heart")
+        
+        with open('image_pack.txt') as json_file:
+            self.data = json.load(json_file)
+            
 
         #neues gamefield rein (slided rein)
-        new_gamefield_image = pygame.transform.smoothscale(self.background_image, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
+        new_gamefield_image = pygame.transform.smoothscale(pygame.image.load(self.data["background_image_game"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
         
         new_gamefield_width = new_gamefield_image.get_rect().size[0]
         
@@ -184,7 +208,7 @@ class StartScreen:
         new_gamefield_rect.w = 100 + new_gamefield_width
 
         #altes gamefield raus (slided raus)
-        old_gamefield_image = pygame.transform.smoothscale(self.maedn_logo, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
+        old_gamefield_image = pygame.transform.smoothscale(self.old_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
         old_gamefield_width = old_gamefield_image.get_rect().size[0]
 
@@ -284,13 +308,13 @@ class StartScreen:
                         self.theme_counter = 3
                     else:
                         self.theme_counter -= 1
-                    self.update_theme(1)
+                    self.update_theme(0)
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.skin_arrow_right_rect.collidepoint(pygame.mouse.get_pos()):
                     if self.theme_counter + 1 > 3:
                         self.theme_counter = 1
                     else:
                         self.theme_counter += 1
-                    self.update_theme(0)
+                    self.update_theme(1)
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.hidden_rect.collidepoint(pygame.mouse.get_pos()):
                     self.run = False
                     #Hidden Kecks Quest einbauen
