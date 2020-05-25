@@ -85,6 +85,7 @@ help = Help.Help(screen, start_screen_font, "Help.txt")
 start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
 
 player_count = start_screen.start_game()
+gamefield = GameField.GameField(text_font)
 
 AI_TURN_TIME_DELAY = 1  # in seconds
 AI_DIFFICULTY = 1
