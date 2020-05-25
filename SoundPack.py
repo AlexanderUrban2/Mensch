@@ -24,15 +24,9 @@ class SoundPack:
         self.start_background_music()
 
     def create_sound_dictionary(self):
-        if self.sound_pack_name == "default":
-            self.directory_name = "default"
-        elif self.sound_pack_name == "test":
-            self.directory_name = "test"
-        elif self.sound_pack_name == "dark":
-            self.directory_name = "dark"
-        elif self.sound_pack_name == "meme":
-            self.directory_name = "meme"
-        # if nothing applies set it to default
+        if os.path.exists("music/" + self.sound_pack_name):
+            self.directory_name = self.sound_pack_name
+        # if the path doesnt't exist set it to default
         else:
             self.directory_name = "default"
 

@@ -106,7 +106,11 @@ class GameField:
         else:
             pass
 
-    def blit_text(self, text, x_coordinate, y_coordinate, color=pygame.Color('black')):
+    def blit_text(self, text, x_coordinate, y_coordinate):
+        with open('text_color_pack.txt') as json_file:
+            data = json.load(json_file)
+        color = data["text_info_color"]
+        # define color
 
         if x_coordinate != 0:
             x_coordinate = self.screen_size_multiplier * x_coordinate

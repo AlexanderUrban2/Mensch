@@ -39,11 +39,17 @@ class StartScreen:
     screen_class: Screen
     rules: Rules
 
+    text_color: (int, int, int)
+
     def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font):
         self.init_images()
 
         self.font = font
         self.run = True
+
+        with open('text_color_pack.txt') as json_file:
+            data = json.load(json_file)
+        self.text_color = data["start_screen_color"]
 
         self.rules = rules
 
@@ -85,15 +91,15 @@ class StartScreen:
         rule_message_str = "RuleS"
         player_text_str = "Number of PlayerS:"
         theme_text_str = "Theme"
-        hello_message = self.font.render(hello_message_str, True, (0, 0, 255))
-        start_game_message = self.font.render(start_game_message_str, True, (0, 0, 255))
-        rule_message = self.font.render(rule_message_str, True, (0, 0, 255))
-        player_text = self.font.render(player_text_str, True, (0, 0, 255))
-        theme_text = self.font.render(theme_text_str, True, (0, 0, 255))
-        player_counter = self.font.render(str(self.player_counter), True, (0, 0, 255))
-        theme_counter = self.font.render(str(self.theme_counter), True, (0, 0, 255))
-        player_counter_max = self.font.render("4", True, (0, 0, 255))
-        theme_counter_max = self.font.render("4", True, (0, 0, 255))
+        hello_message = self.font.render(hello_message_str, True, self.text_color)
+        start_game_message = self.font.render(start_game_message_str, True, self.text_color)
+        rule_message = self.font.render(rule_message_str, True, self.text_color)
+        player_text = self.font.render(player_text_str, True, self.text_color)
+        theme_text = self.font.render(theme_text_str, True, self.text_color)
+        player_counter = self.font.render(str(self.player_counter), True, self.text_color)
+        theme_counter = self.font.render(str(self.theme_counter), True, self.text_color)
+        player_counter_max = self.font.render("4", True, self.text_color)
+        theme_counter_max = self.font.render("4", True, self.text_color)
 
         # Hi message
         self.screen.blit(hello_message, (self.screen_width/2 - self.font.size(hello_message_str)[0]/2,  0))
@@ -149,12 +155,12 @@ class StartScreen:
 
     def update_player_counter_on_screen(self):
         self.screen.blit(self.background_image, (0, 0))
-        self.screen.blit(self.font.render(str(self.player_counter), True, (0, 0, 255)), (self.screen_width*0.55, self.screen_size_multiplier*8 - 0.5*self.font.size("Number of PlayerS:")[1]))
+        self.screen.blit(self.font.render(str(self.player_counter), True, self.text_color), (self.screen_width*0.55, self.screen_size_multiplier*8 - 0.5*self.font.size("Number of PlayerS:")[1]))
         pygame.display.update(self.player_counter_rect)
 
     def update_theme(self, option):
         self.screen.blit(self.background_image, (0, 0))
-        self.screen.blit(self.font.render(str(self.theme_counter), True, (0, 0, 255)), (self.screen_width/2 + self.font.size("Theme ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size("Theme ")[1]))
+        self.screen.blit(self.font.render(str(self.theme_counter), True, self.text_color), (self.screen_width/2 + self.font.size("Theme ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size("Theme ")[1]))
         pygame.display.update(self.theme_counter_rect)
 
         self.gamefield_animation(option)

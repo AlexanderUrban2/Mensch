@@ -24,6 +24,8 @@ class Help:
 
     screen_class = Screen
 
+    text_color: (int, int, int)
+
     def __init__(self, screen_class: Screen,  font: pygame.font, filename: str):
         self.init_images()
 
@@ -39,6 +41,10 @@ class Help:
 
         self.get_file_content()
         self.build_game_screen()
+
+        with open('text_color_pack.txt') as json_file:
+            data = json.load(json_file)
+        self.text_color = data["rules_help_color"]
 
         self.counter = 0
         self.surface_height = 0
@@ -65,14 +71,14 @@ class Help:
 
     # stackoverflow https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
     #Methode um den text auf das surface zu packen. Dabei werden die wörter so geblittet das keine wörter über 2 Zeilen gehen
-    def blit_text(self,surface, text, pos, font, color=pygame.Color('black')):
+    def blit_text(self, surface, text, pos, font):
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
         space = font.size(' ')[0]  # The width of a space.
         max_width, max_height = surface.get_size()
         x, y = pos
         for line in words:
             for word in line:
-                word_surface = font.render(word, 0, color)
+                word_surface = font.render(word, 0, self.text_color)
                 word_width, word_height = word_surface.get_size()
                 if x + word_width >= max_width:
                     x = pos[0]  # Reset the x.
@@ -89,7 +95,7 @@ class Help:
     def update_screen(self):
         self.run = True
         back_message = "Back"
-        back_message_font = self.font.render(back_message, True, (0, 0, 0))
+        back_message_font = self.font.render(back_message, True, self.text_color)
 
         self.screen.blit(self.background_image, (0, 0))
         self.screen.blit(self.back_arrow_image, (self.screen_width * 0.01, self.screen_height * 0.005))

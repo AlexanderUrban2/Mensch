@@ -11,15 +11,13 @@ class Pawn(pygame.sprite.Sprite):
     current_position: int
     pawn_number: int
     player_number: int
-    color: (int, int, int)
     pawn_image: pygame.image
 
-    def __init__(self, pawn_number: int, player_number: int, color: (int, int, int)):
+    def __init__(self, pawn_number: int, player_number: int):
         pygame.sprite.Sprite.__init__(self)
         self.pawn_number = pawn_number
         self.player_number = player_number
         self.current_position = player_number * 100 + pawn_number * 10
-        self.color = color
 
         self.init_images()
         self.create_picture()
@@ -44,22 +42,6 @@ class Pawn(pygame.sprite.Sprite):
         radius = height // 3
         self.pawn_image = pygame.transform.smoothscale(self.pawn_image, (radius * 2, radius * 2))
         self.image.blit(self.pawn_image, (height // 2 - self.pawn_image.get_width() // 2, width // 2 - self.pawn_image.get_height() // 2))
-        font = pygame.font.Font(None, radius)
-        text = font.render(str(self.pawn_number), True, (0, 0, 0))
-        self.image.blit(text, (height // 2 - text.get_width() // 2, width // 2 - text.get_height() // 2))
-
-    def create_image(self):
-        #  get the size of a field of the 11*11 matrix
-        height = pygame.display.get_surface().get_size()[0] // 11
-        width = pygame.display.get_surface().get_size()[1] // 11
-
-        # make the surface transparent
-        self.image = pygame.Surface([height, width], pygame.SRCALPHA)
-        self.image.fill((0, 0, 0, 0))
-
-        # draw a circle with a number on the surface
-        radius = height // 3
-        pygame.draw.circle(self.image, self.color, (height // 2, width // 2), radius, radius)
         font = pygame.font.Font(None, radius)
         text = font.render(str(self.pawn_number), True, (0, 0, 0))
         self.image.blit(text, (height // 2 - text.get_width() // 2, width // 2 - text.get_height() // 2))

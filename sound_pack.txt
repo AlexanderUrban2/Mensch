@@ -1,0 +1,1 @@
+{"background_music": "music/default/background_music.wav", "hit_enemy_pawn_sound": "music/default/hit_enemy_pawn_sound.wav", "hit_own_pawn_sound": "music/default/hit_own_pawn_sound.wav", "unfortunate_sound": "music/default/unfortunate_sound.wav", "victory_sound": "music/default/victory_sound.wav"}

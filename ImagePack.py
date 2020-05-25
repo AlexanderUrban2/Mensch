@@ -21,15 +21,9 @@ class ImagePack:
 
     # Pawn_1, Pawn_2, ... need to be provided as images in the respective player's color
     def create_image_dictionary(self):
-        if self.image_pack_name == "default":
-            self.directory_name = "default"
-        elif self.image_pack_name == "test":
-            self.directory_name = "test"
-        elif self.image_pack_name == "dark":
-            self.directory_name = "dark"
-        elif self.image_pack_name == "meme":
-            self.directory_name = "meme"
-        # if nothing applies set it to default
+        if os.path.exists('images/' + self.image_pack_name):
+            self.directory_name = self.image_pack_name
+        # if the path doesn't exist set it to default
         else:
             self.directory_name = "default"
 
