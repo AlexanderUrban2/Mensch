@@ -49,7 +49,7 @@ class StartScreen:
 
     theme_list: ()
 
-    def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font, theme_list: ()):
+    def __init__(self, screen_class: Screen, font: pygame.font, theme_list: ()):
         # theme_list includes all available themes as strings
         self.theme_list = theme_list
         self.theme_pack = ThemePack.ThemePack(self.theme_list[0])
@@ -61,8 +61,6 @@ class StartScreen:
         with open('text_color_pack.txt') as json_file:
             data = json.load(json_file)
         self.text_color = data["start_screen_color"]
-
-        self.rules = rules
 
         self.screen_class = screen_class
         self.screen = self.screen_class.screen
@@ -191,13 +189,11 @@ class StartScreen:
         # update ThemePack
         self.theme_pack = ThemePack.ThemePack(self.theme_list[self.theme_counter-1])
         # update the rules screen
-        self.rules = Rules.Rules(self.screen_class, self.font, "Rule.txt")
 
         with open('image_pack.txt') as json_file:
             self.data = json.load(json_file)
 
-
-        #neues gamefield rein (slided rein)
+        # neues gamefield rein (slided rein)
         self.current_gamefield = pygame.transform.smoothscale(pygame.image.load(self.data["theme_image"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
         new_gamefield_width = self.current_gamefield.get_rect().size[0]
@@ -324,6 +320,8 @@ class StartScreen:
                     self.run = False
                     #Hidden Kecks Quest einbauen
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.rule_message_rect.collidepoint(pygame.mouse.get_pos()):
+                    # initialize rules here, in order to guarantee the use of the correct images
+                    self.rules = Rules.Rules(self.screen_class, self.font, "Rule.txt")
                     self.rules.show_screen()
                     self.build_game_screen()
 

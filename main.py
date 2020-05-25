@@ -77,8 +77,8 @@ gamefield = GameField.GameField(text_font)
 
 screen = Screen.Screen()
 
+start_screen = StartScreen.StartScreen(screen, start_screen_font, theme_list)
 rules = Rules.Rules(screen, start_screen_font, "Rule.txt")
-start_screen = StartScreen.StartScreen(screen, rules, start_screen_font, theme_list)
 help = Help.Help(screen, start_screen_font, "Help.txt")
 
 player_count = start_screen.start_game()
