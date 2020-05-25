@@ -4,6 +4,7 @@ import os.path
 '''
 images need to be stored in a folder named like the image pack that they are using
 if a certain image does not exist in that folder, the default image will be used 
+all images are .png
 '''
 
 
@@ -20,15 +21,9 @@ class ImagePack:
 
     # Pawn_1, Pawn_2, ... need to be provided as images in the respective player's color
     def create_image_dictionary(self):
-        if self.image_pack_name == "default":
-            self.directory_name = "default"
-        elif self.image_pack_name == "test":
-            self.directory_name = "test"
-        elif self.image_pack_name == "dark":
-            self.directory_name = "dark"
-        elif self.image_pack_name == "heart":
-            self.directory_name = "heart"
-        # if nothing applies set it to default
+        if os.path.exists('images/' + self.image_pack_name):
+            self.directory_name = self.image_pack_name
+        # if the path doesn't exist set it to default
         else:
             self.directory_name = "default"
 
@@ -40,6 +35,8 @@ class ImagePack:
 
             "sound_on_button": 'images/' + self.directory_name + '/SoundButtonOn.png',
             "sound_off_button": 'images/' + self.directory_name + '/SoundButtonOff.png',
+
+            "theme_image": 'images/' + self.directory_name + '/Theme.png',
 
             "background_image_game": 'images/' + self.directory_name + '/GameField.png',
             "background_image_start_screen": 'images/' + self.directory_name + '/StartScreen.png',

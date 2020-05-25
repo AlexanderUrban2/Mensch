@@ -7,8 +7,8 @@ import Rules
 import Help
 import Screen
 import AI
-import ImagePack
 import Victory
+import ThemePack
 '''
 meme:
 hit_enemy_pawn: Airh Horn Sound, permitted under Creative Commons (CC-by), Autor: Gingka Akiyama
@@ -54,9 +54,9 @@ pygame.init()
 pygame.font.init()
 pygame.mixer.init()
 
-pygame.mixer.music.load('music/background_music.wav')
-pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(.03)
+#pygame.mixer.music.load('music/background_music.wav')
+#pygame.mixer.music.play(-1)
+#pygame.mixer.music.set_volume(.03)
 
 
 def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: int):
@@ -67,8 +67,7 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
     return player_list
 
 
-# current image packs: default, test
-images = ImagePack.ImagePack("dark")
+theme_list = ("default", "dark", "meme")
 
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
@@ -80,9 +79,10 @@ screen = Screen.Screen()
 
 rules = Rules.Rules(screen, start_screen_font, "Rule.txt")
 help = Help.Help(screen, start_screen_font, "Help.txt")
-start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
+start_screen = StartScreen.StartScreen(screen, rules, start_screen_font, theme_list)
 
 player_count = start_screen.start_game()
+gamefield = GameField.GameField(text_font)
 
 AI_TURN_TIME_DELAY = 1  # in seconds
 AI_DIFFICULTY = 1

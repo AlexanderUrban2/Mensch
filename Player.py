@@ -6,14 +6,11 @@ import pygame
 class Player:
     player_number: int
     pawn_list = list
-    color: (int, int, int)
 
     def __init__(self, player_number: int):
         self.player_number = player_number
 
-        self.color = colors.colors[player_number]
-
-        self.pawn_list = [Pawn.Pawn(i + 1, self.player_number, self.color) for i in range(4)]
+        self.pawn_list = [Pawn.Pawn(i + 1, self.player_number) for i in range(4)]
 
     def has_won(self) -> bool:
         for pawn in self.pawn_list:
