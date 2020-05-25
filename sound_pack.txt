@@ -1,1 +1,1 @@
-{"background_music": "music/default/background_music.wav", "hit_enemy_pawn_sound": "music/default/hit_enemy_pawn_sound.wav", "hit_own_pawn_sound": "music/default/hit_own_pawn_sound.wav", "unfortunate_sound": "music/default/unfortunate_sound.wav", "victory_sound": "music/default/victory_sound.wav"}
+{"background_music": "music/meme/background_music.wav", "hit_enemy_pawn_sound": "music/meme/hit_enemy_pawn.wav", "hit_own_pawn_sound": "music/meme/hit_own_pawn.wav", "unfortunate_sound": "music/meme/unfortunate_sound.wav", "victory_sound": "music/meme/victory_sound.wav"}

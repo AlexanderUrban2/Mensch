@@ -32,8 +32,8 @@ class SoundPack:
 
         self.sound_dictionary = {
             "background_music": 'music/' + self.directory_name + '/background_music.wav',
-            "hit_enemy_pawn_sound": 'music/' + self.directory_name + '/hit_enemy_pawn_sound.wav',
-            "hit_own_pawn_sound": 'music/' + self.directory_name + '/hit_own_pawn_sound.wav',
+            "hit_enemy_pawn_sound": 'music/' + self.directory_name + '/hit_enemy_pawn.wav',
+            "hit_own_pawn_sound": 'music/' + self.directory_name + '/hit_own_pawn.wav',
             "unfortunate_sound": 'music/' + self.directory_name + '/unfortunate_sound.wav',
             "victory_sound": 'music/' + self.directory_name + '/victory_sound.wav',
         }

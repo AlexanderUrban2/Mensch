@@ -6,6 +6,7 @@ import time
 import Rules
 import Help
 import random
+import SoundHelper
 
 
 class Engine:
@@ -16,10 +17,13 @@ class Engine:
     rules: Rules
     help: Help
 
+    sound_helper: SoundHelper
+
     rules_button_rect: pygame.rect
     help_button_rect: pygame.rect
 
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
+        self.sound_helper = SoundHelper.SoundHelper()
         self.player_list = players
         self.game_field = gamefield
         self.dice = Dice.Dice(self.game_field)
@@ -185,8 +189,9 @@ class Engine:
                 if player.player_number - 1 != current_player:
                     if pawn.current_position == current_position:
                         # play sound when a pawn gets hit
-                        airhorn_sound = pygame.mixer.Sound('music/hit_enemy_pawn.wav')
-                        pygame.mixer.Sound.play(airhorn_sound)
+                        #airhorn_sound = pygame.mixer.Sound('music/hit_enemy_pawn.wav')
+                        #pygame.mixer.Sound.play(airhorn_sound)
+                        self.sound_helper.play_sound("hit_enemy_pawn_sound")
 
                         pawn.move_pawn_to_house()
                         return
@@ -214,13 +219,9 @@ class Engine:
                     if pawn.current_position == current_position:
 
                         if player_counter == current_player:
-                            # play oof if you hit your own pawn
-                            roblox_oof_sound = pygame.mixer.Sound('music/hit_own_pawn.wav')
-                            pygame.mixer.Sound.play(roblox_oof_sound)
+                            self.sound_helper.play_sound("hit_own_pawn_sound")
                         else:
-                            # otherwise play the airhorn
-                            airhorn_sound = pygame.mixer.Sound('music/hit_enemy_pawn.wav')
-                            pygame.mixer.Sound.play(airhorn_sound)
+                            self.sound_helper.play_sound("hit_enemy_pawn_sound")
 
                         pawn.move_pawn_to_house()
                         break
@@ -258,8 +259,7 @@ class Engine:
                             self.game_field.show_text_info(current_player, "Unfortunate!")
                             # no move is possible -> the turn ends
                             # play an error sound
-                            error_sound = pygame.mixer.Sound('music/unfortunate_sound.wav')
-                            error_sound.play()
+                            self.sound_helper.play_sound("unfortunate_sound")
                             return
 
                         select = True
@@ -298,10 +298,12 @@ class Engine:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
                     if pygame.mixer.music.get_busy():
                         pygame.mixer.music.stop()
+                        self.sound_helper.stop_channel()
                         self.refresh_ui()
                     else:
                         pygame.mixer.music.load('music/background_music.wav')
                         pygame.mixer.music.play(-1)
+                        self.sound_helper.resume_channel()
                         self.refresh_ui()
 
                 elif event.type == pygame.QUIT:
@@ -351,8 +353,7 @@ class Engine:
                         self.game_field.show_text_info(current_player, "Unfortunate!")
                         # your turn ends if no pawn can be moved
                         # play an error sound
-                        error_sound = pygame.mixer.Sound('music/unfortunate_sound.wav')
-                        error_sound.play()
+                        self.sound_helper.play_sound("unfortunate_sound")
                         return
 
                     time_previous = time_now
@@ -401,10 +402,12 @@ class Engine:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
                     if pygame.mixer.music.get_busy():
                         pygame.mixer.music.stop()
+                        self.sound_helper.stop_channel()
                         self.refresh_ui()
                     else:
                         pygame.mixer.music.load('music/background_music.wav')
                         pygame.mixer.music.play(-1)
+                        self.sound_helper.resume_channel()
                         self.refresh_ui()
 
     def select_pawn(self) -> int:

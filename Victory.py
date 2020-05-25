@@ -2,6 +2,7 @@ import pygame
 import Screen
 import Engine
 import json
+import SoundHelper
 
 
 class Victory:
@@ -22,7 +23,10 @@ class Victory:
 
     continue_button_image_rect: pygame.rect
 
+    sound_helper: SoundHelper
+
     def __init__(self, screen: Screen, engine: Engine, font: pygame.font):
+        self.sound_helper = SoundHelper.SoundHelper()
         self.screen_class = screen
         self.screen = self.screen_class.screen
         self.engine = engine
@@ -55,8 +59,7 @@ class Victory:
 
     def victory(self, player):
         self.player_win_animation(player)
-        victory_sound = pygame.mixer.Sound('music/victory_sound.wav')
-        pygame.mixer.Sound.play(victory_sound)
+        self.sound_helper.play_sound("victory_sound")
         self.show_victory_screen(player)
         self.get_back_to_start()
 

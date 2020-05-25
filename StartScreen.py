@@ -36,6 +36,7 @@ class StartScreen:
     player_arrow_down: pygame.image
     theme_arrow_left: pygame.image
     theme_arrow_right: pygame.image
+    current_gamefield: pygame.image
     old_gamefield: pygame.image
 
     screen_class: Screen
@@ -48,7 +49,7 @@ class StartScreen:
 
     theme_list: ()
 
-    def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font, theme_list: ()):
+    def __init__(self, screen_class: Screen, font: pygame.font, theme_list: ()):
         # theme_list includes all available themes as strings
         self.theme_list = theme_list
         self.theme_pack = ThemePack.ThemePack(self.theme_list[0])
@@ -60,8 +61,6 @@ class StartScreen:
         with open('text_color_pack.txt') as json_file:
             data = json.load(json_file)
         self.text_color = data["start_screen_color"]
-
-        self.rules = rules
 
         self.screen_class = screen_class
         self.screen = self.screen_class.screen
@@ -84,7 +83,7 @@ class StartScreen:
         self.start_button = pygame.image.load(self.data["start_button"])
         self.theme_arrow_right = pygame.image.load(self.data["theme_arrow_right"])
         self.theme_arrow_left = pygame.image.load(self.data["theme_arrow_left"])
-        self.old_gamefield = pygame.image.load(self.data["theme_image"])
+        self.current_gamefield = pygame.image.load(self.data["theme_image"])
         
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
@@ -93,7 +92,7 @@ class StartScreen:
         self.player_arrow_down = pygame.transform.smoothscale(self.player_arrow_down, (int(self.screen_width*0.05), int(self.screen_height*0.05)))
         self.theme_arrow_right = pygame.transform.smoothscale(self.theme_arrow_right, (int(self.screen_width * 0.05), int(self.screen_height * 0.05)))
         self.theme_arrow_left = pygame.transform.smoothscale(self.theme_arrow_left, (int(self.screen_width * 0.05), int(self.screen_height * 0.05)))
-        self.old_gamefield = pygame.transform.smoothscale(self.old_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
+        self.current_gamefield = pygame.transform.smoothscale(self.current_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
         pygame.display.set_caption("Mensch Ärgere dich nicht")
@@ -125,7 +124,7 @@ class StartScreen:
         self.screen.blit(self.theme_arrow_right, (self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
 
         # gamefield
-        gamefield_image = pygame.transform.smoothscale(self.old_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
+        gamefield_image = pygame.transform.smoothscale(self.current_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
         self.screen.blit(gamefield_image, (self.screen_width/2 - gamefield_image.get_rect().size[0]/2, self.screen_size_multiplier*3 - gamefield_image.get_rect().size[1]/2))
 
         # Theme Text
@@ -187,25 +186,26 @@ class StartScreen:
 
         self.old_gamefield = pygame.image.load(self.data["theme_image"])
 
+        # update ThemePack
         self.theme_pack = ThemePack.ThemePack(self.theme_list[self.theme_counter-1])
+        # update the rules screen
 
         with open('image_pack.txt') as json_file:
             self.data = json.load(json_file)
 
+        # neues gamefield rein (slided rein)
+        self.current_gamefield = pygame.transform.smoothscale(pygame.image.load(self.data["theme_image"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
-        #neues gamefield rein (slided rein)
-        new_gamefield_image = pygame.transform.smoothscale(pygame.image.load(self.data["theme_image"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
+        new_gamefield_width = self.current_gamefield.get_rect().size[0]
 
-        new_gamefield_width = new_gamefield_image.get_rect().size[0]
-
-        new_gamefield_x_coord_end = self.screen_width/2 - new_gamefield_image.get_rect().size[0]/2
+        new_gamefield_x_coord_end = self.screen_width/2 - self.current_gamefield.get_rect().size[0]/2
 
         if option == 0:
             new_gamefield_x_coord = -new_gamefield_width
         else:
             new_gamefield_x_coord = self.screen_width + new_gamefield_width
-        new_gamefield_y_coord = self.screen_size_multiplier*3 - new_gamefield_image.get_rect().size[1]/2
-        new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
+        new_gamefield_y_coord = self.screen_size_multiplier*3 - self.current_gamefield.get_rect().size[1]/2
+        new_gamefield_rect = self.current_gamefield.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
         new_gamefield_rect.w = 100 + new_gamefield_width
 
         #altes gamefield raus (slided raus)
@@ -229,19 +229,19 @@ class StartScreen:
                 if new_gamefield_x_coord + 100 >= new_gamefield_x_coord_end and option == 0:
                     self.screen.blit(self.theme_arrow_right, (self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
                     self.screen.blit(self.theme_arrow_left, (self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[1]))
-                    self.screen.blit(new_gamefield_image, (new_gamefield_x_coord_end, new_gamefield_y_coord))
+                    self.screen.blit(self.current_gamefield, (new_gamefield_x_coord_end, new_gamefield_y_coord))
                     self.screen.blit(old_gamefield_image, (self.screen_width, old_gamefield_y_coord))
                     pygame.display.update(new_gamefield_rect)
                     pygame.display.update(old_gamefield_rect)
                     animation = False
                 elif new_gamefield_x_coord - 100 <= new_gamefield_x_coord_end and option == 1:
-                    new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord-100, new_gamefield_y_coord))
+                    new_gamefield_rect = self.current_gamefield.get_rect(topleft=(new_gamefield_x_coord-100, new_gamefield_y_coord))
                     new_gamefield_rect.w = 100 + new_gamefield_width
                     old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord-100, old_gamefield_y_coord))
                     old_gamefield_rect.w = 100 + old_gamefield_width
                     self.screen.blit(self.theme_arrow_right, (self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
                     self.screen.blit(self.theme_arrow_left, (self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[1]))
-                    self.screen.blit(new_gamefield_image, (new_gamefield_x_coord_end, new_gamefield_y_coord))
+                    self.screen.blit(self.current_gamefield, (new_gamefield_x_coord_end, new_gamefield_y_coord))
                     self.screen.blit(old_gamefield_image, (-old_gamefield_width, old_gamefield_y_coord))
                     pygame.display.update(new_gamefield_rect)
                     pygame.display.update(old_gamefield_rect)
@@ -252,7 +252,7 @@ class StartScreen:
                         old_gamefield_x_coord += 100
                         self.screen.blit(self.theme_arrow_right, (self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
                         self.screen.blit(self.theme_arrow_left, (self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[1]))
-                        self.screen.blit(new_gamefield_image, (new_gamefield_x_coord, new_gamefield_y_coord))
+                        self.screen.blit(self.current_gamefield, (new_gamefield_x_coord, new_gamefield_y_coord))
                         self.screen.blit(old_gamefield_image, (old_gamefield_x_coord, old_gamefield_y_coord))
 
                         pygame.display.update(new_gamefield_rect)
@@ -260,7 +260,7 @@ class StartScreen:
 
                         self.screen.blit(self.background_image, (0, 0))
 
-                        new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
+                        new_gamefield_rect = self.current_gamefield.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
                         new_gamefield_rect.w = 100 + new_gamefield_width
                         old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord, old_gamefield_y_coord))
                         old_gamefield_rect.w = 100 + old_gamefield_width
@@ -268,14 +268,14 @@ class StartScreen:
                         new_gamefield_x_coord -= 100
                         old_gamefield_x_coord -= 100
 
-                        new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
+                        new_gamefield_rect = self.current_gamefield.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
                         new_gamefield_rect.w = 100 + new_gamefield_width
                         old_gamefield_rect = old_gamefield_image.get_rect(topleft=(old_gamefield_x_coord, old_gamefield_y_coord))
                         old_gamefield_rect.w = 100 + old_gamefield_width
 
                         self.screen.blit(self.theme_arrow_right, (self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
                         self.screen.blit(self.theme_arrow_left, (self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[1]))
-                        self.screen.blit(new_gamefield_image, (new_gamefield_x_coord, new_gamefield_y_coord))
+                        self.screen.blit(self.current_gamefield, (new_gamefield_x_coord, new_gamefield_y_coord))
                         self.screen.blit(old_gamefield_image, (old_gamefield_x_coord, old_gamefield_y_coord))
 
                         pygame.display.update(new_gamefield_rect)
@@ -320,6 +320,8 @@ class StartScreen:
                     self.run = False
                     #Hidden Kecks Quest einbauen
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.rule_message_rect.collidepoint(pygame.mouse.get_pos()):
+                    # initialize rules here, in order to guarantee the use of the correct images
+                    self.rules = Rules.Rules(self.screen_class, self.font, "Rule.txt")
                     self.rules.show_screen()
                     self.build_game_screen()
 
