@@ -67,10 +67,7 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
     return player_list
 
 
-#sound_pack = SoundPack.SoundPack("xasd")
-# current image packs: default, test, dark, meme
-#images = ImagePack.ImagePack("dark")
-theme_pack = ThemePack.ThemePack("default", "dark", "dark")
+theme_list = ("default", "dark", "meme")
 
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
@@ -82,7 +79,7 @@ screen = Screen.Screen()
 
 rules = Rules.Rules(screen, start_screen_font, "Rule.txt")
 help = Help.Help(screen, start_screen_font, "Help.txt")
-start_screen = StartScreen.StartScreen(screen, rules, start_screen_font)
+start_screen = StartScreen.StartScreen(screen, rules, start_screen_font, theme_list)
 
 player_count = start_screen.start_game()
 gamefield = GameField.GameField(text_font)

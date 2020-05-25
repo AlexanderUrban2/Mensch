@@ -1,8 +1,8 @@
 import pygame
 import Screen
 import Rules
-import ImagePack
 import json
+import ThemePack
 
 
 class StartScreen:
@@ -18,8 +18,8 @@ class StartScreen:
     hidden_rect: pygame.rect
     player_arrow_up_rect: pygame.rect
     player_arrow_down_rect: pygame.rect
-    skin_arrow_right_rect: pygame.rect
-    skin_arrow_left_rect: pygame.rect
+    theme_arrow_right_rect: pygame.rect
+    theme_arrow_left_rect: pygame.rect
     player_counter_rect: pygame.rect
     theme_counter_rect: pygame.rect
 
@@ -40,13 +40,18 @@ class StartScreen:
 
     screen_class: Screen
     rules: Rules
-    image_pack: ImagePack
+    theme_pack: ThemePack
 
     data: json
 
     text_color: (int, int, int)
 
-    def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font):
+    theme_list: ()
+
+    def __init__(self, screen_class: Screen, rules: Rules, font: pygame.font, theme_list: ()):
+        # theme_list includes all available themes as strings
+        self.theme_list = theme_list
+        self.theme_pack = ThemePack.ThemePack(self.theme_list[0])
         self.init_images()
 
         self.font = font
@@ -112,11 +117,11 @@ class StartScreen:
         self.screen.blit(hello_message, (self.screen_width/2 - self.font.size(hello_message_str)[0]/2,  0))
 
         # arrow left
-        self.skin_arrow_left_rect = self.theme_arrow_left.get_rect(topleft=(self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.player_arrow_up.get_rect().size[1]))
+        self.theme_arrow_left_rect = self.theme_arrow_left.get_rect(topleft=(self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.player_arrow_up.get_rect().size[1]))
         self.screen.blit(self.theme_arrow_left, (self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[1]))
 
         # arrow right
-        self.skin_arrow_right_rect = self.theme_arrow_right.get_rect(topleft=(self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
+        self.theme_arrow_right_rect = self.theme_arrow_right.get_rect(topleft=(self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
         self.screen.blit(self.theme_arrow_right, (self.screen_size_multiplier * 8, self.screen_size_multiplier * 3 - self.theme_arrow_right.get_rect().size[1]))
 
         # gamefield
@@ -173,36 +178,26 @@ class StartScreen:
         self.gamefield_animation(option)
 
     def gamefield_animation(self, option):
-        
+
         delay = 75
 
         current_time = pygame.time.get_ticks()
         change_time = current_time + delay
         animation = True
 
-   
+        self.old_gamefield = pygame.image.load(self.data["theme_image"])
 
+        self.theme_pack = ThemePack.ThemePack(self.theme_list[self.theme_counter-1])
 
-        if self.theme_counter == 1:
-            self.old_gamefield = pygame.image.load(self.data["theme_image"])
-            self.images = ImagePack.ImagePack("default")
-        
-        elif self.theme_counter == 2:
-            self.old_gamefield = pygame.image.load(self.data["theme_image"])
-            self.images = ImagePack.ImagePack("dark")
-        else:
-            self.old_gamefield = pygame.image.load(self.data["theme_image"])
-            self.images = ImagePack.ImagePack("heart")
-        
         with open('image_pack.txt') as json_file:
             self.data = json.load(json_file)
-            
+
 
         #neues gamefield rein (slided rein)
         new_gamefield_image = pygame.transform.smoothscale(pygame.image.load(self.data["theme_image"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
-        
+
         new_gamefield_width = new_gamefield_image.get_rect().size[0]
-        
+
         new_gamefield_x_coord_end = self.screen_width/2 - new_gamefield_image.get_rect().size[0]/2
 
         if option == 0:
@@ -259,10 +254,10 @@ class StartScreen:
                         self.screen.blit(self.theme_arrow_left, (self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[1]))
                         self.screen.blit(new_gamefield_image, (new_gamefield_x_coord, new_gamefield_y_coord))
                         self.screen.blit(old_gamefield_image, (old_gamefield_x_coord, old_gamefield_y_coord))
-                        
+
                         pygame.display.update(new_gamefield_rect)
                         pygame.display.update(old_gamefield_rect)
-                        
+
                         self.screen.blit(self.background_image, (0, 0))
 
                         new_gamefield_rect = new_gamefield_image.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
@@ -282,10 +277,10 @@ class StartScreen:
                         self.screen.blit(self.theme_arrow_left, (self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[0], self.screen_size_multiplier * 3 - self.theme_arrow_left.get_rect().size[1]))
                         self.screen.blit(new_gamefield_image, (new_gamefield_x_coord, new_gamefield_y_coord))
                         self.screen.blit(old_gamefield_image, (old_gamefield_x_coord, old_gamefield_y_coord))
-                        
+
                         pygame.display.update(new_gamefield_rect)
                         pygame.display.update(old_gamefield_rect)
-                        
+
                         self.screen.blit(self.background_image, (0, 0))
 
     def start_game(self) -> int:
@@ -309,14 +304,14 @@ class StartScreen:
                     else:
                         self.player_counter -= 1
                     self.update_player_counter_on_screen()
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.skin_arrow_left_rect.collidepoint(pygame.mouse.get_pos()):
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.theme_arrow_left_rect.collidepoint(pygame.mouse.get_pos()):
                     if self.theme_counter - 1 < 1:
-                        self.theme_counter = 3
+                        self.theme_counter = len(self.theme_list)
                     else:
                         self.theme_counter -= 1
                     self.update_theme(0)
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.skin_arrow_right_rect.collidepoint(pygame.mouse.get_pos()):
-                    if self.theme_counter + 1 > 3:
+                elif event.type == pygame.MOUSEBUTTONDOWN and self.theme_arrow_right_rect.collidepoint(pygame.mouse.get_pos()):
+                    if self.theme_counter + 1 > len(self.theme_list):
                         self.theme_counter = 1
                     else:
                         self.theme_counter += 1
