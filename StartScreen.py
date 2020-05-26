@@ -49,6 +49,16 @@ class StartScreen:
 
     theme_list: ()
 
+    """
+    desc: 
+        - initialize the rules window
+    param:
+        - screen_class - object reference from class Screen
+        - font: default pygame font
+        - theme_list: string
+    return:
+        - none
+    """
     def __init__(self, screen_class: Screen, font: pygame.font, theme_list: ()):
         # theme_list includes all available themes as strings
         self.theme_list = theme_list
@@ -73,6 +83,14 @@ class StartScreen:
 
         self.build_game_screen()
 
+    """
+    desc: 
+        - initialize all images for rules screen
+    param:
+        - none
+    return:
+        - none
+    """
     def init_images(self):
         with open('image_pack.txt') as json_file:
             self.data = json.load(json_file)
@@ -85,6 +103,14 @@ class StartScreen:
         self.theme_arrow_left = pygame.image.load(self.data["theme_arrow_left"])
         self.current_gamefield = pygame.image.load(self.data["theme_image"])
         
+    """
+    desc: 
+        - scale all images, describe screen, describe text, blit images, blit text
+    param:
+        - none
+    return:
+        - none
+    """
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.maedn_logo = pygame.transform.smoothscale(self.maedn_logo, (int(self.screen_width * 0.03), int(self.screen_height*0.03)))
@@ -164,11 +190,27 @@ class StartScreen:
 
         pygame.display.update()
 
+    """
+    desc: 
+        - blit current player counter on change
+    param:
+        - none
+    return:
+        - none
+    """
     def update_player_counter_on_screen(self):
         self.screen.blit(self.background_image, (0, 0))
         self.screen.blit(self.font.render(str(self.player_counter), True, self.text_color), (self.screen_width*0.55, self.screen_size_multiplier*8 - 0.5*self.font.size("Number of PlayerS:")[1]))
         pygame.display.update(self.player_counter_rect)
 
+    """
+    desc: 
+        - update gamefield theme image
+    param:
+        - option - int
+    return:
+        - none
+    """
     def update_theme(self, option):
         self.screen.blit(self.background_image, (0, 0))
         self.screen.blit(self.font.render(str(self.theme_counter), True, self.text_color), (self.screen_width/2 + self.font.size("Theme ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size("Theme ")[1]))
@@ -176,6 +218,14 @@ class StartScreen:
 
         self.gamefield_animation(option)
 
+    """
+    desc: 
+        - make gamefield theme animation
+    param:
+        - option - int
+    return:
+        - none
+    """
     def gamefield_animation(self, option):
 
         delay = 75
@@ -283,6 +333,14 @@ class StartScreen:
 
                         self.screen.blit(self.background_image, (0, 0))
 
+    """
+    desc: 
+        - start game and call functions on click
+    param:
+        - none
+    return:
+        - self.player_counter - int
+    """
     def start_game(self) -> int:
         while self.run:           
             for event in pygame.event.get():
