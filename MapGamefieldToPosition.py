@@ -75,7 +75,15 @@ map_position = {
     4040: "5 6",
 }
 
-
+"""
+    desc: 
+        - get gamefield coordinates by converting 
+    param:
+        - position - int
+    return:
+        - x - int (x_coordinate)
+        - y - int (y_coordinate)
+    """
 def get_coordinates(position: int) -> (int, int):
     x = int(map_position[position].split()[0])
     y = int(map_position[position].split()[1])
