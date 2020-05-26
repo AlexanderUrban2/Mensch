@@ -59,14 +59,13 @@ class Help:
         self.counter = 0
         self.surface_height = 0
 
-
     """
     desc: 
         - initalize all images for help screen
     param:
         - none
     return:
-        -bool
+        - none
     """
     def init_images(self):
         with open('image_pack.txt') as json_file:
@@ -81,7 +80,7 @@ class Help:
     param:
         - none
     return:
-        -none
+        - none
     """
     def get_file_content(self):
         file = open(self.filename, 'r')
@@ -94,7 +93,7 @@ class Help:
     param:
         - none
     return:
-        -none
+        - none
     """
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
@@ -114,7 +113,7 @@ class Help:
         - pos - tupel
         - font - default pygame font
     return:
-        -none
+        - none
     """
     def blit_text(self, surface, text, pos, font):
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
@@ -143,7 +142,7 @@ class Help:
     param:
         - none
     return:
-        -none
+        - none
     """
     def update_screen(self):
         self.run = True
@@ -166,11 +165,11 @@ class Help:
 
     """
     desc: 
-        - scale all images, describe screen, create text surface
+        - update text surface
     param:
         - y_coordinate: int
     return:
-        -none
+        - none
     """
     def update_surface(self, y_coordinate):
         self.text_surface.blit(self.background_image, (-self.screen_width*0.5, 0))
@@ -184,7 +183,7 @@ class Help:
     param:
         - none
     return:
-        -none
+        - none
     """
     def show_screen(self):
         self.update_screen()

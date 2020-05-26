@@ -27,6 +27,16 @@ class Rules:
 
     text_color: (int, int, int)
 
+    """
+    desc: 
+        - initialize the rules window
+    param:
+        - screen_class - object reference from class Screen
+        - font: default pygame font
+        - filename: string
+    return:
+        - none
+    """
     def __init__(self, screen_class: Screen,  font: pygame.font, filename: str):
         self.init_images()
 
@@ -50,6 +60,14 @@ class Rules:
         self.counter = 0
         self.surface_height = 0
 
+    """
+    desc: 
+        - initialize all images for rules screen
+    param:
+        - none
+    return:
+        - none
+    """
     def init_images(self):
         with open('image_pack.txt') as json_file:
             data = json.load(json_file)
@@ -57,11 +75,27 @@ class Rules:
         self.back_arrow_image = pygame.image.load(data["back_arrow_image"])
         self.rules_image_1 = pygame.image.load(data["rules_image_1"])
 
+    """
+    desc: 
+        - get rule text from Rule.txt file
+    param:
+        - none
+    return:
+        - none
+    """
     def get_file_content(self):
         file = open(self.filename, 'r')
         self.file_content = file.read().upper()
         file.close()
 
+    """
+    desc: 
+        - scale all images, describe screen, create text surface
+    param:
+        - none
+    return:
+        - none
+    """
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
@@ -70,8 +104,18 @@ class Rules:
 
         self.text_surface = pygame.Surface((self.screen_width*0.9, self.screen_height*0.9))  
 
-    # stackoverflow https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
-    #Methode um den text auf das surface zu packen. Dabei werden die wörter so geblittet das keine wörter über 2 Zeilen gehen
+    """
+    desc: 
+        - blit text on surface, newline if text doesnt fit in current line
+        - from https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
+    param:
+        - surface - default pygame surface
+        - text - string 
+        - pos - tupel
+        - font - default pygame font
+    return:
+        - none
+    """
     def blit_text(self, surface, text, pos, font):
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
         space = font.size(' ')[0]  # The width of a space.
@@ -93,6 +137,14 @@ class Rules:
             self.surface_height = y
             self.counter = 1    
 
+    """
+    desc: 
+        - update the whole screen
+    param:
+        - none
+    return:
+        - none
+    """
     def update_screen(self):
         self.run = True
         back_message = "Back"
@@ -111,6 +163,14 @@ class Rules:
         self.back_message_rect.w += x_before_moving - x_after_moving 
         self.update_surface(0)
 
+    """
+    desc: 
+        - update text surface
+    param:
+        - y_coordinate: int
+    return:
+        - none
+    """
     def update_surface(self, y_coordinate):
         self.text_surface.blit(self.background_image, (-self.screen_width*0.05, -self.screen_height*0.1))
         self.text_surface.blit(self.rules_image_1, (self.screen_width*0.45 - self.rules_image_1.get_rect().size[0]/2, y_coordinate))
@@ -118,8 +178,15 @@ class Rules:
         self.screen.blit(self.text_surface, (self.screen_width * 0.05, self.screen_height * 0.1))
         pygame.display.update()
 
+    """
+    desc: 
+        - get click events and call functions
+    param:
+        - none
+    return:
+        - none
+    """
     def show_screen(self):
-
         self.update_screen()
 
         y_coordinate = 0
