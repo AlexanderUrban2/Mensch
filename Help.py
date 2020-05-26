@@ -26,6 +26,16 @@ class Help:
 
     text_color: (int, int, int)
 
+    """
+    desc:
+        - initialize the help window
+    param:
+        - screen_class - object reference from class Screen
+        - font - default pygame font
+        - filename - string 
+    return:
+        - none
+    """
     def __init__(self, screen_class: Screen,  font: pygame.font, filename: str):
         self.init_images()
 
@@ -49,6 +59,15 @@ class Help:
         self.counter = 0
         self.surface_height = 0
 
+
+    """
+    desc: 
+        - initalize all images for help screen
+    param:
+        - none
+    return:
+        -bool
+    """
     def init_images(self):
         with open('image_pack.txt') as json_file:
             data = json.load(json_file)
@@ -56,11 +75,27 @@ class Help:
         self.back_arrow_image = pygame.image.load(data["back_arrow_image"])
         self.help_image_1 = pygame.image.load(data["help_image_1"])
 
+    """
+    desc: 
+        - get help text from Help.txt file
+    param:
+        - none
+    return:
+        -none
+    """
     def get_file_content(self):
         file = open(self.filename, 'r')
         self.file_content = file.read().upper()
         file.close()
 
+    """
+    desc: 
+        - scale all images, describe screen, create text surface
+    param:
+        - none
+    return:
+        -none
+    """
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
         self.screen = pygame.display.set_mode((self.screen_width, self.screen_height))
@@ -69,8 +104,18 @@ class Help:
 
         self.text_surface = pygame.Surface((self.screen_width*0.5, self.screen_height))  
 
-    # stackoverflow https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
-    #Methode um den text auf das surface zu packen. Dabei werden die wörter so geblittet das keine wörter über 2 Zeilen gehen
+    """
+    desc: 
+        - blit text on surface, newline if text doesnt fit in current line
+        - from https://stackoverflow.com/questions/42014195/rendering-text-with-multiple-lines-in-pygame/42015712
+    param:
+        - surface - default pygame surface
+        - text - string 
+        - pos - tupel
+        - font - default pygame font
+    return:
+        -none
+    """
     def blit_text(self, surface, text, pos, font):
         words = [word.split(' ') for word in text.splitlines()]  # 2D array where each row is a list of words.
         space = font.size(' ')[0]  # The width of a space.
@@ -92,6 +137,14 @@ class Help:
             self.surface_height = y
             self.counter = 1    
 
+    """
+    desc: 
+        - update the whole screen
+    param:
+        - none
+    return:
+        -none
+    """
     def update_screen(self):
         self.run = True
         back_message = "Back"
@@ -111,14 +164,29 @@ class Help:
         self.back_message_rect.w += x_before_moving - x_after_moving 
         self.update_surface(0)
 
+    """
+    desc: 
+        - scale all images, describe screen, create text surface
+    param:
+        - y_coordinate: int
+    return:
+        -none
+    """
     def update_surface(self, y_coordinate):
         self.text_surface.blit(self.background_image, (-self.screen_width*0.5, 0))
         self.blit_text(self.text_surface, self.file_content, (0, y_coordinate), self.font)
         self.screen.blit(self.text_surface, (self.screen_width*0.5, 0))
         pygame.display.update()
 
+    """
+    desc: 
+        - get click events and call functions
+    param:
+        - none
+    return:
+        -none
+    """
     def show_screen(self):
-
         self.update_screen()
 
         y_coordinate = 0
