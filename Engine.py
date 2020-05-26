@@ -37,31 +37,19 @@ class Engine:
         self.get_all_sprites()
         self.refresh_ui()
 
-        #tmp = 0
-        #for pawn in self.player_list[0].pawn_list:
-        #        if tmp == 0:
-        #            pawn.current_position = 39
-        #            tmp = 1020
-        #        else:
-        #            pawn.current_position = tmp
-        #            tmp += 10
-
-        #tmp = 0
-        #for counter in range(4):
-        #    if counter == 0:
-        #        tmp = 39
-        #    else: 
-        #        tmp = 9
-        #        tmp +=  10 * (counter-1)
-        #    for pawn in self.player_list[counter].pawn_list: 
-        #        if pawn.pawn_number == 1:
-        #            pawn.current_position = tmp
-
     def get_all_sprites(self):
         for player in self.player_list:
             for pawn in player.pawn_list:
                 self.all_sprites.add(pawn)
 
+    """
+    desc: 
+        - refresh game screen completely
+    param:
+        - none
+    return:
+        - none
+    """
     def refresh_ui(self):
         self.game_field.show_screen()
         self.draw_pawns()
@@ -72,13 +60,28 @@ class Engine:
         self.all_sprites.update()
         self.all_sprites.draw(self.game_field.screen)
 
+    """
+    desc: 
+        - roll the die
+    param:
+        - none
+    return:
+        - number - int
+    """
     def roll_dice(self):
         for i in range(10):
             number = self.dice.roll_dice()
             time.sleep(0.02)
         return number
     
-    # rollt den würfel und updated nur das aussehen der frames im "würfelbereich"
+    """
+    desc: 
+        - roll the die and update only the frame of the die
+    param:
+        - current_player - int
+    return:
+        - move_pawn_out_of_house - bool
+    """
     def move_pawn_out_of_house(self, current_player: int):
         for pawn in self.player_list[current_player].pawn_list:
             if pawn.is_in_players_yard():
@@ -106,6 +109,16 @@ class Engine:
         
         return self.player_list[current_player].has_won()
 
+     """
+    desc: 
+        - check if move is possible
+    param:
+        - current_player - int
+        - pawn_number - int
+        - steps - int
+    return:
+        - is_move_possible - bool
+    """
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
 
@@ -171,6 +184,16 @@ class Engine:
                         return False
             return True
 
+    """
+    desc: 
+        - check if any move of current player is possible
+    param:
+        - current_player - int
+        - pawn_number - int
+        - steps - int
+    return:
+        - is_any_move_possible - bool
+    """
     def is_any_move_possible(self, current_player: int, steps: int) -> bool:
         for pawn in self.player_list[current_player].pawn_list:
             # check if the pawn can be moved
@@ -179,6 +202,15 @@ class Engine:
         # no pawn could be moved -> return False
         return False
 
+    """
+    desc: 
+        - check if this move hits an pawn
+    param:
+        - current_player - int
+        - pawn_number - int
+    return:
+        - is_hit - bool
+    """
     def check_hit(self, current_player: int, pawn_number: int):
         current_position = 0
         for pawn in self.player_list[current_player].pawn_list:
@@ -425,6 +457,14 @@ class Engine:
                 if event.type == pygame.QUIT:
                     exit()
 
+    """
+    desc: 
+        - wait till space is pressed and then call function
+    param:
+        - current_player - int
+    return:
+        - space_pressed - bool
+    """
     def wait_for_space_pressed(self, current_player: int):
         while True:
             for event in pygame.event.get():
