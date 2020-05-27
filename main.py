@@ -22,7 +22,7 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
     return player_list
 
 
-theme_list = ("default", "dark", "meme")
+THEME_LIST = ("default", "dark", "meme")
 
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
@@ -33,7 +33,7 @@ gamefield = GameField.GameField(text_font)
 
 screen = Screen.Screen()
 
-start_screen = StartScreen.StartScreen(screen, start_screen_font, theme_list)
+start_screen = StartScreen.StartScreen(screen, start_screen_font, THEME_LIST)
 
 player_count = start_screen.start_game()
 # create new gamefield with updated theme

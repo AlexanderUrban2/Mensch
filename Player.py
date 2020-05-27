@@ -1,6 +1,4 @@
 import Pawn
-import colors
-import pygame
 
 
 class Player:
@@ -47,6 +45,14 @@ class Player:
                 return True
         return False
 
+    """
+        desc: 
+            - get all pawn objects that are in the player's finishing squares
+        param:
+            - none
+        return:
+            - pawns: [Pawn.Pawn] -> list of all pawns in finishing squares
+    """
     def get_pawns_in_finishing_squares(self) -> [Pawn.Pawn]:
         pawns = []
         for pawn in self.pawn_list:
@@ -58,4 +64,5 @@ class Player:
         for pawn in self.pawn_list:
             if pawn.current_position == (pawn.player_number - 1) * 10:
                 return pawn.pawn_number
+        # no pawn has the number zero -> no pawn will be moved in case of an error
         return 0
