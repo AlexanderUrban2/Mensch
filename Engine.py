@@ -110,6 +110,7 @@ class Engine:
         return self.player_list[current_player].has_won()
 
      """
+    
     desc: 
         - check if move is possible
     param:
@@ -118,6 +119,22 @@ class Engine:
         - steps - int
     return:
         - is_move_possible - bool
+    ------------
+    test:
+        tmp = 0
+        for pawn in self.player_list[0].pawn_list:
+                if tmp == 0:
+                    pawn.current_position = 39
+                    tmp = 1020
+                else:
+                    pawn.current_position = tmp
+                    tmp += 10
+        #set all 4 pawns of the first player into house
+
+        result = is_move_possible(0, 1, 4)
+        Assert.isFales(result)
+
+        # pawn shouldn´t be able to move --> test fails if method returns true
     """
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         pawn = self.player_list[current_player].pawn_list[pawn_number - 1]

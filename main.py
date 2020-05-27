@@ -67,5 +67,4 @@ else:
 victory.victory(current_player)
 
 print("finish")
-#Bugs:
-# code ist leicht unübersichtlich
+
