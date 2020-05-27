@@ -1,4 +1,4 @@
-# Startposition ist Startfeld von Grün
+# 0: '0 4' is the starting field of the green player
 
 map_position = {
     0: "0 4",
@@ -75,15 +75,17 @@ map_position = {
     4040: "5 6",
 }
 
+
 """
     desc: 
-        - get gamefield coordinates by converting 
+        - get gamefield coordinates by converting a pawn's position into coordinates
+          the game fields are basically a circle except for each player's yard and their finishing squares 
     param:
-        - position - int
+        - position: int -> position of a pawn object on the game field
     return:
-        - x - int (x_coordinate)
-        - y - int (y_coordinate)
-    """
+        - x: int -> x_coordinate
+        - y: int -> y_coordinate
+"""
 def get_coordinates(position: int) -> (int, int):
     x = int(map_position[position].split()[0])
     y = int(map_position[position].split()[1])

@@ -14,6 +14,16 @@ class SoundPack:
     directory_name: str
     sound_dictionary: dict
 
+    """
+                desc: 
+                    - init
+                param:
+                    - sound_pack_name: str -> name of the SoundPack; used to identify the location of the directory
+                                              in which the sound files are stored;
+                                              each directory stores the sound files for its theme
+                return:
+                    - none
+    """
     def __init__(self, sound_pack_name: str):
         self.sound_pack_name = sound_pack_name
         self.create_sound_dictionary()
@@ -22,6 +32,14 @@ class SoundPack:
 
         self.start_background_music()
 
+    """
+                desc: 
+                    - create the sound dictionary which contains the paths to all used sound files for the theme
+                param:
+                    - none
+                return:
+                    - none
+    """
     def create_sound_dictionary(self):
         if os.path.exists("music/" + self.sound_pack_name):
             self.directory_name = self.sound_pack_name
@@ -63,6 +81,7 @@ class SoundPack:
         with open('sound_pack.txt') as json_file:
             data = json.load(json_file)
         pygame.mixer.music.load(data["background_music"])
+        # loop the music indefinitely
         pygame.mixer.music.play(-1)
         # music is fucking loud
         pygame.mixer.music.set_volume(.03)

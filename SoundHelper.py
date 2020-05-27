@@ -18,6 +18,7 @@ class SoundHelper:
 
     # for all possible sound names take a look at SoundPack.py
     def play_sound(self, sound_name: str):
+        # only play a sound if the channel is not paused
         if not self.paused:
             sound = pygame.mixer.Sound(self.data[sound_name])
             self.channel.play(sound)
@@ -34,4 +35,5 @@ class SoundHelper:
 
     def play_background_music(self):
         pygame.mixer.music.load(self.data["background_music"])
+        # play the music in an infinite loop
         pygame.mixer.music.play(-1)
