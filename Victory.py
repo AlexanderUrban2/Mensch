@@ -91,7 +91,7 @@ class Victory:
     return:
         - none
     """
-    def victory(self, player):
+    def victory(self, player: int):
         self.player_win_animation(player)
         self.sound_helper.play_sound("victory_sound")
         self.show_victory_screen(player)
@@ -104,7 +104,7 @@ class Victory:
     return:
         - none
     """
-    def player_win_animation(self, player):
+    def player_win_animation(self, player: int):
 
         delay = 500
 

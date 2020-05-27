@@ -11,6 +11,7 @@ import Victory
 
 pygame.init()
 pygame.font.init()
+pygame.mixer.init()
 
 
 def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: int):
@@ -33,12 +34,12 @@ gamefield = GameField.GameField(text_font)
 screen = Screen.Screen()
 
 start_screen = StartScreen.StartScreen(screen, start_screen_font, theme_list)
-rules = Rules.Rules(screen, start_screen_font, "Rule.txt")
-help = Help.Help(screen, start_screen_font, "Help.txt")
 
 player_count = start_screen.start_game()
 # create new gamefield with updated theme
 gamefield = GameField.GameField(text_font)
+help = Help.Help(screen, start_screen_font, "Help.txt")
+rules = Rules.Rules(screen, start_screen_font, "Rule.txt")
 
 AI_TURN_TIME_DELAY = 1  # in seconds
 AI_DIFFICULTY = 1  # currently the only difficulty

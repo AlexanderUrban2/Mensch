@@ -55,11 +55,11 @@ class StartScreen:
     param:
         - screen_class - object reference from class Screen
         - font: default pygame font
-        - theme_list: string
+        - theme_list: list of strings, each string is the name of a different theme
     return:
         - none
     """
-    def __init__(self, screen_class: Screen, font: pygame.font, theme_list: ()):
+    def __init__(self, screen_class: Screen, font: pygame.font, theme_list: [str]):
         # theme_list includes all available themes as strings
         self.theme_list = theme_list
         self.theme_pack = ThemePack.ThemePack(self.theme_list[0])

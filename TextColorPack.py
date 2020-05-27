@@ -1,7 +1,4 @@
 import json
-import os.path
-
-# text_color gets converted in colors.py -> need to add color there if it doesn't exist
 
 
 class TextColorPack:
@@ -22,9 +19,9 @@ class TextColorPack:
             }
         elif self.text_color_pack_name == "meme":
             self.text_color_dict = {
-                "start_screen_color": (0, 0, 255),  # blue
-                "text_info_color": (0, 0, 0),  # black
-                "rules_help_color": (0, 0, 0),  # black
+                "start_screen_color": (255, 0, 255),  # blue
+                "text_info_color": (255, 0, 0),  # black
+                "rules_help_color": (255, 0, 255),  # black
             }
         else:
             # this is the default one

@@ -106,11 +106,10 @@ class Engine:
             self.player_turn_ai(current_player)
         elif self.player_list[current_player].__class__.__name__ == "Player":
             self.player_turn_human(current_player)
-        
+
         return self.player_list[current_player].has_won()
 
-     """
-    
+    """
     desc: 
         - check if move is possible
     param:
@@ -132,9 +131,9 @@ class Engine:
         #set all 4 pawns of the first player into house
 
         result = is_move_possible(0, 1, 4)
-        Assert.isFales(result)
+        Assert.isFalse(result)
 
-        # pawn shouldn´t be able to move --> test fails if method returns true
+        # pawn shouldn't be able to move --> test fails if method returns true
     """
     def is_move_possible(self, current_player: int, pawn_number: int, steps: int) -> bool:
         pawn = self.player_list[current_player].pawn_list[pawn_number - 1]
@@ -221,7 +220,7 @@ class Engine:
 
     """
     desc: 
-        - check if this move hits an pawn
+        - check if this move hits a pawn
     param:
         - current_player - int
         - pawn_number - int
@@ -324,7 +323,7 @@ class Engine:
                                         break
                                     else:
                                         self.refresh_ui()
-                                        self.game_field.show_text_info(current_player, "You can't move this token!")                            
+                                        self.game_field.show_text_info(current_player, "You can't move this token!")
                         self.move_pawn(current_player, pawn_number, rolled_number)
                         if rolled_number != 6:
                             # no six means your turn ends after a pawn is moved
@@ -338,25 +337,8 @@ class Engine:
                             turn = False
                         self.refresh_ui()
                         break
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.rules.show_screen()
-                    self.refresh_ui()
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.help.show_screen()
-                    self.refresh_ui()
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    if pygame.mixer.music.get_busy():
-                        pygame.mixer.music.stop()
-                        self.sound_helper.stop_channel()
-                        self.refresh_ui()
-                    else:
-                        pygame.mixer.music.load('music/background_music.wav')
-                        pygame.mixer.music.play(-1)
-                        self.sound_helper.resume_channel()
-                        self.refresh_ui()
 
-                elif event.type == pygame.QUIT:
-                    exit()
+                self.check_pygame_events(event)
 
     def player_turn_ai(self, current_player: int):
         tries = 0
@@ -438,26 +420,28 @@ class Engine:
 
             else:
                 time_now = time.time()
-
             for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    exit()
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.rules.show_screen()
-                    self.refresh_ui()
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.help.show_screen()
-                    self.refresh_ui()
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    if pygame.mixer.music.get_busy():
-                        pygame.mixer.music.stop()
-                        self.sound_helper.stop_channel()
-                        self.refresh_ui()
-                    else:
-                        pygame.mixer.music.load('music/background_music.wav')
-                        pygame.mixer.music.play(-1)
-                        self.sound_helper.resume_channel()
-                        self.refresh_ui()
+                self.check_pygame_events(event)
+
+    def check_pygame_events(self, event: pygame.event):
+        if event.type == pygame.QUIT:
+            exit()
+        elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
+            self.rules.show_screen()
+            self.refresh_ui()
+        elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
+            self.help.show_screen()
+            self.refresh_ui()
+        elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(
+                pygame.mouse.get_pos()):
+            if pygame.mixer.music.get_busy():
+                self.sound_helper.stop_background_music()
+                self.sound_helper.stop_channel()
+                self.refresh_ui()
+            else:
+                self.sound_helper.play_background_music()
+                self.sound_helper.resume_channel()
+                self.refresh_ui()
 
     def select_pawn(self) -> int:
         while True:
@@ -471,8 +455,7 @@ class Engine:
                         return 3
                     elif event.key == pygame.K_4:
                         return 4
-                if event.type == pygame.QUIT:
-                    exit()
+                self.check_pygame_events(event)
 
     """
     desc: 
@@ -488,13 +471,5 @@ class Engine:
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_SPACE:
                         return True
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.rules.show_screen()
-                    self.refresh_ui()
-                    self.game_field.show_text_info(current_player, "Press space to roll the die!")
-                elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.help.show_screen()
-                    self.refresh_ui()
-                    self.game_field.show_text_info(current_player, "Press space to roll the die!")
-                if event.type == pygame.QUIT:
-                    exit()
+                self.check_pygame_events(event)
+            self.game_field.show_text_info(current_player, "Press space to roll the die!")
