@@ -24,6 +24,7 @@ def create_players(player_count: int, ai_turn_time_delay: int, ai_difficulty: in
 
 THEME_LIST = ("default", "dark", "meme")
 
+
 my_font = pygame.font.SysFont("Arial", 50)
 text_font = pygame.font.SysFont("Arial", 30)
 start_screen_font = pygame.font.Font("Iveseenthatfacebefore.ttf", 30)

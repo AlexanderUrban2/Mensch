@@ -5,6 +5,15 @@ class TextColorPack:
     text_color_pack_name: str
     text_color_dict: dict
 
+    """
+                desc: 
+                    - init
+                param:
+                    - text_color_pack_name: str -> name of the text color pack; used to identify the colors that should
+                                                    be used when drawing different texts on the screen 
+                return:
+                    - none
+    """
     def __init__(self, text_color_pack_name: str):
         self.text_color_pack_name = text_color_pack_name
         self.create_text_color_dictionary()
@@ -23,6 +32,13 @@ class TextColorPack:
                 "text_info_color": (0, 0, 0),  # black
                 "rules_help_color": (0, 0, 0),  # black
             }
+        # add new colors for your theme here:
+        # elif self.text_color_pack_name =="your_theme":
+        #     self.text_color_dict = {
+        #         "start_screen_color": (, , ,),
+        #         "text_info_color": (, , ,),
+        #         "rules_help_color": (, , ,),
+        #     }
         else:
             # this is the default one
             self.text_color_dict = {
