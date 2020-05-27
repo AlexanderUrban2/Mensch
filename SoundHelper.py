@@ -28,3 +28,10 @@ class SoundHelper:
 
     def resume_channel(self):
         self.paused = False
+
+    def stop_background_music(self):
+        pygame.mixer.music.stop()
+
+    def play_background_music(self):
+        pygame.mixer.music.load(self.data["background_music"])
+        pygame.mixer.music.play(-1)

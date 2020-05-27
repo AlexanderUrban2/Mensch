@@ -25,6 +25,16 @@ class Victory:
 
     sound_helper: SoundHelper
 
+    """
+    desc: 
+        - initialize the victory window
+    param:
+        - screen_class - object reference from class Screen
+        - engine - object reference from class Engine
+        - font: default pygame font
+    return:
+        - none
+    """
     def __init__(self, screen: Screen, engine: Engine, font: pygame.font):
         self.sound_helper = SoundHelper.SoundHelper()
         self.screen_class = screen
@@ -43,6 +53,14 @@ class Victory:
 
         self.engine.refresh_ui()
 
+    """
+    desc: 
+        - initialize all images for rules screen
+    param:
+        - none
+    return:
+        - none
+    """
     def init_images(self):
         with open('image_pack.txt') as json_file:
             data = json.load(json_file)
@@ -50,6 +68,14 @@ class Victory:
         self.continue_button_image = pygame.image.load(data["continue_button_victory"])
         self.victory_image = pygame.image.load(data["victory_image"])
 
+    """
+    desc: 
+        - initialize the screen variables
+    param:
+        - none
+    return:
+        - none
+    """
     def init_screen(self):
 
         self.screen_width = self.screen_class.screen_width
@@ -57,13 +83,28 @@ class Victory:
 
         self.screen_size_multiplier = self.screen_height / 11
 
-    def victory(self, player):
+    """
+    desc: 
+        - call functions for winning animation
+    param:
+        - player - int
+    return:
+        - none
+    """
+    def victory(self, player: int):
         self.player_win_animation(player)
         self.sound_helper.play_sound("victory_sound")
         self.show_victory_screen(player)
-        self.get_back_to_start()
 
-    def player_win_animation(self, player):
+    """
+    desc: 
+        - win animation (blinking rectangle)
+    param:
+        - player - int
+    return:
+        - none
+    """
+    def player_win_animation(self, player: int):
 
         delay = 500
 
@@ -97,6 +138,14 @@ class Victory:
             if show:
                 self.draw_rect(player)
 
+    """
+    desc: 
+        - show the victory image and who won
+    param:
+        - player - int
+    return:
+        - none
+    """
     def show_victory_screen(self, player):
         
         self.screen.blit(self.victory_image, (self.screen_width/2 - self.victory_image.get_rect().size[0]/2, self.screen_size_multiplier/2))
@@ -119,9 +168,16 @@ class Victory:
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.continue_button_image_rect.collidepoint(pygame.mouse.get_pos()):
                     run = False
 
-    def get_back_to_start(self):
-        pass
+    
 
+    """
+    desc: 
+        - update screen over blitted rectangle that rectangle isn´t visible
+    param:
+        - player - int
+    return:
+        - none
+    """
     def overwrite_rect(self, player):
         self.engine.game_field.show_screen()
         self.engine.draw_pawns()
@@ -136,6 +192,14 @@ class Victory:
         else:
             pygame.display.update((self.screen_size_multiplier*5, self.screen_size_multiplier*6, self.screen_size_multiplier, self.screen_size_multiplier*4))
 
+    """
+    desc: 
+        - draw winning rectangle around winning players house
+    param:
+        - player - int
+    return:
+        - none
+    """
     def draw_rect(self, player):
                 # pygame.display.update((X_coord,Y_coord, Breite,Höhe))
                 # 1 = -------

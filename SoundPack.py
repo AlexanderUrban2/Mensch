@@ -20,7 +20,6 @@ class SoundPack:
         self.check_if_sound_files_exist()
         self.create_json_file()
 
-        pygame.mixer.init()
         self.start_background_music()
 
     def create_sound_dictionary(self):

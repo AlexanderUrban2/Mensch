@@ -18,6 +18,23 @@ class Player:
                 return False
         return True
 
+    """
+    test:
+        tmp = 0
+        for pawn in self.player_list[0].pawn_list:
+                if tmp == 0:
+                    pawn.current_position = 110
+                    tmp = 11
+                else:
+                    pawn.current_position = tmp
+                    tmp += 1
+        #set 1 pawn in starting yard and 3 on gamefield
+
+        result = self.player_list[0].has_pawn_in_yard()
+        Assert.isTrue(result)
+
+        # player has pawn in yard --> test fails if method returns false
+    """
     def has_pawn_in_yard(self) -> bool:
         for pawn in self.pawn_list:
             if pawn.is_in_players_yard():
