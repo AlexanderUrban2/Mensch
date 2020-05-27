@@ -83,7 +83,8 @@ class Engine:
     def roll_dice(self):
         for i in range(10):
             number = self.dice.roll_dice()
-            time.sleep(0.02)
+            # wait in order to create an 'animation'
+            self.active_sleep(0.02)
         return number
     
     """
@@ -118,8 +119,8 @@ class Engine:
                 for i in range(steps):
                     pawn.move_pawn_one_step()
                     self.refresh_ui()
-                    # not particularly good but i don't know how to use the clock here
-                    time.sleep(0.1)
+                    # wait between each step in order to create an 'animation'
+                    self.active_sleep(0.1)
                 self.check_hit(current_player, pawn_number)  
                 self.refresh_ui()
                 return
@@ -284,7 +285,8 @@ class Engine:
                 for i in range(steps):
                     pawn.move_pawn_one_step()
                     self.refresh_ui()
-                    time.sleep(0.1)
+                    # wait in order to crete an 'animation'
+                    self.active_sleep(0.1)
                 self.check_hit_from_starting_square(current_player, pawn_number)  
                 self.refresh_ui()
 
@@ -425,9 +427,8 @@ class Engine:
                 if rolled_number == 6 and self.player_list[current_player].has_pawn_in_yard():
                     self.move_pawn_out_of_house(current_player)
 
-                    # I don't like this, but another loop would be worse
-                    # and otherwise the AI could be too fast for a player if they aren't paying attention
-                    time.sleep(0.5)
+                    # slow down the AI or it could be too fast for a player if they aren't paying attention
+                    self.active_sleep(0.5)
 
                     time_previous = time.time()
 
@@ -467,8 +468,8 @@ class Engine:
                         else:
                             # implement other difficulties
                             pass
-                    # as above... makes the game easier to follow
-                    time.sleep(0.5)
+                    # as above... makes it easier to follow the game
+                    self.active_sleep(0.5)
                     self.move_pawn(current_player, pawn_number, rolled_number)
                     if rolled_number != 6:
                         # no 6 means your turn ends
@@ -553,3 +554,21 @@ class Engine:
                         return True
                 self.check_pygame_events(event)
             self.game_field.show_text_info(current_player, "Press space to roll the die!")
+
+    """
+    desc:
+        - allows the user to interact with the help/rules and sound button while "animations" are going on
+            or while the AI waits to make its turn
+    params:
+        - time_to_wait: float -> time the program will wait in seconds
+    return:
+        - none
+    """
+    def active_sleep(self, time_to_wait: float):
+        start_time = time.time()
+        current_time = time.time()
+        while (current_time - start_time) < time_to_wait:
+            for event in pygame.event.get():
+                self.check_pygame_events(event)
+            current_time = time.time()
+
