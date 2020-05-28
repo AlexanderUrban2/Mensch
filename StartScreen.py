@@ -1,6 +1,7 @@
 import pygame
 import Screen
 import Rules
+import HiddenQuest
 import json
 import ThemePack
 
@@ -41,6 +42,7 @@ class StartScreen:
 
     screen_class: Screen
     rules: Rules
+    hidden_quest: HiddenQuest
     theme_pack: ThemePack
 
     data: json
@@ -375,12 +377,12 @@ class StartScreen:
                         self.theme_counter += 1
                     self.update_theme(1)
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.hidden_rect.collidepoint(pygame.mouse.get_pos()):
-                    self.run = False
-                    #Hidden Kecks Quest einbauen
+                    self.hidden_quest = HiddenQuest.HiddenQuest(self.screen_class, self.font)
+                    self.hidden_quest.show_screen()
+                    self.build_game_screen()
                 elif event.type == pygame.MOUSEBUTTONDOWN and self.rule_message_rect.collidepoint(pygame.mouse.get_pos()):
                     # initialize rules here, in order to guarantee the use of the correct images
                     self.rules = Rules.Rules(self.screen_class, self.font, "Rule.txt")
                     self.rules.show_screen()
                     self.build_game_screen()
 
-                #Check only left klick!!!!!!

@@ -83,6 +83,7 @@ class ImagePack:
 
             "victory_image": 'images/' + self.directory_name + '/VictoryImage.png',
             "continue_button_victory": 'images/' + self.directory_name + '/ContinueButtonVictory.png',
+            "cookie_monster": 'images/' + self.directory_name + '/CookieMonster.png',
             }
 
     def check_if_images_exist(self):
