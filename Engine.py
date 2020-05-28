@@ -93,7 +93,7 @@ class Engine:
     param:
         - current_player - int
     return:
-        - move_pawn_out_of_house - bool
+        - none
     """
     def move_pawn_out_of_house(self, current_player: int):
         for pawn in self.player_list[current_player].pawn_list:
@@ -285,7 +285,7 @@ class Engine:
                 for i in range(steps):
                     pawn.move_pawn_one_step()
                     self.refresh_ui()
-                    # wait in order to crete an 'animation'
+                    # wait in order to create an 'animation'
                     self.active_sleep(0.1)
                 self.check_hit_from_starting_square(current_player, pawn_number)  
                 self.refresh_ui()
@@ -342,15 +342,18 @@ class Engine:
             for event in pygame.event.get():
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
                     rolled_number = self.roll_dice()
-
+                    
+                    # rolled a six and has a pawn in yard -> move a pawn out of the yard
                     if rolled_number == 6 and self.player_list[current_player].has_pawn_in_yard():
                         self.move_pawn_out_of_house(current_player)
                         self.game_field.show_text_info(current_player, "Press space to roll the die!")
                         self.wait_for_space_pressed(current_player)
+                        # rolled a six -> player can roll the die again
                         rolled_number = self.roll_dice()
                         self.move_pawn_from_starting_square(current_player, self.player_list[current_player].get_pawn_number_on_start_field(), rolled_number)
                         self.game_field.show_text_info(current_player, "Moved token from starting square!")
                         if rolled_number != 6:
+                            # no six -> turn ends
                             turn = False
                         else:
                             self.refresh_ui()
@@ -363,11 +366,17 @@ class Engine:
                             # no move is possible -> the turn ends
                             # play an error sound
                             self.sound_helper.play_sound("unfortunate_sound")
+                            
+                            #todo: implement that you can still roll again when you rolled a six
+                            # if rolled_number == 6:
+                            #   turn = True or self.player_turn_human()
+                            # else:
+                            #   return
                             return
 
                         select = True
                         self.refresh_ui()
-
+                        # select a pawn and check if that pawn can move
                         self.game_field.show_text_info(current_player, "Press the number key of the token you want to move!")
                         while select:
                             pawn_number = self.select_pawn()
@@ -412,7 +421,7 @@ class Engine:
         time_previous = time.time()
 
         while turn:
-            # time.time() is in seconds!!
+            # time.time() is in seconds!!, or not.. it can be depending on the processor...
             time_now = time.time()
 
             if self.player_list[current_player].has_pawn_on_game_field():
@@ -458,6 +467,7 @@ class Engine:
                     self.refresh_ui()
 
                     while selecting:
+                        # select a pawn, difficulty can currently only be 1... -> pawn is selected randomly
                         if self.player_list[current_player].difficulty == 1:
                             pawn_number = random.randint(1, 4)
                             for pawn in self.player_list[current_player].pawn_list:
@@ -499,12 +509,15 @@ class Engine:
     def check_pygame_events(self, event: pygame.event):
         if event.type == pygame.QUIT:
             exit()
+        # if the rules button is clicked show the rules screen
         elif event.type == pygame.MOUSEBUTTONDOWN and self.rules_button_rect.collidepoint(pygame.mouse.get_pos()):
             self.rules.show_screen()
             self.refresh_ui()
+        # if the help button is clicked show the help screen
         elif event.type == pygame.MOUSEBUTTONDOWN and self.help_button_rect.collidepoint(pygame.mouse.get_pos()):
             self.help.show_screen()
             self.refresh_ui()
+        # if the sound button is clicked stop/resume sound effects and background music
         elif event.type == pygame.MOUSEBUTTONDOWN and self.game_field.ingame_sound_button_rect.collidepoint(
                 pygame.mouse.get_pos()):
             if pygame.mixer.music.get_busy():
