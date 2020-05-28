@@ -1,3 +1,7 @@
+# Author: Christoph Böhringer, Alexander Urban
+# Date: 05/28/2020
+# Version: 2.0
+
 import ImagePack
 import SoundPack
 import TextColorPack

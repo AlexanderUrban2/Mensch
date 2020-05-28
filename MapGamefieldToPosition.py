@@ -1,3 +1,7 @@
+# Author: Christoph Böhringer, Alexander Urban
+# Date: 05/28/2020
+# Version: 1.3
+
 # 0: '0 4' is the starting field of the green player
 
 map_position = {

@@ -1,3 +1,7 @@
+# Author: Christoph Böhringer, Alexander Urban
+# Date: 05/28/2020
+# Version: 1.2
+
 import json
 import pygame
 import GameField

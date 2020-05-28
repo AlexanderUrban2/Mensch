@@ -1,3 +1,7 @@
+# Author: Christoph Böhringer, Alexander Urban
+# Date: 05/28/2020
+# Version: 11.2
+
 import GameField
 import Player
 import Dice
