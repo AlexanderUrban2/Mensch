@@ -8,11 +8,13 @@ class SoundHelper:
     paused: bool
 
     def __init__(self):
+        # used because channel.pause() and channel.stop() don't seem to work
         self.paused = False
         self.init_channel()
         with open('sound_pack.txt') as json_file:
             self.data = json.load(json_file)
 
+    # find an unused channel and use it for playing the sound effects
     def init_channel(self):
         self.channel = pygame.mixer.find_channel()
 
