@@ -1,1 +1,1 @@
-{"start_screen_color": [0, 0, 255], "text_info_color": [0, 0, 0], "rules_help_color": [0, 0, 0]}
+{"start_screen_color": [0, 0, 255], "text_info_color": [255, 255, 255], "rules_help_color": [255, 255, 255]}

@@ -222,6 +222,14 @@ class StartScreen:
         self.screen.blit(self.font.render(str(self.theme_counter), True, self.text_color), (self.screen_width/2 + self.font.size("Theme ")[0]/2, self.screen_size_multiplier - 0.5*self.font.size("Theme ")[1]))
         pygame.display.update(self.theme_counter_rect)
 
+        self.old_gamefield = pygame.image.load(self.data["theme_image"])
+
+        # update ThemePack
+        self.theme_pack = ThemePack.ThemePack(self.theme_list[self.theme_counter - 1])
+
+        with open('image_pack.txt') as json_file:
+            self.data = json.load(json_file)
+
         self.gamefield_animation(option)
 
     """
@@ -239,15 +247,6 @@ class StartScreen:
         current_time = pygame.time.get_ticks()
         change_time = current_time + delay
         animation = True
-
-        self.old_gamefield = pygame.image.load(self.data["theme_image"])
-
-        # update ThemePack
-        self.theme_pack = ThemePack.ThemePack(self.theme_list[self.theme_counter-1])
-        # update the rules screen
-
-        with open('image_pack.txt') as json_file:
-            self.data = json.load(json_file)
 
         # neues gamefield rein (slided rein)
         self.current_gamefield = pygame.transform.smoothscale(pygame.image.load(self.data["theme_image"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))

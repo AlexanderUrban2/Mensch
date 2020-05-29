@@ -371,7 +371,7 @@ class Engine:
 
                             # if you rolled a six you get another turn
                             if rolled_number == 6:
-                                self.active_sleep(1)
+                                self.active_sleep(0.5)
                                 self.refresh_ui()
                                 self.player_turn_human(current_player)
                             return

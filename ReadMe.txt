@@ -1,7 +1,7 @@
 Licenses and permissions for sounds:
 
 meme:
-hit_enemy_pawn: Airh Horn Sound, permitted under Creative Commons (CC-by), Autor: Gingka Akiyama
+hit_enemy_pawn: Airh Horn Sound, permitted under Creative Commons (CC-by), Artist: Gingka Akiyama
 https://lmms.io/lsp/?action=show&file=11017
 
 unfortunate_sound: 8-bit error, permitted under Creative Commons 0 Licence
@@ -39,3 +39,10 @@ http://www.orangefreesounds.com/spongebob-remix/
 
 hit_own_pawn: Roblox Death Sound, Artist: / , posted by: Alexander
 http://www.orangefreesounds.com/roblox-death-sound/
+
+dark:
+background_music: Deep Fat Bass 126bpm, Artist: Alexander Blu, posted by: Alexander
+http://www.orangefreesounds.com/deep-fat-bass-126-bpm/
+
+hit_enemy_pawn: 8-Bit Fail Sound, Artist: Alexander, posted by: Alexander
+http://www.orangefreesounds.com/8-bit-fail-sound/
