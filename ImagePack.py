@@ -18,14 +18,14 @@ class ImagePack:
     directory_name: str
 
     """
-                desc: 
-                    - init
-                param:
-                    - image_pack_name: str -> name of the image pack; gets used to identifiy the location 
-                                              of the directory in which the images are stored
-                                              each directory (meme, dark, default) stores images of its theme
-                return:
-                    - none
+    desc: 
+        - init
+    param:
+        - image_pack_name: str -> name of the image pack; gets used to identifiy the location 
+                                    of the directory in which the images are stored
+                                    each directory (meme, dark, default) stores images of its theme
+    return:
+        - none
     """
     def __init__(self, image_pack_name: str):
         self.image_pack_name = image_pack_name
@@ -34,12 +34,12 @@ class ImagePack:
         self.create_json_file()
 
     """
-                desc: 
-                    - create the image dictionary which contains the file paths to all images used in the project
-                param:
-                    - none
-                return:
-                    - none
+    desc: 
+        - create the image dictionary which contains the file paths to all images used in the project
+    param:
+        - none
+    return:
+        - none
     """
     # Pawn_1, Pawn_2, ... need to be provided as images in the respective player's color
     def create_image_dictionary(self):

@@ -28,12 +28,12 @@ class GameField:
     ingame_sound_button_rect: pygame.rect
 
     """
-                desc: 
-                    - init
-                param:
-                    - font: pygame.font -> font to be used when drawing text on the screen
-                return:
-                    - none
+    desc: 
+        - init
+    param:
+        - font: pygame.font -> font to be used when drawing text on the screen
+    return:
+        - none
     """
     def __init__(self, font: pygame.font):
         self.screen_class = Screen.Screen()
@@ -47,12 +47,12 @@ class GameField:
         self.build_game_screen()
 
     """
-                desc: 
-                    - initialize the images with the file paths stored in 'image_pack.txt'
-                param:
-                    - none
-                return:
-                    - none
+    desc: 
+        - initialize the images with the file paths stored in 'image_pack.txt'
+    param:
+        - none
+    return:
+        - none
     """
     def init_images(self):
         with open('image_pack.txt') as json_file:
@@ -70,12 +70,12 @@ class GameField:
         self.screen_size_multiplier = self.screen_height / 11
 
     """
-                desc: 
-                    - scale the images and get rectangles of specific ones
-                param:
-                    - none
-                return:
-                    - none
+    desc: 
+        - scale the images and get rectangles of specific ones
+    param:
+        - none
+    return:
+        - none
     """
     def build_game_screen(self):
         self.background_image = pygame.transform.smoothscale(self.background_image, (self.screen_width, self.screen_height))
@@ -91,12 +91,12 @@ class GameField:
         self.screen = self.screen_class.screen
 
     """
-                desc: 
-                    - draw the images on the screen
-                param:
-                    - none
-                return:
-                    - none
+    desc: 
+        - draw the images on the screen
+    param:
+        - none
+    return:
+        - none
     """
     def show_screen(self):
         self.screen.blit(self.background_image, (0, 0))
@@ -111,14 +111,14 @@ class GameField:
         pygame.display.update()
 
     """
-                desc: 
-                    - draw image at a specific location; coordinates represent the fields of a 11*11 matrix
-                param:
-                    - image: pygame.image -> image to be drawn
-                    - x_coordinate: int -> x-coordinate for the position
-                    - y_coordinate: int -> y-coordinate for the position 
-                return:
-                    - none
+    desc: 
+        - draw image at a specific location; coordinates represent the fields of a 11*11 matrix
+    param:
+        - image: pygame.image -> image to be drawn
+        - x_coordinate: int -> x-coordinate for the position
+        - y_coordinate: int -> y-coordinate for the position 
+    return:
+        - none
     """
     # Coordinates are equivalent to the fields of a 11*11 matrix
     def show_image(self, image: pygame.image, x_coordinate: float, y_coordinate: float):
@@ -130,13 +130,13 @@ class GameField:
         self.screen.blit(image, (x_coordinate, y_coordinate))
 
     """
-                desc: 
-                    - show text info under/above the current player's yard 
-                param:
-                    - player_number: int -> position of the current player in the engines player_list[]
-                    - text: str -> text to be drawn
-                return:
-                    - none
+    desc: 
+        - show text info under/above the current player's yard 
+    param:
+        - player_number: int -> position of the current player in the engines player_list[]
+        - text: str -> text to be drawn
+    return:
+        - none
     """
     def show_text_info(self, player_number: int, text: str):
 
@@ -152,15 +152,15 @@ class GameField:
             pass
 
     """
-                desc: 
-                    - draw text, the text gets split into multiple parts in order to prevent it from being drawn over 
-                      the playing area
-                param:
-                    - text - str
-                    - x_coordinate - int
-                    - y_coordinate - int
-                return:
-                    - none
+    desc: 
+        - draw text, the text gets split into multiple parts in order to prevent it from being drawn over 
+            the playing area
+    param:
+        - text - str
+        - x_coordinate - int
+        - y_coordinate - int
+    return:
+        - none
     """
     def blit_text(self, text, x_coordinate, y_coordinate):
         with open('text_color_pack.txt') as json_file:

@@ -27,16 +27,16 @@ class Engine:
     help_button_rect: pygame.rect
 
     """
-                desc: 
-                    - init
-                param:
-                    - players: [Player, Player, Player, PLayer] -> list of all player objects that are participating in
-                                                                   the game
-                    - gamefield: GameField -> GameField object on which texts, images and the pawns get blit on the screen
-                    - rules: Rules -> the rules screen that gets shown when pressing the 'Rules' button
-                    - help: Help -> the help screen that gets shown when pressing the 'Help' button
-                return:
-                    - none
+    desc: 
+        - init
+    param:
+        - players: [Player, Player, Player, PLayer] -> list of all player objects that are participating in
+                                                        the game
+        - gamefield: GameField -> GameField object on which texts, images and the pawns get blit on the screen
+        - rules: Rules -> the rules screen that gets shown when pressing the 'Rules' button
+        - help: Help -> the help screen that gets shown when pressing the 'Help' button
+    return:
+        - none
     """
     def __init__(self, players: [Player, Player, Player, Player], gamefield: GameField, rules: Rules, help: Help):
         self.sound_helper = SoundHelper.SoundHelper()
@@ -108,14 +108,14 @@ class Engine:
                 return
 
     """
-            desc: 
-                - 
-            param:
-                - current_player: int -> position of player object in self.player_list[]
-                - pawn_number: int -> number of the pawn object that should be moved
-                - steps: int -> number of steps the pawn takes
-            return:
-                - none
+    desc: 
+        - move pawn 
+    param:
+        - current_player: int -> position of player object in self.player_list[]
+        - pawn_number: int -> number of the pawn object that should be moved
+        - steps: int -> number of steps the pawn takes
+    return:
+        - none
     """
     def move_pawn(self, current_player: int, pawn_number: int, steps: int):
         for pawn in self.player_list[current_player].pawn_list:
@@ -201,14 +201,14 @@ class Engine:
         return True
 
     """
-            desc: 
-                - check if a pawn can move in the finishing squares
-            param:
-                - current_player: int -> position of player object in self.player_list[]
-                - pawn_number: int -> number of the pawn object that should be moved
-                - steps: int -> number of steps that the pawn takes
-            return:
-                - none
+    desc: 
+        - check if a pawn can move in the finishing squares
+    param:
+        - current_player: int -> position of player object in self.player_list[]
+        - pawn_number: int -> number of the pawn object that should be moved
+        - steps: int -> number of steps that the pawn takes
+    return:
+        - none
     """
     # this function should only be called if a token is on the field in front of the finishing squares
     # or in the finishing squares
@@ -293,14 +293,14 @@ class Engine:
                 self.refresh_ui()
 
     """
-        desc: 
-            - different method because when moving from a player's starting square a pawn can hit 
-                friendly pawns as well as enemy pawns
-        param:
-            - current_player: int -> position of player object in self.player_list[]
-            - pawn_number: int -> number of the pawn object on the starting square
-        return:
-            - none
+    desc: 
+        - different method because when moving from a player's starting square a pawn can hit 
+            friendly pawns as well as enemy pawns
+    param:
+        - current_player: int -> position of player object in self.player_list[]
+        - pawn_number: int -> number of the pawn object on the starting square
+    return:
+        - none
     """
     def check_hit_from_starting_square(self, current_player: int, pawn_number: int):
         current_position = 0
@@ -323,14 +323,14 @@ class Engine:
                         break
 
     """
-                desc: 
-                    - turn of a human player; space needs to be pressed before rolling the die;
-                      player selects the pawn that they want to move with the number 1, 2, 3 and 4 on the keyboard;
-                      three tries to roll a six if the player has no pawn on the game field
-                param:
-                    - current_player: int -> position of the player object in self.player_list[]
-                return:
-                    - none
+    desc: 
+        - turn of a human player; space needs to be pressed before rolling the die;
+            player selects the pawn that they want to move with the number 1, 2, 3 and 4 on the keyboard;
+            three tries to roll a six if the player has no pawn on the game field
+    param:
+        - current_player: int -> position of the player object in self.player_list[]
+    return:
+        - none
     """
     def player_turn_human(self, current_player: int):
         tries = 0
@@ -407,15 +407,15 @@ class Engine:
                 self.check_pygame_events(event)
 
     """
-                desc: 
-                    - turn of an AI; currently only one difficulty, so pawn selection is random;
-                      turn starts after turn_time_delay is over in order to slow down the AI turn so that normal 
-                      players can see whats going on; 
-                      no space press needed, rest is same as player_turn_human
-                param:
-                    - current_player: int -> position of player object in self.player_list[]
-                return:
-                    - none
+    desc: 
+        - turn of an AI; currently only one difficulty, so pawn selection is random;
+            turn starts after turn_time_delay is over in order to slow down the AI turn so that normal 
+            players can see whats going on; 
+            no space press needed, rest is same as player_turn_human
+    param:
+        - current_player: int -> position of player object in self.player_list[]
+    return:
+        - none
     """
     def player_turn_ai(self, current_player: int):
         tries = 0
@@ -507,12 +507,12 @@ class Engine:
                 self.check_pygame_events(event)
 
     """
-                desc: 
-                    - check all possible events that need to be handled
-                param:
-                    - event: pygame.event -> event to check
-                return:
-                    - none
+    desc: 
+        - check all possible events that need to be handled
+    param:
+        - event: pygame.event -> event to check
+    return:
+        - none
     """
     def check_pygame_events(self, event: pygame.event):
         if event.type == pygame.QUIT:
@@ -538,12 +538,12 @@ class Engine:
                 self.refresh_ui()
 
     """
-                desc: 
-                    - selection of the pawn_number for the pawn object that should be moved
-                param:
-                    - none
-                return:
-                    - number of the pawn that should be moved
+    desc: 
+        - selection of the pawn_number for the pawn object that should be moved
+    param:
+        - none
+    return:
+        - number of the pawn that should be moved
     """
     def select_pawn(self) -> int:
         while True:

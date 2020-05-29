@@ -16,13 +16,13 @@ class Pawn(pygame.sprite.Sprite):
     pawn_image: pygame.image
 
     """
-                desc: 
-                    - init
-                param:
-                    - pawn_number: int -> used to differentiate between pawns
-                    - plyaer_number: int -> number of the player object that the pawns belong to
-                return:
-                    - none
+    desc: 
+        - init
+    param:
+        - pawn_number: int -> used to differentiate between pawns
+        - plyaer_number: int -> number of the player object that the pawns belong to
+    return:
+        - none
     """
     def __init__(self, pawn_number: int, player_number: int):
         pygame.sprite.Sprite.__init__(self)
@@ -41,12 +41,12 @@ class Pawn(pygame.sprite.Sprite):
         self.pawn_image = pygame.image.load(data["pawn_player_" + str(self.player_number)])
 
     """
-                desc: 
-                    - resize the image of the pawn and draw its pawn_number on it
-                param:
-                    - none
-                return:
-                    - none
+    desc: 
+        - resize the image of the pawn and draw its pawn_number on it
+    param:
+        - none
+    return:
+        - none
     """
     def create_picture(self):
         #  get the size of a field of the 11*11 matrix
@@ -103,12 +103,12 @@ class Pawn(pygame.sprite.Sprite):
         return 40 < self.current_position < 1000
 
     """
-                desc: 
-                    - update method for the sprites
-                param:
-                    - none
-                return:
-                    - none
+    desc: 
+        - update method for the sprites
+    param:
+        - none
+    return:
+        - none
     """
     def update(self):
         x = MapPositionToGamefield.map_current_position_to_coordinates[self.current_position][0]
