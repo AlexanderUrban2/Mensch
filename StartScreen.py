@@ -248,7 +248,7 @@ class StartScreen:
         change_time = current_time + delay
         animation = True
 
-        # neues gamefield rein (slided rein)
+        # new gamefield image(slide in)
         self.current_gamefield = pygame.transform.smoothscale(pygame.image.load(self.data["theme_image"]), (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
         new_gamefield_width = self.current_gamefield.get_rect().size[0]
@@ -263,7 +263,7 @@ class StartScreen:
         new_gamefield_rect = self.current_gamefield.get_rect(topleft=(new_gamefield_x_coord, new_gamefield_y_coord))
         new_gamefield_rect.w = 100 + new_gamefield_width
 
-        #altes gamefield raus (slided raus)
+        # old gamefield image(slides out)
         old_gamefield_image = pygame.transform.smoothscale(self.old_gamefield, (self.screen_size_multiplier*3, self.screen_size_multiplier*3))
 
         old_gamefield_width = old_gamefield_image.get_rect().size[0]

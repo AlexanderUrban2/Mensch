@@ -22,12 +22,12 @@ class ThemePack:
     theme_pack_name: str
 
     """
-                desc: 
-                    - init
-                param:
-                    - theme_pack_name: str -> the name used to create the ImagePack, SoundPack and TextColorPack
-                return:
-                    - none
+    desc: 
+        - init
+    param:
+        - theme_pack_name: str -> the name used to create the ImagePack, SoundPack and TextColorPack
+    return:
+        - none
     """
     def __init__(self, theme_pack_name: str):
         self.theme_pack_name = theme_pack_name

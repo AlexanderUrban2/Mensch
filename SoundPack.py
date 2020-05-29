@@ -19,14 +19,14 @@ class SoundPack:
     sound_dictionary: dict
 
     """
-                desc: 
-                    - init
-                param:
-                    - sound_pack_name: str -> name of the SoundPack; used to identify the location of the directory
-                                              in which the sound files are stored;
-                                              each directory stores the sound files for its theme
-                return:
-                    - none
+    desc: 
+        - init
+    param:
+        - sound_pack_name: str -> name of the SoundPack; used to identify the location of the directory
+                                    in which the sound files are stored;
+                                    each directory stores the sound files for its theme
+    return:
+        - none
     """
     def __init__(self, sound_pack_name: str):
         self.sound_pack_name = sound_pack_name
@@ -37,12 +37,12 @@ class SoundPack:
         self.start_background_music()
 
     """
-                desc: 
-                    - create the sound dictionary which contains the paths to all used sound files for the theme
-                param:
-                    - none
-                return:
-                    - none
+    desc: 
+        - create the sound dictionary which contains the paths to all used sound files for the theme
+    param:
+        - none
+    return:
+        - none
     """
     def create_sound_dictionary(self):
         if os.path.exists("music/" + self.sound_pack_name):
