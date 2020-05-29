@@ -293,14 +293,14 @@ class Engine:
                 self.refresh_ui()
 
     """
-                desc: 
-                    - different method because when moving from a player's starting square a pawn can hit 
-                      friendly pawns as well as enemy pawns
-                param:
-                    - current_player: int -> position of player object in self.player_list[]
-                    - pawn_number: int -> number of the pawn object on the starting square
-                return:
-                    - none
+        desc: 
+            - different method because when moving from a player's starting square a pawn can hit 
+                friendly pawns as well as enemy pawns
+        param:
+            - current_player: int -> position of player object in self.player_list[]
+            - pawn_number: int -> number of the pawn object on the starting square
+        return:
+            - none
     """
     def check_hit_from_starting_square(self, current_player: int, pawn_number: int):
         current_position = 0
