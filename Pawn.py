@@ -1,12 +1,10 @@
 # Author: Christoph Böhringer, Alexander Urban
 # Date: 05/28/2020
-# Version: 2.4
+# Version: 3.4
 
 import pygame
 import MapGamefieldToPosition
 import json
-# pawn_number und player_number werden benutzt um Zugehörigkeiten zu identifizieren, asuzuwählen mit welchem Pawn
-# gelaufen wird und um dynamisch die Startposition zu ermitteln
 
 
 class Pawn(pygame.sprite.Sprite):
@@ -36,6 +34,10 @@ class Pawn(pygame.sprite.Sprite):
         self.create_picture()
 
         self.rect = self.image.get_rect()
+        if self.player_number == 1:
+            self.current_position = self.player_number * 1000 + self.pawn_number * 10
+            if self.pawn_number == 1:
+                self.current_position = 39
 
     def init_images(self):
         with open('image_pack.txt') as json_file:

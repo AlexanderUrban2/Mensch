@@ -275,8 +275,6 @@ class Engine:
                 if player.player_number - 1 != current_player:
                     if pawn.current_position == current_position:
                         # play sound when a pawn gets hit
-                        #airhorn_sound = pygame.mixer.Sound('music/hit_enemy_pawn.wav')
-                        #pygame.mixer.Sound.play(airhorn_sound)
                         self.sound_helper.play_sound("hit_enemy_pawn_sound")
 
                         pawn.move_pawn_to_house()
@@ -370,12 +368,12 @@ class Engine:
                             # no move is possible -> the turn ends
                             # play an error sound
                             self.sound_helper.play_sound("unfortunate_sound")
-                            
-                            #todo: implement that you can still roll again when you rolled a six
-                            # if rolled_number == 6:
-                            #   turn = True or self.player_turn_human()
-                            # else:
-                            #   return
+
+                            # if you rolled a six you get another turn
+                            if rolled_number == 6:
+                                self.active_sleep(1)
+                                self.refresh_ui()
+                                self.player_turn_human(current_player)
                             return
 
                         select = True
@@ -463,6 +461,12 @@ class Engine:
                         # your turn ends if no pawn can be moved
                         # play an error sound
                         self.sound_helper.play_sound("unfortunate_sound")
+
+                        # you get another turn when you roll a six
+                        if rolled_number == 6:
+                            self.active_sleep(1)
+                            self.refresh_ui()
+                            self.player_turn_human(current_player)
                         return
 
                     time_previous = time_now
