@@ -34,6 +34,7 @@ class SoundPack:
         self.check_if_sound_files_exist()
         self.create_json_file()
 
+        # immediately start music when an ImagePack is created
         self.start_background_music()
 
     """

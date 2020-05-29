@@ -3,7 +3,7 @@
 # Version: 3.4
 
 import pygame
-import MapGamefieldToPosition
+import MapPositionToGamefield
 import json
 
 
@@ -111,8 +111,8 @@ class Pawn(pygame.sprite.Sprite):
         - none
     """
     def update(self):
-        x = MapGamefieldToPosition.get_coordinates(self.current_position)[0]
-        y = MapGamefieldToPosition.get_coordinates(self.current_position)[1]
+        x = MapPositionToGamefield.map_current_position_to_coordinates[self.current_position][0]
+        y = MapPositionToGamefield.map_current_position_to_coordinates[self.current_position][1]
         display_size_x = pygame.display.get_surface().get_size()[0]
         display_size_y = pygame.display.get_surface().get_size()[1]
         # the background is not a perfect 11*11 matrix and as such the pawn images need to be moved a tiny bit
